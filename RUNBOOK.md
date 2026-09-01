@@ -14,6 +14,28 @@ cd /tmp && rm -rf fe && git clone -q https://x-access-token:$GITHUB_PAT@github.c
 If git is blocked, fall back to the contents API per file (`GET /repos/T63B/fixture-edge-data/contents/<file>`,
 base64-decode the `content` field, and keep the `sha` for writing back).
 
+## 1b. Prove you can write, before doing anything else
+
+Immediately after cloning, append one line to `RUNLOG.md` and push it:
+
+```bash
+echo "$(date -u +%FT%TZ) run started" >> RUNLOG.md
+git config user.email fixture-edge@localhost && git config user.name "Fixture Edge"
+git add RUNLOG.md && git commit -qm "runlog: start $(date -u +%F)" && git push -q origin HEAD:main && echo "WRITE OK" || echo "WRITE FAILED"
+```
+
+This takes seconds and settles the single most important question early: whether
+this environment can write to the repo at all. If it prints WRITE FAILED, capture
+the exact error, keep going with the rest of the run, and record the error in your
+final summary — a run that can publish but not commit is still worth having.
+
+At the END of the run, append a result line to `RUNLOG.md` and push it with the
+log, recording for each step whether it succeeded: clone, grading, fixtures found,
+odds found, generate.py output, artifact publish, log push. Include error text
+verbatim for anything that failed. This file is the only way anyone can see what
+happened inside a run afterwards, so write it as if the reader has no other
+information -- because they do not.
+
 ## 2. Grade what is pending
 
 Read `log.json`. For every record with `"status": "pending"` and a `date` before
