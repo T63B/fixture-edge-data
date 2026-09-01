@@ -3,7 +3,7 @@
 **Read this first.** Scheduled runs are fresh sessions with no memory of the
 conversation that built them. Anything not written down here is lost.
 
-Last updated: 2026-08-31
+Last updated: 2026-09-01
 
 ## What this is
 
@@ -19,16 +19,47 @@ Design and maths are in code, so the page cannot drift between runs.
 
 See `RUNBOOK.md` for the run steps and `README.md` for the file map.
 
-## Infrastructure constraints (verified 2026-08-31)
+## Status as of 2026-09-01: pipeline WORKING, log persistence unconfirmed
+
+The 14:44 run on 1 Sep cloned this repo, executed generate.py and published the
+dashboard (page footer read "Generated 01 Sep 2026 14:55 UTC"). The v3 pipeline
+works end to end for generate-and-publish.
+
+**What fixed it:** the cloud environment had Network access = Custom with only
+`*.frame.claudeusercontent.com` in the allowed-domains list, so github.com was
+unreachable and every clone/push hung. Adding `github.com`, `api.github.com` and
+`codeload.github.com` to that list resolved it. If runs ever start failing again,
+check that list FIRST -- it was the cause of days of confusion.
+
+**Still open:** no run has yet committed log.json back. Until that works the
+Track Record cannot accumulate, because each run starts from an empty log. The
+token in $GITHUB_PAT does have write permission (it has been used to push to this
+repo from the user's Mac repeatedly). So the likely cause is the run not reaching
+or not completing the push step, rather than a permissions problem. RUNBOOK step
+1b (the early RUNLOG.md write-check) exists to make this visible; if RUNLOG.md
+appears in this repo, writes work.
+
+## Infrastructure constraints (verified 2026-09-01)
 
 | Capability | Status |
 |---|---|
-| Publish artifact | Works |
-| **Read** artifact back | **Blocked** — network allowlist blocks `*.frame.claudeusercontent.com`. This is why state lives in this repo and not in the page. |
-| GitHub from a Cowork chat session | **Blocked** by the Anthropic session proxy (403, wants `add_repo`, which Cowork sessions do not have). PATs do not help. |
-| GitHub from the user's Mac (device shell) | **Works** — this is the only interactive path to the repo. |
-| GitHub from the scheduled job's environment | Works (`$GITHUB_PAT`) |
-| Local folder from scheduled runs | Not available — scheduled tasks are cloud-only |
+| Publish artifact from a scheduled run | WORKS (proven 1 Sep) |
+| Clone this repo from a scheduled run | WORKS (proven 1 Sep, after the allowlist fix) |
+| Push to this repo from a scheduled run | UNCONFIRMED -- no commit has landed yet |
+| Push to this repo from the user's Mac (device shell) | WORKS |
+| Read artifact | Allowed domain now present; a session started before that change still cannot |
+| GitHub from a Cowork *chat* session's own bash | BLOCKED by the Anthropic session proxy (wants `add_repo`, unavailable in Cowork). Use the device shell instead. |
+| Local folder from scheduled runs | NOT AVAILABLE -- scheduled tasks are cloud-only |
+
+## A note on diagnosing this system
+
+Feedback is slow and indirect. A trigger's "SUCCEEDED" status only means the
+session ended without crashing -- it is NOT the run's own verdict, and a run can
+report SUCCEEDED having published nothing. Equally, absence of a commit a few
+minutes in does not mean failure: on 1 Sep a run was wrongly written off as broken
+when it published successfully sixty seconds after checking stopped. Wait for
+evidence rather than inferring from its absence, and prefer side-effects you can
+verify (a commit, a page timestamp) over status fields.
 
 ## History — do not repeat these
 
