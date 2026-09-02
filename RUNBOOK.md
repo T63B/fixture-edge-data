@@ -20,9 +20,13 @@ Immediately after cloning, append one line to `RUNLOG.md` and push it:
 
 ```bash
 echo "$(date -u +%FT%TZ) run started" >> RUNLOG.md
-git config user.email fixture-edge@localhost && git config user.name "Fixture Edge"
-git add RUNLOG.md && git commit -qm "runlog: start $(date -u +%F)" && git push -q origin HEAD:main && echo "WRITE OK" || echo "WRITE FAILED"
+timeout 60 python3 push_file.py RUNLOG.md RUNLOG.md "runlog: start $(date -u +%F)"
 ```
+
+`push_file.py` writes through the GitHub contents API, NOT `git push`. Use it for
+every write. `git push` has never succeeded from a scheduled run -- clone (a GET)
+is permitted while push (a POST to a different endpoint) is not. Do not "fix"
+this by switching back to git push.
 
 This takes seconds and settles the single most important question early: whether
 this environment can write to the repo at all. If it prints WRITE FAILED, capture
@@ -86,17 +90,22 @@ Requires numpy, scipy, pandas. If a dependency is missing, `pip install` it.
 Publish `out.html` to the artifact URL in `README.md`, passing that URL so it
 updates in place. Keep the title "Fixture Edge" and omit the favicon parameter.
 
-Then write the log back:
+Then write the log back -- via the API, not git push:
 
 ```bash
 cp new_log.json log.json
-git add -A && git commit -qm "Fixture Edge $(date -u +%F)" && git push -q
+timeout 60 python3 push_file.py log.json log.json "Fixture Edge $(date -u +%F)"
 ```
+
+You MUST see a line beginning `PUSH OK`. If you see `PUSH FAILED`, copy that
+line verbatim into RUNLOG.md and into your run summary. Committing the log is
+not optional housekeeping: without it every run starts from an empty log and the
+Track Record can never accumulate.
 
 ## 7. Verify before finishing
 
 - `out.html` was published and the tool returned the same artifact URL.
-- `log.json` on the default branch shows today's commit.
+- `push_file.py` printed `PUSH OK` for log.json, and the repo shows today's commit.
 - The page's date line reads today's date.
 
 If publishing failed, say so plainly in the run summary. **Do not report success
