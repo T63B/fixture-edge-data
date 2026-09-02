@@ -3,7 +3,7 @@
 **Read this first.** Scheduled runs are fresh sessions with no memory of the
 conversation that built them. Anything not written down here is lost.
 
-Last updated: 2026-09-01
+Last updated: 2026-09-02
 
 ## What this is
 
@@ -19,37 +19,44 @@ Design and maths are in code, so the page cannot drift between runs.
 
 See `RUNBOOK.md` for the run steps and `README.md` for the file map.
 
-## Status as of 2026-09-01: pipeline WORKING, log persistence unconfirmed
+## Status as of 2026-09-02: working, with the log stored in the page
 
-The 14:44 run on 1 Sep cloned this repo, executed generate.py and published the
-dashboard (page footer read "Generated 01 Sep 2026 14:55 UTC"). The v3 pipeline
-works end to end for generate-and-publish.
+Confirmed working from scheduled runs: cloning this repo, running generate.py,
+and publishing the dashboard. The 1 Sep 14:44 run and the 2 Sep 06:16 run both
+produced correct pages.
 
-**What fixed it:** the cloud environment had Network access = Custom with only
-`*.frame.claudeusercontent.com` in the allowed-domains list, so github.com was
-unreachable and every clone/push hung. Adding `github.com`, `api.github.com` and
-`codeload.github.com` to that list resolved it. If runs ever start failing again,
-check that list FIRST -- it was the cause of days of confusion.
+Confirmed NOT working: every write to this repo. `git push` and the GitHub
+contents API are both refused from the scheduled sandbox, while the identical
+commands succeed from the user's Mac. This is a permission tier -- the sandbox's
+repo attachment grants read access only. The original proxy error said so:
+"if you need GitHub API or write access, call add_repo again with access:push".
+Do not try to work around it from inside a run; it cannot be done.
 
-**Still open:** no run has yet committed log.json back. Until that works the
-Track Record cannot accumulate, because each run starts from an empty log. The
-token in $GITHUB_PAT does have write permission (it has been used to push to this
-repo from the user's Mac repeatedly). So the likely cause is the run not reaching
-or not completing the push step, rather than a permissions problem. RUNBOOK step
-1b (the early RUNLOG.md write-check) exists to make this visible; if RUNLOG.md
-appears in this repo, writes work.
+**Therefore the log lives in the published page, not in this repo.** generate.py
+embeds the full history in a `<script id="fixture-edge-log">` block. A run
+recovers history by reading the previous page (Artifact `read`, then
+`extract_log.py`) and persists it by publishing the new page. Both of those work
+from the sandbox. `log.json` in this repo is a stale leftover -- ignore it.
 
-## Infrastructure constraints (verified 2026-09-01)
+This makes the publish the single point of failure for the whole tool: it carries
+both the day's forecasts and all accumulated history.
 
-| Capability | Status |
-|---|---|
-| Publish artifact from a scheduled run | WORKS (proven 1 Sep) |
-| Clone this repo from a scheduled run | WORKS (proven 1 Sep, after the allowlist fix) |
-| Push to this repo from a scheduled run | UNCONFIRMED -- no commit has landed yet |
-| Push to this repo from the user's Mac (device shell) | WORKS |
-| Read artifact | Allowed domain now present; a session started before that change still cannot |
-| GitHub from a Cowork *chat* session's own bash | BLOCKED by the Anthropic session proxy (wants `add_repo`, unavailable in Cowork). Use the device shell instead. |
-| Local folder from scheduled runs | NOT AVAILABLE -- scheduled tasks are cloud-only |
+**Still unverified at time of writing:** whether a scheduled run can successfully
+perform the Artifact `read`. The allowed-domains entry for
+`*.frame.claudeusercontent.com` is in place and reads work in principle, but no
+run has yet attempted one (earlier prompts explicitly forbade it). If reads turn
+out to fail, the history will silently reset each day -- the run is instructed to
+say so loudly in its summary if that happens.
+
+## Route map (which paths work from where)
+
+| Operation | Scheduled sandbox | User's Mac (device shell) | Cowork chat session |
+|---|---|---|---|
+| Clone this repo | YES | YES | NO (proxy 403, wants add_repo) |
+| Write to this repo | NO (read-only) | YES | NO |
+| Publish artifact | YES | n/a | YES |
+| Read artifact | Expected yes, unproven | n/a | Only in sessions started after the domain was allowed |
+| Web research | YES | n/a | YES |
 
 ## A note on diagnosing this system
 
