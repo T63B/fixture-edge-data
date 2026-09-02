@@ -14,31 +14,28 @@ cd /tmp && rm -rf fe && git clone -q https://x-access-token:$GITHUB_PAT@github.c
 If git is blocked, fall back to the contents API per file (`GET /repos/T63B/fixture-edge-data/contents/<file>`,
 base64-decode the `content` field, and keep the `sha` for writing back).
 
-## 1b. Prove you can write, before doing anything else
+## 1b. Recover the log from the published page
 
-Immediately after cloning, append one line to `RUNLOG.md` and push it:
+**The repo is READ-ONLY from the scheduled sandbox.** Clone works; every write is
+refused, `git push` and the GitHub contents API alike. This is a permission tier
+on the sandbox's repo attachment, not a token or network problem, and it cannot
+be worked around from inside a run. Do not spend time trying.
 
-```bash
-echo "$(date -u +%FT%TZ) run started" >> RUNLOG.md
-timeout 60 python3 push_file.py RUNLOG.md RUNLOG.md "runlog: start $(date -u +%F)"
-```
+So the log does not live in the repo. It lives in the published page. `generate.py`
+embeds the entire log in a `<script id="fixture-edge-log">` block, so yesterday's
+page holds the full history, and publishing today's page is what persists it.
 
-`push_file.py` writes through the GitHub contents API, NOT `git push`. Use it for
-every write. `git push` has never succeeded from a scheduled run -- clone (a GET)
-is permitted while push (a POST to a different endpoint) is not. Do not "fix"
-this by switching back to git push.
+Recover it like this:
 
-This takes seconds and settles the single most important question early: whether
-this environment can write to the repo at all. If it prints WRITE FAILED, capture
-the exact error, keep going with the rest of the run, and record the error in your
-final summary — a run that can publish but not commit is still worth having.
+1. Use the Artifact tool's `read` action on the dashboard URL in README.md and save
+   the returned HTML to `prev.html`.
+2. `python3 extract_log.py prev.html log.json`
 
-At the END of the run, append a result line to `RUNLOG.md` and push it with the
-log, recording for each step whether it succeeded: clone, grading, fixtures found,
-odds found, generate.py output, artifact publish, log push. Include error text
-verbatim for anything that failed. This file is the only way anyone can see what
-happened inside a run afterwards, so write it as if the reader has no other
-information -- because they do not.
+You should see a line beginning `EXTRACT OK`. If the read fails or no block is
+found, extract_log.py writes an empty log and the run continues -- but say so
+clearly in your summary, because it means that day's history is starting over.
+
+`log.json` in the repo is a stale artefact of an earlier design. Ignore it.
 
 ## 2. Grade what is pending
 
@@ -90,22 +87,18 @@ Requires numpy, scipy, pandas. If a dependency is missing, `pip install` it.
 Publish `out.html` to the artifact URL in `README.md`, passing that URL so it
 updates in place. Keep the title "Fixture Edge" and omit the favicon parameter.
 
-Then write the log back -- via the API, not git push:
+The log is persisted **by the publish itself** -- `out.html` contains the updated
+log in its `fixture-edge-log` block. There is nothing further to commit, and no
+write to GitHub is possible or needed.
 
-```bash
-cp new_log.json log.json
-timeout 60 python3 push_file.py log.json log.json "Fixture Edge $(date -u +%F)"
-```
-
-You MUST see a line beginning `PUSH OK`. If you see `PUSH FAILED`, copy that
-line verbatim into RUNLOG.md and into your run summary. Committing the log is
-not optional housekeeping: without it every run starts from an empty log and the
-Track Record can never accumulate.
+This makes the publish the single critical step of the run. If it fails, the day's
+predictions AND the accumulated history are both lost, so confirm it succeeded and
+say plainly in your summary if it did not.
 
 ## 7. Verify before finishing
 
 - `out.html` was published and the tool returned the same artifact URL.
-- `push_file.py` printed `PUSH OK` for log.json, and the repo shows today's commit.
+- The publish returned the same artifact URL, and the page now shows today's date.
 - The page's date line reads today's date.
 
 If publishing failed, say so plainly in the run summary. **Do not report success
