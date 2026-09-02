@@ -54,6 +54,17 @@ Scottish football, the National League, and cup competitions. Watch for
 postponements, and for fixture lists that misdate matches by a day — cross-check
 the date against a second source before trusting it.
 
+**Odds coverage is the single biggest driver of forecast quality.** On 1 Sep only
+8 of 24 fixtures had odds; the other 16 fell back to the model alone, which
+backtesting shows is the weaker forecaster (BACKTEST.md). Treat a fixture with no
+odds as a gap to close, not an acceptable outcome:
+
+- Try the division-level odds comparison page first; it usually covers most of a round.
+- For anything still missing, search that specific fixture before giving up.
+- If a fixture genuinely has no quoted price, leave `odds` out entirely rather than
+  guessing. generate.py will fall back to the model and label it honestly.
+- Report the coverage you achieved (fixtures with odds / total) in your summary.
+
 For each fixture get the best available decimal 1X2 odds. A division-level odds
 comparison page usually covers most of a round in one fetch; only fall back to
 per-match lookups for gaps.

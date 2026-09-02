@@ -26,6 +26,7 @@ today.json schema:
 
 import json
 import math
+import re
 import sys
 import html as _html
 from datetime import datetime, timezone
@@ -146,14 +147,24 @@ def compute_metrics(log):
     def top(p):
         return max(OUTCOMES, key=lambda k: p[k])
 
+    # Compare model against market ONLY over fixtures that have both, otherwise the
+    # two figures are computed on different samples and the comparison is meaningless.
+    # (This bit was wrong once already: a 24-fixture model score was shown against an
+    # 8-fixture market score, making an identical forecast look far worse than the book.)
     with_mkt = [m for m in finals if m.get("market_pct")]
-    out["brier_model"] = round(sum(brier(m["model_pct"], m["result"]) for m in finals) / n, 3)
-    out["hit_rate_model"] = round(100 * sum(1 for m in finals if top(m["model_pct"]) == m["result"]) / n, 1)
+    out["compare_n"] = len(with_mkt)
+    out["odds_coverage_pct"] = round(100 * len(with_mkt) / n, 1)
+    out["brier_model_all"] = round(sum(brier(m["model_pct"], m["result"]) for m in finals) / n, 3)
+
     if with_mkt:
         k = len(with_mkt)
+        out["brier_model"] = round(sum(brier(m["model_pct"], m["result"]) for m in with_mkt) / k, 3)
         out["brier_market"] = round(sum(brier(m["market_pct"], m["result"]) for m in with_mkt) / k, 3)
+        out["hit_rate_model"] = round(100 * sum(1 for m in with_mkt if top(m["model_pct"]) == m["result"]) / k, 1)
         out["hit_rate_market"] = round(100 * sum(1 for m in with_mkt if top(m["market_pct"]) == m["result"]) / k, 1)
     else:
+        out["brier_model"] = out["brier_model_all"]
+        out["hit_rate_model"] = round(100 * sum(1 for m in finals if top(m["model_pct"]) == m["result"]) / n, 1)
         out["brier_market"] = out["hit_rate_market"] = None
 
     calib = []
@@ -279,11 +290,18 @@ def track_section(mt):
     e = mt["edges"]
     edge_txt = (f'{e["n"]} bets &middot; {e["wins"]} won &middot; profit '
                 f'{"+" if e["profit"] >= 0 else ""}{e["profit"]}u') if e["n"] else "No flagged edges settled yet."
+    coverage_note = (
+        f'<p class="note">Model and market are scored on the same {mt.get("compare_n", 0)} '
+        f'fixtures &mdash; the ones where odds were found. Across all {mt["final_count"]} graded '
+        f'fixtures the forecast scores {mt["brier_model_all"]}; the gap between that and the figure '
+        f'above is the cost of fixtures where no odds were available and the model stood alone.</p>'
+    )
     chart = calibration_svg(mt["calibration"])
     chart_block = (f'<div class="calib-wrap">{chart}<p class="note">Every forecast probability is binned '
                    f'and plotted against how often that outcome actually occurred. Points on the dashed '
-                   f'diagonal are well calibrated; above means under-confident, below means over-confident.</p></div>'
-                   if chart else '<p class="note">The calibration chart appears once more matches have been graded.</p>')
+                   f'diagonal are well calibrated; above means under-confident, below means over-confident.</p>'
+                   f'{coverage_note}</div>'
+                   if chart else f'<p class="note">The calibration chart appears once more matches have been graded.</p>{coverage_note}')
     rows = "".join(f'<tr><td>{esc(d)}</td><td class="mono">{s["n"]}</td>'
                    f'<td class="mono">{s["brier_model"]}</td><td class="mono">{s["hit_rate_model"]}%</td></tr>'
                    for d, s in sorted(mt["by_division"].items(), key=lambda kv: -kv[1]["n"]))
@@ -294,11 +312,11 @@ def track_section(mt):
     <section class="division" id="track-record">
       <div class="division-head"><div class="division-title">
         <span class="division-eyebrow">Forecast accuracy over time</span><h2>Track Record</h2></div>
-        <div class="division-meta">{mt['tracked_total']} logged &middot; {mt['final_count']} confirmed &middot; {mt['pending_count']} pending</div></div>
+        <div class="division-meta">{mt['tracked_total']} logged &middot; {mt['final_count']} confirmed &middot; {mt['pending_count']} pending &middot; odds found for {mt.get('odds_coverage_pct', 0)}% of graded fixtures</div></div>
       <div class="track-grid">
         <div class="track-stats">
-          <div class="tstat"><div class="tnum mono">{mt['brier_model']}</div><div class="tlabel">Brier score (lower is better)<br><span class="vs-market">market {bm}</span></div></div>
-          <div class="tstat"><div class="tnum mono">{mt['hit_rate_model']}%</div><div class="tlabel">Top-pick hit rate<br><span class="vs-market">market {hm}</span></div></div>
+          <div class="tstat"><div class="tnum mono">{mt['brier_model']}</div><div class="tlabel">Brier score (lower is better)<br><span class="vs-market">market {bm} &middot; same {mt.get('compare_n', 0)} fixtures</span></div></div>
+          <div class="tstat"><div class="tnum mono">{mt['hit_rate_model']}%</div><div class="tlabel">Top-pick hit rate<br><span class="vs-market">market {hm} &middot; same {mt.get('compare_n', 0)} fixtures</span></div></div>
           <div class="tstat"><div class="tnum mono">{roi}</div><div class="tlabel">Flagged-edge ROI<br><span class="vs-market">{edge_txt}</span></div></div>
         </div>
         {chart_block}
@@ -501,13 +519,39 @@ def main():
     rows = build_predictions(today, ratings)
 
     date_str = today["date"]
-    existing = {m["id"] for m in log if isinstance(m, dict) and "id" in m}
+
+    def fixture_key(date, league, home, away):
+        """Identity of a fixture, independent of how the club was spelled.
+
+        Research returns names inconsistently -- "Cardiff" one run, "Cardiff City"
+        the next -- so a literal key logs the same match twice. Resolve through the
+        ratings names where possible, and fall back to an aggressive squash."""
+        known = ratings["teams"]
+
+        def canon(name):
+            r, _ = fe_teams.resolve(name, known)
+            if r:
+                return r.lower()
+            n = re.sub(r"[^a-z0-9 ]", "", str(name).lower()).strip()
+            n = re.sub(r"\s+(fc|afc|town|city|united|rovers|wanderers|athletic|county|albion)$", "", n)
+            return re.sub(r"\s+", "", n)
+
+        lg = re.sub(r"[^a-z0-9]", "", str(league).lower())
+        return f"{date}|{lg}|{canon(home)}|{canon(away)}"
+
+    existing = set()
+    for m in log:
+        if isinstance(m, dict) and m.get("date"):
+            existing.add(fixture_key(m["date"], m.get("league", ""),
+                                     m.get("home", ""), m.get("away", "")))
+
     for r in rows:
         if r.get("postponed"):
             continue
-        rid = f'{date_str}|{r["league"]}|{r["home"]}|{r["away"]}'
+        rid = fixture_key(date_str, r["league"], r["home"], r["away"])
         if rid in existing:
             continue
+        existing.add(rid)
         log.append({
             "id": rid, "date": date_str, "league": r["league"], "home": r["home"],
             "away": r["away"], "kickoff": r["kickoff"], "model_pct": r["final_pct"],
