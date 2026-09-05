@@ -8,8 +8,12 @@ Auth: the GitHub token is in `$GITHUB_PAT`. Repo is `T63B/fixture-edge-data`.
 ## 1. Pull the repo
 
 ```bash
-cd /tmp && rm -rf fe && git clone -q https://x-access-token:$GITHUB_PAT@github.com/T63B/fixture-edge-data.git fe && cd fe
+cd /tmp && rm -rf fe && timeout 60 git clone -q https://github.com/T63B/fixture-edge-data.git fe && cd fe
 ```
+
+No credential is needed: this repo is public and clones anonymously. Do not rely
+on `$GITHUB_PAT` -- it may not be set, and it grants nothing the sandbox can use
+(writes are refused regardless).
 
 If git is blocked, fall back to the contents API per file (`GET /repos/T63B/fixture-edge-data/contents/<file>`,
 base64-decode the `content` field, and keep the `sha` for writing back).

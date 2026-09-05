@@ -3,7 +3,7 @@
 **Read this first.** Scheduled runs are fresh sessions with no memory of the
 conversation that built them. Anything not written down here is lost.
 
-Last updated: 2026-09-02
+Last updated: 2026-09-05
 
 ## What this is
 
@@ -48,15 +48,40 @@ run has yet attempted one (earlier prompts explicitly forbade it). If reads turn
 out to fail, the history will silently reset each day -- the run is instructed to
 say so loudly in its summary if that happens.
 
+## 2026-09-05: research starved by the network allowlist
+
+The morning run produced a page, but could not fetch a single sports or odds
+source. It fell back to search snippets, achieved odds coverage of only 13 of 34
+fixtures, and omitted several League One and Two fixtures it could not corroborate
+across two sources. It reported all of this honestly on the page, which is how it
+was noticed.
+
+**Cause:** the environment had Network access = Custom with an allowed-domains
+list containing only the artifact domain and three GitHub entries. Under Custom,
+everything else is unreachable. Verified from a chat session: oddschecker.com,
+foxsports.com and sportsmole.co.uk all fail to connect outright.
+
+This was also the cause of the "odds found for only 8 of 24 fixtures" problem on
+1-2 Sep, which was at the time diagnosed as a research-quality issue without
+asking why coverage was poor. The allowlist added to unblock GitHub was starving
+the research the whole time.
+
+**Fix:** Network access set to Full, and `GITHUB_PAT` removed from the
+environment variables. The repo is PUBLIC and clones anonymously, so no token is
+needed; keeping a write-capable credential in a sandbox that reads untrusted web
+pages all day was the main argument against opening egress, and removing it
+settles that. If egress is ever narrowed again, remember that every research
+source must be listed or the forecasts quietly degrade to model-only.
+
 ## Route map (which paths work from where)
 
 | Operation | Scheduled sandbox | User's Mac (device shell) | Cowork chat session |
 |---|---|---|---|
-| Clone this repo | YES | YES | NO (proxy 403, wants add_repo) |
+| Clone this repo (no token needed; repo is public) | YES | YES | NO (proxy 403, wants add_repo) |
 | Write to this repo | NO (read-only) | YES | NO |
 | Publish artifact | YES | n/a | YES |
 | Read artifact | Expected yes, unproven | n/a | Only in sessions started after the domain was allowed |
-| Web research | YES | n/a | YES |
+| Web research | ONLY if the domains are reachable under the network setting | n/a | YES |
 
 ## A note on diagnosing this system
 
