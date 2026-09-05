@@ -3,7 +3,7 @@
 **Read this first.** Scheduled runs are fresh sessions with no memory of the
 conversation that built them. Anything not written down here is lost.
 
-Last updated: 2026-09-05
+Last updated: 2026-09-05 (network set to Full)
 
 ## What this is
 
@@ -72,6 +72,49 @@ needed; keeping a write-capable credential in a sandbox that reads untrusted web
 pages all day was the main argument against opening egress, and removing it
 settles that. If egress is ever narrowed again, remember that every research
 source must be listed or the forecasts quietly degrade to model-only.
+
+## FIRST THING TO CHECK IF RESEARCH GOES BAD
+
+If a run reports poor odds coverage, sites "down", or connection errors (as opposed
+to HTTP errors), **check the cloud environment's Network access setting before
+anything else.** This has caused two separate incidents and days of quietly
+degraded forecasts.
+
+Settings live in the environment editor: Network access offers None / Trusted /
+Full / Custom. As of 2026-09-05 it is set to **Full**, which is the intended state
+and needs no domain list. Under **Custom**, only listed domains are reachable and
+everything else fails at the connection level -- which looks like the whole
+internet being down, not like a configuration problem, which is why it went
+unnoticed for days.
+
+If it is ever set back to Custom, these domains are needed as a minimum:
+
+    *.frame.claudeusercontent.com     (artifact reads -- the log lives in the page)
+    github.com                        (code; no token needed, the repo is public)
+    api.github.com
+    codeload.github.com
+    oddschecker.com / www.oddschecker.com
+    oddspedia.com
+    betfair.com                       (exchange -- sharpest prices when reachable)
+    bet365.com / www.bet365.com       (matches the BACKTEST.md benchmark)
+    ladbrokes.com
+    paddypower.com
+    williamhill.com
+    skybet.com
+    foxsports.com / www.foxsports.com
+    sportsmole.co.uk / www.sportsmole.co.uk
+    bbc.com / bbc.co.uk
+    skysports.com
+    sofascore.com
+    forebet.com
+    sportsgambler.com
+    fixturedownload.com
+
+Note that GITHUB_PAT was deliberately removed from the environment variables on
+2026-09-05. Nothing needs it: the repo is public and clones anonymously, sandbox
+writes to it are refused anyway, and removing the only credential is what makes
+Full egress a sensible trade for a job that reads untrusted web pages daily.
+Do not reintroduce it without a reason.
 
 ## Route map (which paths work from where)
 
