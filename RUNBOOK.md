@@ -58,6 +58,37 @@ Scottish football, the National League, and cup competitions. Watch for
 postponements, and for fixture lists that misdate matches by a day — cross-check
 the date against a second source before trusting it.
 
+## Sources: priority, and the rule that nothing is load-bearing
+
+No single source may stop the run. Every one of these can be unreachable on any
+given day -- blocked by the network allowlist, bot-protected, geo-gated, or simply
+down -- and the run must carry on with whatever it can reach, then state what it
+could not.
+
+Work down this list, stopping once a fixture is priced:
+
+1. **Odds aggregators** -- oddschecker, oddspedia. One page usually prices a whole
+   division. Most efficient, so try these first.
+2. **Betfair exchange** -- lowest margin, so the sharpest single estimate available.
+   Best quality when reachable.
+3. **Individual bookmakers** -- bet365, Ladbrokes, Paddy Power, William Hill, Sky
+   Bet. Bet365 is worth preferring among these: the backtest benchmark in
+   BACKTEST.md was built on Bet365 prices, so using them keeps the live track
+   record comparable to it.
+4. **Stats and preview sites** -- sofascore, forebet, sportsgambler, sportsmole.
+   Often carry a quoted price even when the books themselves are unreachable.
+5. **No price found** -- leave `odds` out for that fixture. generate.py falls back
+   to the model and labels it honestly. This is an acceptable outcome for a
+   handful of fixtures; it is a problem when it is most of them.
+
+Bookmaker sites in particular are heavily bot-protected and frequently refuse
+automated requests. Treat a refusal as normal, move to the next source, and do not
+spend the run retrying or working around it.
+
+Report at the end: how many fixtures you priced, out of how many, and which
+sources were unreachable. A run that prices 30 of 34 and says which four it could
+not is doing its job. A run that stops because one site refused is not.
+
 **Odds coverage is the single biggest driver of forecast quality.** On 1 Sep only
 8 of 24 fixtures had odds; the other 16 fell back to the model alone, which
 backtesting shows is the weaker forecaster (BACKTEST.md). Treat a fixture with no
