@@ -51,6 +51,27 @@ A results page per division for the relevant date usually settles several at onc
 Best effort only — anything you cannot confirm quickly stays pending. This must
 never block the rest of the run.
 
+## 2c. Attach closing odds
+
+```bash
+timeout 120 python3 enrich_closing.py log.json log.json
+```
+
+Expect a line beginning `ENRICH OK`. This pulls football-data.co.uk's current-season
+files for E0-E3 and attaches the OPENING and CLOSING price to any graded fixture
+that does not already have them, plus the de-vigged closing probabilities and the
+drift between morning and close.
+
+Why it matters: the forecast is made at 07:00, but the closing price is sharper and
+is what the BACKTEST.md benchmark was built on. Closing odds cannot be captured
+live -- the market settles and disappears at full time -- so this archive is the
+only way to get them. It also supplies Closing Line Value for flagged edges, which
+is the fastest read on whether those flags carry any real signal.
+
+Run it every day. It is idempotent, skips fixtures already enriched, and costs four
+small file downloads. If the source is unreachable it says so and leaves the log
+untouched -- never let it block the rest of the run.
+
 ## 3. Research today's fixtures
 
 Only England's Premier League, Championship, League One, League Two. Exclude

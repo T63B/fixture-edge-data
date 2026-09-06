@@ -116,6 +116,29 @@ writes to it are refused anyway, and removing the only credential is what makes
 Full egress a sensible trade for a job that reads untrusted web pages daily.
 Do not reintroduce it without a reason.
 
+## Closing odds and CLV (added 2026-09-06)
+
+`enrich_closing.py` runs daily and pulls football-data.co.uk's current-season files
+(https://www.football-data.co.uk/mmz4281/2627/E0.csv and E1-E3) to attach opening
+and closing prices to graded fixtures. This replaced a plan to scrape prices twice
+a day near kick-off: the archive gives the same information for free, from a
+canonical source, including best-available (Max), Bet365 (matching the backtest
+benchmark) and the Betfair Exchange.
+
+Closing odds CANNOT be captured live -- the market settles at full time and the
+prices vanish. The archive is the only route, and it lags by a few days, so CLV
+arrives after the fact rather than same-day. That is fine for a track record.
+
+Validated on 32 fixtures from last season: the closing price scored Brier 0.593
+against the opening price's 0.604, with mean absolute drift of 2.11 points per
+outcome. So forecasting at 07:00 costs roughly 0.011 Brier against forecasting at
+kick-off -- small, real, and now measured on live data rather than assumed.
+
+Note that CLV is only meaningful for flagged edges. Because the forecast IS the
+de-vigged morning price, an unadjusted fixture has no view of its own to test; only
+fixtures where researched team news moved the number off the market can be scored
+this way.
+
 ## Route map (which paths work from where)
 
 | Operation | Scheduled sandbox | User's Mac (device shell) | Cowork chat session |

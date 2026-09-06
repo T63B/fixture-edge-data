@@ -140,6 +140,9 @@ def compute_metrics(log):
     if n == 0:
         out.update({"brier_model": None, "brier_market": None, "hit_rate_model": None,
                     "hit_rate_market": None, "calibration": [], "by_division": {},
+                    "closing_n": 0, "brier_close": None, "brier_at_close_subset": None,
+                    "timing_cost": None, "mean_drift": None, "clv_n": 0,
+                    "clv_mean": None, "clv_positive": 0,
                     "edges": {"n": 0, "wins": 0, "staked": 0, "returned": 0,
                               "profit": 0, "roi_pct": None}})
         return out
@@ -192,6 +195,40 @@ def compute_metrics(log):
             "brier_model": round(sum(brier(x["model_pct"], x["result"]) for x in ms) / len(ms), 3),
             "hit_rate_model": round(100 * sum(1 for x in ms if top(x["model_pct"]) == x["result"]) / len(ms), 1)}
         for d, ms in by.items()}
+
+    # Closing-price comparison. Populated by enrich_closing.py, which pulls
+    # football-data.co.uk weekly. Answers: what does forecasting at 07:00 cost us
+    # against the closing price, and (for flagged edges) did the market move our way?
+    withclose = [m for m in finals if m.get("close_pct")]
+    out["closing_n"] = len(withclose)
+    if withclose:
+        k = len(withclose)
+        out["brier_close"] = round(sum(brier(m["close_pct"], m["result"]) for m in withclose) / k, 3)
+        out["brier_at_close_subset"] = round(sum(brier(m["model_pct"], m["result"]) for m in withclose) / k, 3)
+        out["timing_cost"] = round(out["brier_at_close_subset"] - out["brier_close"], 3)
+        drifts = [m["drift"] for m in withclose if m.get("drift")]
+        if drifts:
+            out["mean_drift"] = round(
+                sum(sum(abs(v) for v in d.values()) / 3 for d in drifts) / len(drifts), 2)
+        else:
+            out["mean_drift"] = None
+        # CLV: for flagged edges, did the closing price imply MORE chance of the
+        # outcome we backed than the morning price did? Positive means the market
+        # moved toward us, which is evidence of signal well before results arrive.
+        ce = [m for m in withclose if m.get("edge_outcome") and m.get("market_pct")]
+        if ce:
+            movs = [m["close_pct"][m["edge_outcome"]] - m["market_pct"][m["edge_outcome"]] for m in ce]
+            out["clv_n"] = len(ce)
+            out["clv_mean"] = round(sum(movs) / len(movs), 2)
+            out["clv_positive"] = sum(1 for v in movs if v > 0)
+        else:
+            out["clv_n"] = 0
+            out["clv_mean"] = None
+            out["clv_positive"] = 0
+    else:
+        out["brier_close"] = out["brier_at_close_subset"] = out["timing_cost"] = None
+        out["mean_drift"] = out["clv_mean"] = None
+        out["clv_n"] = out["clv_positive"] = 0
 
     eb = [m for m in finals if m.get("edge_outcome") and m.get("edge_odds_dec")]
     if eb:
@@ -302,6 +339,7 @@ def track_section(mt):
                    f'diagonal are well calibrated; above means under-confident, below means over-confident.</p>'
                    f'{coverage_note}</div>'
                    if chart else f'<p class="note">The calibration chart appears once more matches have been graded.</p>{coverage_note}')
+    closing_block = closing_panel(mt)
     rows = "".join(f'<tr><td>{esc(d)}</td><td class="mono">{s["n"]}</td>'
                    f'<td class="mono">{s["brier_model"]}</td><td class="mono">{s["hit_rate_model"]}%</td></tr>'
                    for d, s in sorted(mt["by_division"].items(), key=lambda kv: -kv[1]["n"]))
@@ -324,7 +362,51 @@ def track_section(mt):
       <table class="odds-table division-table">
         <thead><tr><th>Division</th><th>Graded</th><th>Brier</th><th>Hit rate</th></tr></thead>
         <tbody>{rows}</tbody></table>
+      {closing_block}
     </section>"""
+
+
+def closing_panel(mt):
+    """Timing and closing-line block. Empty until enrich_closing.py has run."""
+    if not mt.get("closing_n"):
+        return ('<p class="note">Closing-odds comparison appears once the weekly '
+                'enrichment has run (see enrich_closing.py).</p>')
+    cost = mt.get("timing_cost")
+    if cost is None:
+        cost_txt = "&mdash;"
+    elif cost > 0:
+        cost_txt = f"the closing price scored {cost:+.3f} better"
+    else:
+        cost_txt = f"the 07:00 forecast scored {abs(cost):.3f} better"
+    drift = mt.get("mean_drift")
+    drift_txt = f"{drift} points" if drift is not None else "&mdash;"
+
+    clv = ""
+    if mt.get("clv_n"):
+        mean = mt.get("clv_mean")
+        pos = mt.get("clv_positive")
+        n = mt["clv_n"]
+        verdict = ("the market moved toward the flagged outcome on average"
+                   if (mean or 0) > 0 else
+                   "the market moved away from the flagged outcome on average")
+        clv = (f'<p class="note"><strong>Closing Line Value:</strong> across {n} flagged '
+               f'edge{"" if n == 1 else "s"} the closing price moved {mean:+.2f} points '
+               f'relative to the morning price, with {pos} of {n} moving favourably &mdash; '
+               f'{verdict}. This is the fastest available read on whether the flags carry '
+               f'real signal, and it converges long before win/loss returns do.</p>')
+    else:
+        clv = ('<p class="note"><strong>Closing Line Value:</strong> no flagged edges have '
+               'been graded yet, so there is nothing to measure. Because the forecast is the '
+               'de-vigged morning price, only fixtures where researched team news moved it '
+               'off that price have a view of their own to test.</p>')
+
+    return (f'<div class="callout"><strong>Timing &mdash; morning price versus close '
+            f'({mt["closing_n"]} fixtures).</strong> Forecasting at 07:00 rather than at '
+            f'kick-off: {cost_txt} (Brier {mt.get("brier_at_close_subset")} against '
+            f'{mt.get("brier_close")}). Average movement between the two: {drift_txt} per '
+            f'outcome. Closing odds come from football-data.co.uk, which archives both the '
+            f'opening and closing price for every fixture &mdash; they cannot be captured '
+            f'live, because the market settles at full time.</div>{clv}')
 
 
 CSS = """
