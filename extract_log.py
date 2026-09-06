@@ -17,6 +17,40 @@ Exits 0 with an empty array if no block is found, so a first run still proceeds.
 """
 import json, re, sys
 
+def _squash(name):
+    """Reduce a club name to a comparable core: 'Cardiff City' -> 'cardiff'."""
+    n = re.sub(r"[^a-z0-9 ]", "", str(name).lower()).strip()
+    n = re.sub(r"\s+(fc|afc|town|city|united|rovers|wanderers|athletic|county|albion|hotspur)$", "", n)
+    return re.sub(r"\s+", "", n)
+
+
+def dedupe(log):
+    """Drop repeat entries for the same fixture, keeping the richer record.
+
+    Early runs keyed the log on literal text, so the same match could be logged
+    twice under different spellings ("QPR v Cardiff" and "QPR v Cardiff City").
+    Those stale duplicates double-count a result in the track record. Running this
+    on every load means the log heals itself rather than needing a manual clean.
+    """
+    best = {}
+    order = []
+    for m in log:
+        if not isinstance(m, dict) or not m.get("date"):
+            continue
+        k = (m.get("date"), _squash(m.get("home")), _squash(m.get("away")))
+        if k not in best:
+            best[k] = m
+            order.append(k)
+            continue
+        # Prefer a graded record over a pending one, then one carrying market odds.
+        cur = best[k]
+        def score(x):
+            return (1 if x.get("status") == "final" else 0) + (1 if x.get("market_pct") else 0)
+        if score(m) > score(cur):
+            best[k] = m
+    return [best[k] for k in order], len(log) - len(order)
+
+
 def main():
     src = sys.argv[1]
     out = sys.argv[2] if len(sys.argv) > 2 else "log.json"
@@ -44,10 +78,13 @@ def main():
         json.dump([], open(out, "w"))
         return
 
+    log, removed = dedupe(log)
+
     json.dump(log, open(out, "w"), indent=1)
     pending = sum(1 for x in log if x.get("status") == "pending")
     final = sum(1 for x in log if x.get("status") == "final")
-    print("EXTRACT OK: %d entries recovered (%d final, %d pending) -> %s"
-          % (len(log), final, pending, out))
+    extra = " (%d duplicate%s dropped)" % (removed, "" if removed == 1 else "s") if removed else ""
+    print("EXTRACT OK: %d entries recovered (%d final, %d pending)%s -> %s"
+          % (len(log), final, pending, extra, out))
 
 main()
