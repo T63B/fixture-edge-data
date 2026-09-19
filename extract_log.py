@@ -51,6 +51,29 @@ def dedupe(log):
     return [best[k] for k in order], len(log) - len(order)
 
 
+def migrate_methodology(log):
+    """Make the forecast field hold the MODEL's view rather than the market's.
+
+    Until 19 Sep 2026 the published forecast WAS the de-vigged market price, so
+    `model_pct` held a copy of `market_pct`. The tool now publishes its own model.
+    The independent model's prediction was recorded throughout in `model_raw_pct`,
+    so the history can be rescored honestly rather than thrown away.
+
+    Old-design entries are identified by the forecast matching the market almost
+    exactly. Idempotent, and a no-op where the model genuinely agreed with the price.
+    """
+    n = 0
+    for m in log:
+        raw, mk, fc = m.get("model_raw_pct"), m.get("market_pct"), m.get("model_pct")
+        if not (raw and mk and fc):
+            continue
+        if (max(abs(fc[k] - mk[k]) for k in ("H", "D", "A")) < 0.6
+                and max(abs(raw[k] - mk[k]) for k in ("H", "D", "A")) >= 0.6):
+            m["model_pct"] = dict(raw)
+            n += 1
+    return n
+
+
 def main():
     src = sys.argv[1]
     out = sys.argv[2] if len(sys.argv) > 2 else "log.json"
@@ -79,11 +102,12 @@ def main():
         return
 
     log, removed = dedupe(log)
+    migrated = migrate_methodology(log)
 
     json.dump(log, open(out, "w"), indent=1)
     pending = sum(1 for x in log if x.get("status") == "pending")
     final = sum(1 for x in log if x.get("status") == "final")
-    extra = " (%d duplicate%s dropped)" % (removed, "" if removed == 1 else "s") if removed else ""
+    extra = ("" if not migrated else " (%d rescored to the model)" % migrated) + " (%d duplicate%s dropped)" % (removed, "" if removed == 1 else "s") if removed else ("" if not migrated else " (%d rescored to the model)" % migrated)
     print("EXTRACT OK: %d entries recovered (%d final, %d pending)%s -> %s"
           % (len(log), final, pending, extra, out))
 

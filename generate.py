@@ -4,14 +4,36 @@ Fixture Edge — deterministic dashboard builder.
 
 Usage:  python3 generate.py today.json log.json ratings.json out.html new_log.json
 
-The daily agent's only job is to research fixtures and odds and write today.json.
-Everything after that -- de-vigging, model probabilities, blending, edge
-detection, track-record maths and HTML rendering -- happens here, in code, so the
-output is consistent from one day to the next.
+WHAT THE FORECAST IS
+--------------------
+The headline forecast is THIS TOOL'S OWN MODEL: Dixon-Coles attack and defence
+ratings fitted across all four English divisions on one shared scale, blending a
+goals-based and a shots-on-target-based fit. The bookmaker price is shown beside
+it as a benchmark, NOT as the answer.
+
+That is a deliberate reversal of the earlier design, which published the de-vigged
+market price as the forecast. That version could not identify value against the
+odds, because its forecast *was* the odds -- it had no opinion of its own.
+
+WHAT THAT COSTS, STATED PLAINLY
+-------------------------------
+On walk-forward backtesting over 5,103 out-of-sample matches:
+
+    model (goals + shots blend)   Brier 0.6249   hit rate 47.3%
+    market (de-vigged best price) Brier 0.6126   hit rate 49.1%
+
+The market is the better forecaster. Publishing the model means publishing the
+less accurate of the two, knowingly, in exchange for having an independent view
+that can be measured and improved. Divergence between the two is the tool's
+output -- it is NOT evidence of betting value, and must never be presented as such.
+
+STALENESS IS THE LARGEST ERROR SOURCE. The model's gap to the market roughly
+doubles as ratings age (+0.011 when fresh, +0.018 at 90-150 days). Run
+fit_model.py regularly; it matters ~24x more than any structural tweak tested.
 
 today.json schema:
 {
-  "date": "2026-08-31",
+  "date": "2026-09-19",
   "fixtures": [
     {"league": "Premier League", "home": "Liverpool", "away": "Nottingham Forest",
      "kickoff": "12:30",
@@ -20,37 +42,22 @@ today.json schema:
      "factors": ["injury note", "form note"],       # optional
      "postponed": false}
   ],
-  "notes": "optional caveat shown in the footer"
+  "notes": "optional caveat shown at the top"
 }
 """
 
+import html as _html
 import json
 import math
 import re
 import sys
-import html as _html
 from datetime import datetime, timezone
 
-import model as fe_model
+import model2 as fe_model
 import teams as fe_teams
 
-# Weight given to the model when blending with the market.
-#
-# SET TO ZERO ON EVIDENCE, NOT PREFERENCE. A walk-forward backtest over 5,103
-# out-of-sample matches (see BACKTEST.md) swept this weight from 0 to 1. Brier
-# score was minimised at exactly w=0 and rose monotonically with every increase:
-#     w=0.00 -> 0.61262   w=0.10 -> 0.61290   w=0.25 -> 0.61373
-#     w=0.50 -> 0.61626   w=1.00 -> 0.62554
-# The de-vigged market price is the better forecast; blending the model in only
-# degrades it. Do not raise this without re-running the sweep and beating 0.61262.
-#
-# The model is therefore NOT used to move the forecast. It is retained for two
-# honest purposes: (1) a fallback when a fixture has no quoted odds, and (2) a
-# displayed comparison column, so material model/market divergence is visible.
-MODEL_WEIGHT = 0.0
-EDGE_THRESHOLD = 5.0          # percentage points above market to flag an edge
+DIVERGENCE_PP = 10.0      # flag when model and market differ this much on any outcome
 OUTCOMES = ("H", "D", "A")
-
 DIVISION_ORDER = ["Premier League", "Championship", "League One", "League Two"]
 DIVISION_SUB = {"Premier League": "Tier 1", "Championship": "Tier 2",
                 "League One": "Tier 3", "League Two": "Tier 4"}
@@ -58,69 +65,67 @@ DIVISION_SUB = {"Premier League": "Tier 1", "Championship": "Tier 2",
 
 # ---------------------------------------------------------------- probabilities
 
-def blend(model_pct, market_pct, adjust=None):
-    """Blend model and market, apply any manual adjustment, renormalise to 100."""
-    if market_pct is None and model_pct is None:
-        return None
-    if market_pct is None:
-        out = dict(model_pct)
-    elif model_pct is None:
-        out = dict(market_pct)
-    else:
-        w = MODEL_WEIGHT
-        out = {k: w * model_pct[k] + (1 - w) * market_pct[k] for k in OUTCOMES}
-    if adjust:
-        out = {k: out[k] + float(adjust.get(k, 0) or 0) for k in OUTCOMES}
-    out = {k: max(0.5, out[k]) for k in OUTCOMES}
-    tot = sum(out.values())
-    return {k: round(100 * out[k] / tot, 1) for k in OUTCOMES}
+def normalise(p):
+    p = {k: max(0.3, p[k]) for k in OUTCOMES}
+    t = sum(p.values())
+    return {k: round(100 * p[k] / t, 1) for k in OUTCOMES}
 
 
 def build_predictions(today, ratings):
-    known = ratings["teams"]
+    known = ratings.get("teams", [])
+    sot = ratings.get("sot")
+    wgt = ratings.get("blend_weight", 1.0)
     rows = []
     for fx in today["fixtures"]:
         if fx.get("postponed"):
             rows.append({**fx, "postponed": True})
             continue
+
         odds = fx.get("odds") or {}
         market = fe_model.devig(odds.get("H"), odds.get("D"), odds.get("A"))
+        if market:
+            market = {k: round(market[k], 1) for k in OUTCOMES}
 
         h, _ = fe_teams.resolve(fx["home"], known)
         a, _ = fe_teams.resolve(fx["away"], known)
-        model_pct = fe_model.predict(ratings, h, a) if (h and a) else None
+        model = None
+        if h and a:
+            raw = fe_model.predict(ratings, h, a, blend_with=sot, weight=wgt)
+            if raw:
+                model = {k: round(raw[k], 1) for k in OUTCOMES}
 
-        final = blend(model_pct, market, fx.get("adjust"))
-        if final is None:
+        # The forecast IS the model. Fall back to the market only when the model
+        # cannot price the fixture at all (a club with no rating -- typically one
+        # just promoted from the National League).
+        if model:
+            final = dict(model)
+            source = "model (goals + shots ratings)"
+            if fx.get("adjust"):
+                final = normalise({k: final[k] + float(fx["adjust"].get(k, 0) or 0)
+                                   for k in OUTCOMES})
+                source = "model, adjusted for researched team news"
+        elif market:
+            final = dict(market)
+            source = "market price (no rating for one or both clubs)"
+        else:
             continue
 
-        if model_pct is None:
-            source = "market only (no rating for one or both clubs)"
-        elif fx.get("adjust"):
-            source = "model + market, with a manual adjustment"
-        else:
-            source = "model + market blend"
-
-        edge_outcome = edge_odds = None
-        value_flag = None
-        if market:
-            diffs = {k: round(final[k] - market[k], 1) for k in OUTCOMES}
-            best = max(diffs, key=diffs.get)
-            if diffs[best] >= EDGE_THRESHOLD:
-                edge_outcome = best
-                edge_odds = odds.get(best)
-                label = {"H": fx["home"] + " (Home)", "D": "Draw",
-                         "A": fx["away"] + " (Away)"}[best]
-                value_flag = f"{label} +{diffs[best]}pp vs market"
-        else:
-            diffs = {k: 0.0 for k in OUTCOMES}
+        diffs = ({k: round(final[k] - market[k], 1) for k in OUTCOMES}
+                 if market else {k: 0.0 for k in OUTCOMES})
+        flag = None
+        if market and model:
+            worst = max(diffs, key=lambda k: abs(diffs[k]))
+            if abs(diffs[worst]) >= DIVERGENCE_PP:
+                label = {"H": fx["home"], "D": "Draw", "A": fx["away"]}[worst]
+                direction = "above" if diffs[worst] > 0 else "below"
+                flag = f"{label} {abs(diffs[worst]):.0f}pp {direction} market"
 
         rows.append({
             "league": fx["league"], "home": fx["home"], "away": fx["away"],
             "kickoff": fx.get("kickoff", ""), "odds_dec": odds,
-            "market_pct": market, "model_pct_raw": model_pct, "final_pct": final,
-            "diffs": diffs, "value_flag": value_flag,
-            "edge_outcome": edge_outcome, "edge_odds_dec": edge_odds,
+            "market_pct": market, "model_pct_raw": model, "final_pct": final,
+            "diffs": diffs, "value_flag": flag,
+            "edge_outcome": None, "edge_odds_dec": None,
             "factors": fx.get("factors") or [], "prediction_source": source,
             "postponed": False,
         })
@@ -137,23 +142,26 @@ def compute_metrics(log):
     finals = [m for m in log if m.get("status") == "final" and m.get("result") in OUTCOMES]
     n = len(finals)
     out = {"tracked_total": len(log), "final_count": n, "pending_count": len(log) - n}
+    keys_empty = {
+        "brier_model": None, "brier_market": None, "hit_rate_model": None,
+        "hit_rate_market": None, "calibration": [], "by_division": {},
+        "compare_n": 0, "odds_coverage_pct": 0, "brier_model_all": None,
+        "closing_n": 0, "brier_close": None, "brier_at_close_subset": None,
+        "timing_cost": None, "mean_drift": None, "clv_n": 0, "clv_mean": None,
+        "clv_positive": 0, "diverge_n": 0, "diverge_model_brier": None,
+        "diverge_market_brier": None, "diverge_model_hit": None,
+        "diverge_market_hit": None,
+        "edges": {"n": 0, "wins": 0, "staked": 0, "returned": 0, "profit": 0, "roi_pct": None},
+    }
     if n == 0:
-        out.update({"brier_model": None, "brier_market": None, "hit_rate_model": None,
-                    "hit_rate_market": None, "calibration": [], "by_division": {},
-                    "closing_n": 0, "brier_close": None, "brier_at_close_subset": None,
-                    "timing_cost": None, "mean_drift": None, "clv_n": 0,
-                    "clv_mean": None, "clv_positive": 0,
-                    "edges": {"n": 0, "wins": 0, "staked": 0, "returned": 0,
-                              "profit": 0, "roi_pct": None}})
+        out.update(keys_empty)
         return out
+    out.update(keys_empty)
 
     def top(p):
         return max(OUTCOMES, key=lambda k: p[k])
 
-    # Compare model against market ONLY over fixtures that have both, otherwise the
-    # two figures are computed on different samples and the comparison is meaningless.
-    # (This bit was wrong once already: a 24-fixture model score was shown against an
-    # 8-fixture market score, making an identical forecast look far worse than the book.)
+    # Model and market are only comparable on fixtures carrying both.
     with_mkt = [m for m in finals if m.get("market_pct")]
     out["compare_n"] = len(with_mkt)
     out["odds_coverage_pct"] = round(100 * len(with_mkt) / n, 1)
@@ -168,7 +176,18 @@ def compute_metrics(log):
     else:
         out["brier_model"] = out["brier_model_all"]
         out["hit_rate_model"] = round(100 * sum(1 for m in finals if top(m["model_pct"]) == m["result"]) / n, 1)
-        out["brier_market"] = out["hit_rate_market"] = None
+
+    # Where the model disagreed loudly, who was right? This is the question the
+    # whole independent-forecast design exists to answer.
+    div = [m for m in with_mkt
+           if max(abs(m["model_pct"][k] - m["market_pct"][k]) for k in OUTCOMES) >= DIVERGENCE_PP]
+    out["diverge_n"] = len(div)
+    if div:
+        d = len(div)
+        out["diverge_model_brier"] = round(sum(brier(m["model_pct"], m["result"]) for m in div) / d, 3)
+        out["diverge_market_brier"] = round(sum(brier(m["market_pct"], m["result"]) for m in div) / d, 3)
+        out["diverge_model_hit"] = round(100 * sum(1 for m in div if top(m["model_pct"]) == m["result"]) / d, 1)
+        out["diverge_market_hit"] = round(100 * sum(1 for m in div if top(m["market_pct"]) == m["result"]) / d, 1)
 
     calib = []
     for lo in range(0, 100, 10):
@@ -196,9 +215,7 @@ def compute_metrics(log):
             "hit_rate_model": round(100 * sum(1 for x in ms if top(x["model_pct"]) == x["result"]) / len(ms), 1)}
         for d, ms in by.items()}
 
-    # Closing-price comparison. Populated by enrich_closing.py, which pulls
-    # football-data.co.uk weekly. Answers: what does forecasting at 07:00 cost us
-    # against the closing price, and (for flagged edges) did the market move our way?
+    # closing-price comparison (populated by enrich_closing.py)
     withclose = [m for m in finals if m.get("close_pct")]
     out["closing_n"] = len(withclose)
     if withclose:
@@ -207,28 +224,8 @@ def compute_metrics(log):
         out["brier_at_close_subset"] = round(sum(brier(m["model_pct"], m["result"]) for m in withclose) / k, 3)
         out["timing_cost"] = round(out["brier_at_close_subset"] - out["brier_close"], 3)
         drifts = [m["drift"] for m in withclose if m.get("drift")]
-        if drifts:
-            out["mean_drift"] = round(
-                sum(sum(abs(v) for v in d.values()) / 3 for d in drifts) / len(drifts), 2)
-        else:
-            out["mean_drift"] = None
-        # CLV: for flagged edges, did the closing price imply MORE chance of the
-        # outcome we backed than the morning price did? Positive means the market
-        # moved toward us, which is evidence of signal well before results arrive.
-        ce = [m for m in withclose if m.get("edge_outcome") and m.get("market_pct")]
-        if ce:
-            movs = [m["close_pct"][m["edge_outcome"]] - m["market_pct"][m["edge_outcome"]] for m in ce]
-            out["clv_n"] = len(ce)
-            out["clv_mean"] = round(sum(movs) / len(movs), 2)
-            out["clv_positive"] = sum(1 for v in movs if v > 0)
-        else:
-            out["clv_n"] = 0
-            out["clv_mean"] = None
-            out["clv_positive"] = 0
-    else:
-        out["brier_close"] = out["brier_at_close_subset"] = out["timing_cost"] = None
-        out["mean_drift"] = out["clv_mean"] = None
-        out["clv_n"] = out["clv_positive"] = 0
+        out["mean_drift"] = (round(sum(sum(abs(v) for v in d.values()) / 3 for d in drifts) / len(drifts), 2)
+                             if drifts else None)
 
     eb = [m for m in finals if m.get("edge_outcome") and m.get("edge_odds_dec")]
     if eb:
@@ -236,11 +233,8 @@ def compute_metrics(log):
         returned = sum(m["edge_odds_dec"] for m in eb if m["edge_outcome"] == m["result"])
         wins = sum(1 for m in eb if m["edge_outcome"] == m["result"])
         out["edges"] = {"n": staked, "wins": wins, "staked": staked,
-                        "returned": round(returned, 2),
-                        "profit": round(returned - staked, 2),
+                        "returned": round(returned, 2), "profit": round(returned - staked, 2),
                         "roi_pct": round(100 * (returned - staked) / staked, 1)}
-    else:
-        out["edges"] = {"n": 0, "wins": 0, "staked": 0, "returned": 0, "profit": 0, "roi_pct": None}
     return out
 
 
@@ -282,23 +276,26 @@ def calibration_svg(calib):
 def match_card(m):
     f = m["final_pct"]
     mk = m["market_pct"]
-    badge = f'<span class="badge">EDGE &middot; {esc(m["value_flag"])}</span>' if m["value_flag"] else ""
-    factors = ("<ul class='factors'>" + "".join(f"<li>{esc(x)}</li>" for x in m["factors"]) + "</ul>") if m["factors"] else ""
-    top = max([("H", f["H"], m["home"]), ("D", f["D"], "Draw"), ("A", f["A"], m["away"])], key=lambda t: t[1])
+    md = m["model_pct_raw"]
+    badge = (f'<span class="badge">MODEL {esc(m["value_flag"])}</span>' if m["value_flag"] else "")
+    factors = ("<ul class='factors'>" + "".join(f"<li>{esc(x)}</li>" for x in m["factors"]) + "</ul>"
+               if m["factors"] else "")
+    top = max([("H", f["H"], m["home"]), ("D", f["D"], "Draw"), ("A", f["A"], m["away"])],
+              key=lambda t: t[1])
     o = m["odds_dec"] or {}
 
     def row(label, key):
         od = o.get(key)
-        return (f'<tr><td>{esc(label)}</td><td class="mono">{od if od else "&mdash;"}</td>'
+        return (f'<tr><td>{esc(label)}</td>'
+                f'<td class="mono strong">{pct(f[key])}%</td>'
                 f'<td class="mono">{pct(mk[key]) + "%" if mk else "&mdash;"}</td>'
-                f'<td class="mono">{pct(m["model_pct_raw"][key]) + "%" if m["model_pct_raw"] else "&mdash;"}</td>'
-                f'<td class="mono strong">{pct(f[key])}%</td></tr>')
+                f'<td class="mono">{od if od else "&mdash;"}</td></tr>')
 
     return f"""
     <article class="card{' has-edge' if m['value_flag'] else ''}" data-edge="{'1' if m['value_flag'] else '0'}">
       <div class="card-top"><span class="kickoff">{esc(m['kickoff'])}</span>{badge}</div>
       <h3 class="teams"><span>{esc(m['home'])}</span><span class="vs">v</span><span>{esc(m['away'])}</span></h3>
-      <div class="pick">Forecast lean: <strong>{esc(top[2])}</strong> &middot; {pct(top[1])}%</div>
+      <div class="pick">Forecast: <strong>{esc(top[2])}</strong> &middot; {pct(top[1])}%</div>
       <div class="bar" role="img" aria-label="Home {pct(f['H'])}%, Draw {pct(f['D'])}%, Away {pct(f['A'])}%">
         <div class="seg seg-h" style="width:{f['H']}%"><span>{pct(f['H'])}%</span></div>
         <div class="seg seg-d" style="width:{f['D']}%"><span>{pct(f['D'])}%</span></div>
@@ -306,7 +303,7 @@ def match_card(m):
       </div>
       <div class="legend-row"><span><i class="dot dot-h"></i>Home</span><span><i class="dot dot-d"></i>Draw</span><span><i class="dot dot-a"></i>Away</span></div>
       <table class="odds-table">
-        <thead><tr><th></th><th>Odds</th><th>Market</th><th>Model</th><th>Forecast</th></tr></thead>
+        <thead><tr><th></th><th>Forecast</th><th>Market</th><th>Odds</th></tr></thead>
         <tbody>{row(m['home'], 'H')}{row('Draw', 'D')}{row(m['away'], 'A')}</tbody>
       </table>
       {factors}
@@ -321,31 +318,57 @@ def track_section(mt):
       <div class="division-head"><div class="division-title">
         <span class="division-eyebrow">Forecast accuracy over time</span><h2>Track Record</h2></div>
         <div class="division-meta">{mt['tracked_total']} logged &middot; 0 confirmed</div></div>
-      <div class="callout">No fixtures have been graded yet. Once forecasts reach full time, this section
-      reports calibration, Brier score against the market, hit rate, and return on flagged edges.</div>
+      <div class="callout">No fixtures graded yet. Once forecasts reach full time this section reports
+      calibration, the model's Brier score against the market's, and how the two compare on the fixtures
+      where they disagreed most.</div>
     </section>"""
-    e = mt["edges"]
-    edge_txt = (f'{e["n"]} bets &middot; {e["wins"]} won &middot; profit '
-                f'{"+" if e["profit"] >= 0 else ""}{e["profit"]}u') if e["n"] else "No flagged edges settled yet."
-    coverage_note = (
-        f'<p class="note">Model and market are scored on the same {mt.get("compare_n", 0)} '
-        f'fixtures &mdash; the ones where odds were found. Across all {mt["final_count"]} graded '
-        f'fixtures the forecast scores {mt["brier_model_all"]}; the gap between that and the figure '
-        f'above is the cost of fixtures where no odds were available and the model stood alone.</p>'
-    )
+
+    bm = mt["brier_market"] if mt["brier_market"] is not None else "&mdash;"
+    hm = f'{mt["hit_rate_market"]}%' if mt["hit_rate_market"] is not None else "&mdash;"
+    verdict = ""
+    if mt["brier_market"] is not None and mt["brier_model"] is not None:
+        gap = mt["brier_model"] - mt["brier_market"]
+        verdict = (f'<span class="vs-market">model is {abs(gap):.3f} '
+                   f'{"behind" if gap > 0 else "ahead of"} the market</span>')
+
+    # the divergence panel -- the question this design exists to answer
+    if mt["diverge_n"]:
+        d = mt
+        who = ("the model" if d["diverge_model_brier"] < d["diverge_market_brier"] else "the market")
+        div_block = (
+            f'<div class="callout"><strong>When the model disagreed loudly ({d["diverge_n"]} fixtures, '
+            f'{DIVERGENCE_PP:.0f}pp or more apart).</strong> Model Brier {d["diverge_model_brier"]} '
+            f'against the market\'s {d["diverge_market_brier"]}; top-pick hit rate '
+            f'{d["diverge_model_hit"]}% against {d["diverge_market_hit"]}%. On these fixtures '
+            f'<strong>{who}</strong> was the better forecaster. This is the sharpest test of whether an '
+            f'independent view adds anything &mdash; it is where the two opinions actually differ.</div>')
+    else:
+        div_block = ('<p class="note">No graded fixture has yet seen the model and the market disagree by '
+                     f'{DIVERGENCE_PP:.0f} points or more.</p>')
+
     chart = calibration_svg(mt["calibration"])
-    chart_block = (f'<div class="calib-wrap">{chart}<p class="note">Every forecast probability is binned '
-                   f'and plotted against how often that outcome actually occurred. Points on the dashed '
-                   f'diagonal are well calibrated; above means under-confident, below means over-confident.</p>'
-                   f'{coverage_note}</div>'
-                   if chart else f'<p class="note">The calibration chart appears once more matches have been graded.</p>{coverage_note}')
-    closing_block = closing_panel(mt)
+    coverage = (f'<p class="note">Model and market are scored on the same {mt.get("compare_n", 0)} '
+                f'fixtures &mdash; those with odds. Across all {mt["final_count"]} graded fixtures the '
+                f'model scores {mt["brier_model_all"]}.</p>')
+    chart_block = (f'<div class="calib-wrap">{chart}<p class="note">Every forecast probability binned '
+                   f'against how often that outcome occurred. Points on the dashed diagonal are well '
+                   f'calibrated; above means under-confident, below over-confident.</p>{coverage}</div>'
+                   if chart else f'<div class="calib-wrap">{coverage}</div>')
+
     rows = "".join(f'<tr><td>{esc(d)}</td><td class="mono">{s["n"]}</td>'
                    f'<td class="mono">{s["brier_model"]}</td><td class="mono">{s["hit_rate_model"]}%</td></tr>'
                    for d, s in sorted(mt["by_division"].items(), key=lambda kv: -kv[1]["n"]))
-    bm = mt["brier_market"] if mt["brier_market"] is not None else "&mdash;"
-    hm = f'{mt["hit_rate_market"]}%' if mt["hit_rate_market"] is not None else "&mdash;"
-    roi = f'{e["roi_pct"]}%' if e["roi_pct"] is not None else "&mdash;"
+
+    closing = ""
+    if mt.get("closing_n"):
+        cost = mt.get("timing_cost")
+        ct = ("&mdash;" if cost is None else
+              (f"the closing price scored {cost:+.3f} better" if cost > 0
+               else f"the 07:00 forecast scored {abs(cost):.3f} better"))
+        closing = (f'<p class="note"><strong>Timing:</strong> across {mt["closing_n"]} fixtures with '
+                   f'archived closing odds, {ct}. Average market movement between morning and kick-off: '
+                   f'{mt.get("mean_drift")} points per outcome.</p>')
+
     return f"""
     <section class="division" id="track-record">
       <div class="division-head"><div class="division-title">
@@ -353,60 +376,18 @@ def track_section(mt):
         <div class="division-meta">{mt['tracked_total']} logged &middot; {mt['final_count']} confirmed &middot; {mt['pending_count']} pending &middot; odds found for {mt.get('odds_coverage_pct', 0)}% of graded fixtures</div></div>
       <div class="track-grid">
         <div class="track-stats">
-          <div class="tstat"><div class="tnum mono">{mt['brier_model']}</div><div class="tlabel">Brier score (lower is better)<br><span class="vs-market">market {bm} &middot; same {mt.get('compare_n', 0)} fixtures</span></div></div>
-          <div class="tstat"><div class="tnum mono">{mt['hit_rate_model']}%</div><div class="tlabel">Top-pick hit rate<br><span class="vs-market">market {hm} &middot; same {mt.get('compare_n', 0)} fixtures</span></div></div>
-          <div class="tstat"><div class="tnum mono">{roi}</div><div class="tlabel">Flagged-edge ROI<br><span class="vs-market">{edge_txt}</span></div></div>
+          <div class="tstat"><div class="tnum mono">{mt['brier_model']}</div><div class="tlabel">Model Brier (lower is better)<br><span class="vs-market">market {bm} &middot; same {mt.get('compare_n', 0)} fixtures</span></div></div>
+          <div class="tstat"><div class="tnum mono">{mt['hit_rate_model']}%</div><div class="tlabel">Model top-pick hit rate<br><span class="vs-market">market {hm}</span></div></div>
+          <div class="tstat"><div class="tnum mono">{mt['diverge_n']}</div><div class="tlabel">Graded fixtures where model and market disagreed by {DIVERGENCE_PP:.0f}pp+<br>{verdict}</div></div>
         </div>
         {chart_block}
       </div>
+      {div_block}
+      {closing}
       <table class="odds-table division-table">
-        <thead><tr><th>Division</th><th>Graded</th><th>Brier</th><th>Hit rate</th></tr></thead>
+        <thead><tr><th>Division</th><th>Graded</th><th>Model Brier</th><th>Hit rate</th></tr></thead>
         <tbody>{rows}</tbody></table>
-      {closing_block}
     </section>"""
-
-
-def closing_panel(mt):
-    """Timing and closing-line block. Empty until enrich_closing.py has run."""
-    if not mt.get("closing_n"):
-        return ('<p class="note">Closing-odds comparison appears once the weekly '
-                'enrichment has run (see enrich_closing.py).</p>')
-    cost = mt.get("timing_cost")
-    if cost is None:
-        cost_txt = "&mdash;"
-    elif cost > 0:
-        cost_txt = f"the closing price scored {cost:+.3f} better"
-    else:
-        cost_txt = f"the 07:00 forecast scored {abs(cost):.3f} better"
-    drift = mt.get("mean_drift")
-    drift_txt = f"{drift} points" if drift is not None else "&mdash;"
-
-    clv = ""
-    if mt.get("clv_n"):
-        mean = mt.get("clv_mean")
-        pos = mt.get("clv_positive")
-        n = mt["clv_n"]
-        verdict = ("the market moved toward the flagged outcome on average"
-                   if (mean or 0) > 0 else
-                   "the market moved away from the flagged outcome on average")
-        clv = (f'<p class="note"><strong>Closing Line Value:</strong> across {n} flagged '
-               f'edge{"" if n == 1 else "s"} the closing price moved {mean:+.2f} points '
-               f'relative to the morning price, with {pos} of {n} moving favourably &mdash; '
-               f'{verdict}. This is the fastest available read on whether the flags carry '
-               f'real signal, and it converges long before win/loss returns do.</p>')
-    else:
-        clv = ('<p class="note"><strong>Closing Line Value:</strong> no flagged edges have '
-               'been graded yet, so there is nothing to measure. Because the forecast is the '
-               'de-vigged morning price, only fixtures where researched team news moved it '
-               'off that price have a view of their own to test.</p>')
-
-    return (f'<div class="callout"><strong>Timing &mdash; morning price versus close '
-            f'({mt["closing_n"]} fixtures).</strong> Forecasting at 07:00 rather than at '
-            f'kick-off: {cost_txt} (Brier {mt.get("brier_at_close_subset")} against '
-            f'{mt.get("brier_close")}). Average movement between the two: {drift_txt} per '
-            f'outcome. Closing odds come from football-data.co.uk, which archives both the '
-            f'opening and closing price for every fixture &mdash; they cannot be captured '
-            f'live, because the market settles at full time.</div>{clv}')
 
 
 CSS = """
@@ -450,9 +431,9 @@ main{padding:8px clamp(16px,4vw,40px) 60px;max-width:1240px;margin:0 auto}
 .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
 .card.has-edge{border-color:var(--claret)}
-.card-top{display:flex;justify-content:space-between;align-items:center}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .kickoff{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--text-muted)}
-.badge{font-family:"JetBrains Mono",monospace;font-size:10.5px;background:var(--claret-soft);color:var(--claret-ink);border-radius:999px;padding:3px 9px}
+.badge{font-family:"JetBrains Mono",monospace;font-size:10.5px;background:var(--claret-soft);color:var(--claret-ink);border-radius:999px;padding:3px 9px;white-space:nowrap}
 .teams{font-size:21px;line-height:1.1;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .vs{font-family:"Public Sans",sans-serif;font-weight:400;font-size:13px;color:var(--text-muted)}
 .pick{font-size:13px;color:var(--text-secondary)}.pick strong{color:var(--text-primary)}
@@ -494,7 +475,7 @@ footer h3{font-size:15px;color:var(--text-secondary);margin-bottom:6px}footer p{
 """
 
 
-def render(date_str, rows, mt, log, notes=""):
+def render(date_str, rows, mt, log, notes="", ratings=None):
     by_div = {d: [] for d in DIVISION_ORDER}
     for r in rows:
         if not r.get("postponed"):
@@ -505,24 +486,38 @@ def render(date_str, rows, mt, log, notes=""):
         ms = by_div.get(d) or []
         if not ms:
             continue
-        edges = sum(1 for m in ms if m["value_flag"])
+        flags = sum(1 for m in ms if m["value_flag"])
         sections += f"""
     <section class="division" id="{d.lower().replace(' ', '-')}">
       <div class="division-head"><div class="division-title">
         <span class="division-eyebrow">{DIVISION_SUB.get(d,'')}</span><h2>{esc(d)}</h2></div>
-        <div class="division-meta">{len(ms)} fixture{'s' if len(ms)!=1 else ''} &middot; {edges} flagged edge{'s' if edges!=1 else ''}</div></div>
+        <div class="division-meta">{len(ms)} fixture{'s' if len(ms)!=1 else ''} &middot; {flags} disagree with market by {DIVERGENCE_PP:.0f}pp+</div></div>
       <div class="card-grid">{''.join(match_card(m) for m in ms)}</div>
     </section>"""
     sections += track_section(mt)
 
     played = [r for r in rows if not r.get("postponed")]
-    total_edges = sum(1 for r in played if r["value_flag"])
+    total_flags = sum(1 for r in played if r["value_flag"])
     pp = [r for r in rows if r.get("postponed")]
     pp_note = ("<div class='callout'><strong>Postponed:</strong> " +
                ", ".join(f"{esc(r['home'])} v {esc(r['away'])} ({esc(r['league'])})" for r in pp) +
                " &mdash; excluded from today's board.</div>") if pp else ""
-    no_fx = "<div class='callout'><strong>No fixtures today</strong> across the Premier League, Championship, League One or League Two. The Track Record below still reflects all previously graded forecasts.</div>" if not played else ""
+    no_fx = ("<div class='callout'><strong>No fixtures today</strong> across the four English divisions. "
+             "The Track Record below still reflects all previously graded forecasts.</div>"
+             if not played else "")
     notes_html = f"<div class='callout'>{esc(notes)}</div>" if notes else ""
+
+    stale = ""
+    if ratings and ratings.get("fitted_on"):
+        try:
+            age = (datetime.now(timezone.utc).date()
+                   - datetime.strptime(ratings["fitted_on"], "%Y-%m-%d").date()).days
+            if age > 21:
+                stale = (f"<div class='callout'><strong>Ratings are {age} days old.</strong> "
+                         f"The model's accuracy decays materially as ratings age &mdash; its gap to the "
+                         f"market roughly doubles between fresh and three months stale. Run fit_model.py.</div>")
+        except Exception:
+            pass
 
     nav = "".join(f'<a href="#{d.lower().replace(" ","-")}" class="pill">{esc(d)} '
                   f'<span class="pill-count">{len(by_div.get(d) or [])}</span></a>'
@@ -530,6 +525,10 @@ def render(date_str, rows, mt, log, notes=""):
     nav += '<a href="#track-record" class="pill pill-track">Track Record</a>'
 
     stamp = datetime.now(timezone.utc).strftime("%d %b %Y %H:%M UTC")
+    fit_line = ""
+    if ratings and ratings.get("fitted_on"):
+        fit_line = (f' Ratings fitted on data to {esc(ratings["fitted_on"])}'
+                    f' from {ratings.get("n_matches", "?")} matches.')
 
     return f"""<title>Fixture Edge</title>
 <style>{CSS}</style>
@@ -537,40 +536,34 @@ def render(date_str, rows, mt, log, notes=""):
 <div class="top">
   <div class="top-row">
     <div class="brand">
-      <span class="brand-eyebrow">English Football &middot; Match Day Probabilities</span>
+      <span class="brand-eyebrow">English Football &middot; Independent Match Forecasts</span>
       <h1>Fixture Edge</h1>
       <span class="date-line">{esc(date_str)}</span>
     </div>
     <div class="summary-stats">
       <div class="stat"><div class="num mono">{len(played)}</div><div class="label">Fixtures</div></div>
-      <div class="stat"><div class="num mono">{total_edges}</div><div class="label">Flagged edges</div></div>
+      <div class="stat"><div class="num mono">{total_flags}</div><div class="label">Disagree with market</div></div>
       <div class="stat"><div class="num mono">{mt['final_count']}</div><div class="label">Graded to date</div></div>
     </div>
   </div>
   <nav class="nav">{nav}</nav>
-  <div class="filter-row"><label><input type="checkbox" id="edge-filter"> Show flagged edges only</label></div>
+  <div class="filter-row"><label><input type="checkbox" id="edge-filter"> Show only fixtures where the model disagrees with the market</label></div>
 </div>
-<main>{no_fx}{pp_note}{notes_html}{sections}</main>
+<main>{stale}{no_fx}{pp_note}{notes_html}{sections}</main>
 <footer>
-  <h3>Methodology, and what this tool does not claim</h3>
-  <p>The headline probability for each fixture is the de-vigged best available UK bookmaker price &mdash;
-  the overround stripped out proportionally so the three outcomes sum to 100%. It is shown as the forecast
-  because the evidence says it is the best forecast available.</p>
-  <p>A Dixon-Coles model is also computed and shown alongside it: attack and defence ratings fitted to four
-  seasons of results across all four English divisions on one shared scale, with time-decay weighting and a
-  home-advantage term. It is displayed for comparison, and used as a fallback when a fixture has no quoted
-  price. It is deliberately given <strong>zero weight</strong> in the forecast. A walk-forward backtest over
-  5,103 out-of-sample matches swept the model's blend weight from 0 to 100%: accuracy was best at zero and
-  got monotonically worse with every increase (Brier 0.6126 at 0% model, 0.6255 at 100%). Closing odds
-  absorb team news, line-ups and sharp money that a goals-based model never sees.</p>
-  <p><strong>What that means for "edges".</strong> Because the forecast starts from the market, an outcome is
-  only flagged when researched team news &mdash; an injury, a suspension, rotation risk before a midweek
-  cup tie &mdash; gives a concrete reason to move off the price, by {EDGE_THRESHOLD:.0f} percentage points
-  or more. Those flags are the one place this tool tries to add something the morning price may not have
-  absorbed yet, and the Track Record section is the honest scoreboard for whether they ever actually pay.
-  Where the model simply disagrees with the market, that shows in the comparison column and is not dressed
-  up as a betting signal. Nothing here is a tip, and no claim is made that this beats the bookmakers.</p>
-  <p>Generated {stamp}. Odds and team news move quickly &mdash; this is a morning snapshot, not a live feed.</p>
+  <h3>What this forecast is, and what it is not</h3>
+  <p>The headline probability for each fixture is <strong>this tool's own model</strong>: Dixon-Coles
+  attack and defence ratings fitted across all four English divisions on one shared scale, combining a
+  goals-based and a shots-on-target-based fit, with exponential time-decay weighting and a home-advantage
+  term.{fit_line} The bookmaker price sits beside it as a benchmark, not as the answer.</p>
+  <p><strong>The market is the more accurate forecaster, and this tool publishes the other one.</strong>
+  On walk-forward backtesting over 5,103 out-of-sample matches the model scored a Brier of 0.6249 against
+  the de-vigged market's 0.6126, picking the right outcome 47.3% of the time against 49.1%. That gap is
+  the price of having an independent opinion: one that can be measured, criticised and improved, rather
+  than a restatement of the odds. Where the model disagrees with the market, that disagreement is the
+  tool's output &mdash; it is <em>not</em> a betting signal, and the Track Record above is the honest
+  scoreboard for who tends to be right when the two part company.</p>
+  <p>Nothing here is a tip, and no claim is made that this beats the bookmakers. Generated {stamp}.</p>
 </footer>
 <script type="application/json" id="fixture-edge-log">{json.dumps(log, separators=(',', ':'))}</script>
 <script>
@@ -599,16 +592,10 @@ def main():
         log = []
 
     rows = build_predictions(today, ratings)
-
     date_str = today["date"]
 
     def fixture_key(date, league, home, away):
-        """Identity of a fixture, independent of how the club was spelled.
-
-        Research returns names inconsistently -- "Cardiff" one run, "Cardiff City"
-        the next -- so a literal key logs the same match twice. Resolve through the
-        ratings names where possible, and fall back to an aggressive squash."""
-        known = ratings["teams"]
+        known = ratings.get("teams", [])
 
         def canon(name):
             r, _ = fe_teams.resolve(name, known)
@@ -618,14 +605,12 @@ def main():
             n = re.sub(r"\s+(fc|afc|town|city|united|rovers|wanderers|athletic|county|albion)$", "", n)
             return re.sub(r"\s+", "", n)
 
-        lg = re.sub(r"[^a-z0-9]", "", str(league).lower())
-        return f"{date}|{lg}|{canon(home)}|{canon(away)}"
+        return f"{date}|{re.sub(r'[^a-z0-9]', '', str(league).lower())}|{canon(home)}|{canon(away)}"
 
     existing = set()
     for m in log:
         if isinstance(m, dict) and m.get("date"):
-            existing.add(fixture_key(m["date"], m.get("league", ""),
-                                     m.get("home", ""), m.get("away", "")))
+            existing.add(fixture_key(m["date"], m.get("league", ""), m.get("home", ""), m.get("away", "")))
 
     for r in rows:
         if r.get("postponed"):
@@ -639,7 +624,7 @@ def main():
             "away": r["away"], "kickoff": r["kickoff"], "model_pct": r["final_pct"],
             "model_raw_pct": r["model_pct_raw"], "market_pct": r["market_pct"],
             "odds_dec": r["odds_dec"], "value_flag": r["value_flag"],
-            "edge_outcome": r["edge_outcome"], "edge_odds_dec": r["edge_odds_dec"],
+            "edge_outcome": None, "edge_odds_dec": None,
             "status": "pending", "result": None, "score": None,
         })
 
@@ -649,10 +634,11 @@ def main():
     except Exception:
         pretty = date_str
 
-    html_out = render(pretty, rows, mt, log, today.get("notes", ""))
+    html_out = render(pretty, rows, mt, log, today.get("notes", ""), ratings)
     open(out_p, "w").write(html_out)
     json.dump(log, open(newlog_p, "w"), indent=1)
-    print(f"wrote {out_p} ({len(html_out)} bytes) | fixtures {len(rows)} | log {len(log)} | graded {mt['final_count']}")
+    print(f"wrote {out_p} ({len(html_out)} bytes) | fixtures {len(rows)} | log {len(log)} "
+          f"| graded {mt['final_count']} | disagreements today {sum(1 for r in rows if r.get('value_flag'))}")
 
 
 if __name__ == "__main__":

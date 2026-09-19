@@ -3,7 +3,7 @@
 **Read this first.** Scheduled runs are fresh sessions with no memory of the
 conversation that built them. Anything not written down here is lost.
 
-Last updated: 2026-09-05 (network set to Full)
+Last updated: 2026-09-19 (model-led rebuild)
 
 ## What this is
 
@@ -115,6 +115,37 @@ Note that GITHUB_PAT was deliberately removed from the environment variables on
 writes to it are refused anyway, and removing the only credential is what makes
 Full egress a sensible trade for a job that reads untrusted web pages daily.
 Do not reintroduce it without a reason.
+
+## 2026-09-19: the forecast is now the MODEL, not the market
+
+The tool previously published the de-vigged market price as its forecast. That was
+a correct fix for an earlier problem (edges flagged from model-vs-market noise) but
+it overshot: it removed the tool's independent opinion entirely, and a forecast that
+IS the market price cannot identify value against the market. On the user's
+instruction the design is reversed.
+
+**Now:** the headline forecast is the model. The market is shown beside it as a
+benchmark. Where they differ by 10pp or more the card is flagged as a disagreement
+-- explicitly NOT as a betting signal, because the evidence says the market is the
+better forecaster.
+
+**The model** is Dixon-Coles ratings on one cross-division scale, blending a
+goals fit and a shots-on-target fit at weight 0.4/0.6. See MODEL.md for what was
+tested, what was rejected (per-club home advantage: worse) and the numbers.
+
+**Staleness is the dominant error source** -- bigger than any structural change
+tested, by roughly 24x. fit_model.py must run weekly. Ratings had gone 118 days
+without a refit before this rebuild, which is why the live gap to the market
+(0.023) was double the backtest gap (0.012).
+
+**The history was rescued, not reset.** `model_raw_pct` had recorded the model's
+own prediction all along, so extract_log.py migrates old entries to score the model
+honestly over the full history rather than discarding 90 graded fixtures.
+
+**Live position as at the rebuild** (90 graded, 52 with odds): model Brier 0.587 /
+53.8% hit, market 0.564 / 57.7%. On the 11 fixtures where they disagreed by 10pp+,
+model 0.710 vs market 0.619 -- the market was better precisely where the model spoke
+loudest. Small sample, but that is the number to watch.
 
 ## Closing odds and CLV (added 2026-09-06)
 

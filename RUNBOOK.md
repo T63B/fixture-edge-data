@@ -51,6 +51,31 @@ A results page per division for the relevant date usually settles several at onc
 Best effort only — anything you cannot confirm quickly stays pending. This must
 never block the rest of the run.
 
+## 2b. Refit the model if the ratings are stale
+
+```bash
+python3 -c "import json,datetime;r=json.load(open('ratings.json'));d=(datetime.date.today()-datetime.date.fromisoformat(r['fitted_on'])).days;print(d)"
+```
+
+If that prints more than 7, refit:
+
+```bash
+timeout 600 python3 fit_model.py
+```
+
+Expect `FIT OK`. This pulls the current season from football-data.co.uk and
+refits on history plus this season.
+
+**Do not skip this.** Stale ratings are the single largest error source in the
+model -- its gap to the market roughly doubles between fresh and three months old
+(see MODEL.md). It matters about twenty-four times more than any structural tweak
+that has been tested. If the download fails, fit_model.py says so and falls back to
+history alone; note it in your summary, because the forecasts will be degraded.
+
+Note the refit writes ratings.json, which CANNOT be pushed back (this repo is
+read-only from the sandbox). That is fine -- the refit is cheap and runs again
+tomorrow. The committed ratings.json is only a starting point.
+
 ## 2c. Attach closing odds
 
 ```bash
