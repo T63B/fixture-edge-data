@@ -161,4 +161,9 @@ def main():
     print("EXTRACT OK: %d entries recovered (%d final, %d pending)%s -> %s"
           % (len(log), final, pending, extra, out))
 
-main()
+
+# db_sync.py imports dedupe() and write_floor() from here, so the script must
+# not run when it is imported -- without this guard it ran main() on the
+# importer's argv and aborted the run with a confusing EXTRACT FAILED.
+if __name__ == "__main__":
+    main()

@@ -18,7 +18,7 @@ on `$GITHUB_PAT` -- it may not be set, and it grants nothing the sandbox can use
 If git is blocked, fall back to the contents API per file (`GET /repos/T63B/fixture-edge-data/contents/<file>`,
 base64-decode the `content` field, and keep the `sha` for writing back).
 
-## 1b. Recover the log from the published page
+## 1b. Recover the log (database first, page as backup)
 
 **The repo is READ-ONLY from the scheduled sandbox.** Clone works; every write is
 refused, `git push` and the GitHub contents API alike. This is a permission tier
@@ -29,13 +29,32 @@ So the log does not live in the repo. It lives in the published page. `generate.
 embeds the entire log in a `<script id="fixture-edge-log">` block, so yesterday's
 page holds the full history, and publishing today's page is what persists it.
 
-Recover it like this:
+### The database is the primary copy; the page is the backup
+
+Since 29 Sep 2026 the log ALSO lives in the artifact's own database, which
+publishing cannot touch. That is the primary store. The copy embedded in the
+page is kept as a second, independent copy, so either can rebuild the other.
+
+Recover from the database like this:
+
+1. `ArtifactData` `list`, collection `log`, `out_dir` `dbdocs`, on the dashboard
+   URL in README.md. It saves one JSON file per month under `dbdocs/log/` and
+   the result lists each document's **version** — write those down, they are
+   needed to write back.
+2. `python3 db_sync.py merge dbdocs log.json`
+
+Expect `DB MERGE OK`. If it says the database holds no log documents and this is
+not the first run after the migration, STOP: something is wrong, and writing an
+empty log back would defeat the whole point of having two copies.
+
+Recover from the page only if the database read fails:
 
 1. Use the Artifact tool's `read` action on the dashboard URL in README.md and save
    the returned HTML to `prev.html`.
 2. `python3 extract_log.py prev.html log.json`
 
-You should see a line beginning `EXTRACT OK`.
+You should see a line beginning `EXTRACT OK`. If BOTH stores fail to read, end the
+run and publish nothing.
 
 **If it prints `EXTRACT FAILED` and exits 2, the run stops there. Do not publish.**
 This is not a speed bump to route around, and there is no fallback that preserves
@@ -56,6 +75,26 @@ generate.py refuses to build a page with fewer than that, so even if something
 clobbers `log.json` later in the run, the short log cannot reach the artifact.
 If generate.py prints `ABORT: the log has N entries but the previously published
 page had M`, the same rule applies: stop, diagnose, publish nothing.
+
+### Writing the log back to the database
+
+Do this AFTER generate.py has produced `new_log.json`, and BEFORE or after the
+publish — but never skip it, or the two copies drift apart:
+
+1. `python3 db_sync.py split new_log.json writeback --since=<the current month>`
+   It writes one `writeback/<YYYY-MM>.json` per month and prints them. Older
+   months normally do not change; include one only if a late result was graded
+   into it, in which case drop `--since`.
+2. For each file, `ArtifactData` `set` with collection `log`, `doc_id` the
+   month, `file_path` the file, and `if_version` the version that month's
+   document showed in step 1 of the recovery. Use `batch` for more than one.
+   Omit `if_version` only for a month that does not exist in the database yet.
+3. If a write is refused with `version_mismatch`, something else wrote that
+   document. Re-read the collection, merge again, and redo the write. Do not
+   force it.
+
+Then `python3 db_sync.py check dbdocs new_log.json` as a final assurance that
+the database is not behind the page.
 
 `log.json` in the repo is a stale artefact of an earlier design. Ignore it.
 
@@ -197,19 +236,24 @@ Requires numpy, scipy, pandas. If a dependency is missing, `pip install` it.
 Publish `out.html` to the artifact URL in `README.md`, passing that URL so it
 updates in place. Keep the title "Fixture Edge" and omit the favicon parameter.
 
-The log is persisted **by the publish itself** -- `out.html` contains the updated
-log in its `fixture-edge-log` block. There is nothing further to commit, and no
-write to GitHub is possible or needed.
+**The page declares the `db` capability.** Omit `capabilities` on the publish and
+the stored declaration carries forward unchanged, which is what you want. Do NOT
+pass `capabilities: {}` — that clears it and takes the database away from the page.
 
-This makes the publish the single critical step of the run. If it fails, the day's
-predictions AND the accumulated history are both lost, so confirm it succeeded and
-say plainly in your summary if it did not.
+The log is persisted twice: by the write-back to the database (section above) and
+by the publish itself, since `out.html` carries the log in its `fixture-edge-log`
+block. No write to GitHub is possible or needed.
+
+If the publish fails, today's forecasts are lost but the history is not, provided
+the database write-back succeeded. Do the write-back even on a run whose publish
+failed.
 
 ## 7. Verify before finishing
 
 - `out.html` was published and the tool returned the same artifact URL.
-- The publish returned the same artifact URL, and the page now shows today's date.
 - The page's date line reads today's date.
+- Every month document that changed was written back, and `db_sync.py check`
+  reported `DB CHECK OK`.
 
 If publishing failed, say so plainly in the run summary. **Do not report success
 without a confirmed publish** — a run that finishes in under a minute has not

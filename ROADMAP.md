@@ -15,6 +15,11 @@ sensible it sounds.
   the goals fit at 0.4/0.6. A small gain, and dwarfed by staleness.
 * **Time-decay half-life — swept.** 365 days is at or near the optimum
   (180 → 0.6427, 730 → 0.6414). No further tuning warranted.
+* **Log durability — done, 29 Sep 2026.** The log lives in the artifact's
+  database as well as in the page, so publishing can no longer destroy it. See
+  PROJECT_STATE.md. This was the highest-priority item on this list and it was
+  not a modelling one: an accurate model with no track record is worth less
+  than a mediocre one whose record survives.
 
 ## Queued
 
@@ -35,17 +40,6 @@ sensible it sounds.
    Clubs arriving from the National League have no rating at all and currently
    fall back to market-only. A prior based on their non-league record, or on the
    average rating of recently promoted clubs, would be better than nothing.
-
-4. **Move the log into the artifact database.** *(highest priority — durability,
-   not accuracy)*
-   The log lives inside the published page, so the page is the only copy and
-   every publish overwrites it. That cost 133 graded fixtures on 26-28 Sep 2026.
-   Guards now stop a run publishing over the history, but one copy is still one
-   copy. Giving the page the `db` capability and keeping log entries as rows the
-   ArtifactData tool reads and writes would separate the record from the page
-   entirely, so neither a failed read nor a bad publish could touch it. Do this
-   before any further modelling work: an accurate model with no track record is
-   worth less than a mediocre one whose record survives.
 
 ## Standing principle
 

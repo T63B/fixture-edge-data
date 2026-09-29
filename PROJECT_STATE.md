@@ -67,10 +67,31 @@ cheap and recoverable; overwriting the record is neither. Any failure in the
 history path must stop the run, never degrade it. Do not reintroduce a silent
 fallback to an empty log, however reasonable it looks in isolation.
 
-The remaining structural weakness is that there is still only one copy. The
-better fix is to move the log out of the page into the artifact's own database
-(the `db` capability plus the ArtifactData tool), where publishing cannot
-overwrite it. Not yet done -- see ROADMAP.md.
+### The second copy, added 29 Sep 2026
+
+The guards narrow the failure; they do not add redundancy. So the log now also
+lives in the artifact's own database, which publishing cannot touch, and that is
+the primary store. The page keeps its embedded copy as an independent backup.
+Either can rebuild the other.
+
+* The published page declares `capabilities: {db: {}}`. A publish that omits
+  `capabilities` carries the declaration forward; passing `{}` would remove it.
+* Collection `log`, one document per calendar month, id `YYYY-MM`, body
+  `{"month", "count", "fixtures": [...]}`. One document per fixture would be
+  wrong -- the database caps at 5,000 documents and this stream grows forever.
+  Monthly buckets are about a dozen documents a year, each well inside the
+  256 KiB document limit.
+* `db_sync.py merge|split|check` converts between that shape and `log.json`.
+  It reuses `dedupe()` and `write_floor()` from extract_log.py, which is why
+  extract_log.py's `main()` now sits behind an `if __name__` guard.
+* Writes pin `if_version` to the version read at the start of the run, so a
+  concurrent write is refused rather than silently overwriting.
+
+Verified end to end against the live artifact on 29 Sep 2026: write, read with
+`out_dir` (the listing reports each document's version), merge, split, pinned
+write-back, and a stale pin correctly refused. A write at `as_level: "view"` is
+also refused, so a view-only viewer could not damage the log if the artifact is
+ever shared.
 
 **Still unverified at time of writing:** whether a scheduled run can successfully
 perform the Artifact `read`. The allowed-domains entry for
