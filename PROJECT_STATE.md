@@ -41,6 +41,37 @@ from the sandbox. `log.json` in this repo is a stale leftover -- ignore it.
 This makes the publish the single point of failure for the whole tool: it carries
 both the day's forecasts and all accumulated history.
 
+### That single point of failure fired, on 26-28 Sep 2026
+
+A run could not read the previous page. extract_log.py, as written at the time,
+treated "no log block found" as "this must be the first run", wrote an empty
+array and let the run continue. The run then published -- and because publishing
+overwrites the page, and the page was the only copy, **133 graded fixtures from
+29 Aug to 25 Sep were destroyed.** Nothing in the repo held a copy; the archive
+here only covers 29-30 Aug.
+
+The code fault was a convenience for day one that became a demolition charge by
+day thirty. Fixed 29 Sep 2026:
+
+* `extract_log.py` now exits 2 and writes no output file on any failure -- block
+  missing, unparseable, or shorter than the count the page declares. The run
+  stops before it can publish. `--allow-empty` opts back into the old behaviour
+  and exists only for bootstrapping a genuinely new page.
+* `generate.py` embeds `data-count` on the log block, so a truncated read is
+  detectable rather than silent, and refuses to build a page with fewer entries
+  than `log_floor.txt` records (written by extract_log.py) unless
+  `--allow-log-shrink` is passed.
+
+**The principle, for anyone changing this later:** losing a day of forecasts is
+cheap and recoverable; overwriting the record is neither. Any failure in the
+history path must stop the run, never degrade it. Do not reintroduce a silent
+fallback to an empty log, however reasonable it looks in isolation.
+
+The remaining structural weakness is that there is still only one copy. The
+better fix is to move the log out of the page into the artifact's own database
+(the `db` capability plus the ArtifactData tool), where publishing cannot
+overwrite it. Not yet done -- see ROADMAP.md.
+
 **Still unverified at time of writing:** whether a scheduled run can successfully
 perform the Artifact `read`. The allowed-domains entry for
 `*.frame.claudeusercontent.com` is in place and reads work in principle, but no

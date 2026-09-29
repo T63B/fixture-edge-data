@@ -13,9 +13,23 @@ Usage:
     python3 extract_log.py <saved_page.html> [out.json]
 
 Writes the log array to out.json (default log.json) and prints a summary line.
-Exits 0 with an empty array if no block is found, so a first run still proceeds.
+
+FAILURE IS FATAL, DELIBERATELY. This script used to shrug off a missing or
+unreadable log block and carry on with an empty array, on the reasoning that a
+first run has no history to lose. That convenience destroyed the track record:
+between 26 and 28 Sep 2026 a scheduled run could not read the previous page,
+started from nothing, published it, and erased 133 graded fixtures -- and since
+every publish overwrites the page, and the page is the only copy, there was no
+way back. So any failure now exits 2 and writes no output file, which stops the
+run before it can publish over the history. Losing a day of forecasts is cheap;
+losing the record is not. Pass --allow-empty only to bootstrap a genuinely new
+page from nothing.
+
+It also writes log_floor.txt beside the output: the number of entries recovered.
+generate.py refuses to build a page with fewer than that, so a log that is
+emptied or truncated after this point still cannot reach the artifact.
 """
-import json, re, sys
+import json, os, re, sys
 
 def _squash(name):
     """Reduce a club name to a comparable core: 'Cardiff City' -> 'cardiff'."""
@@ -74,37 +88,73 @@ def migrate_methodology(log):
     return n
 
 
+def write_floor(out, n):
+    """Record how many entries were recovered, for generate.py's shrink guard."""
+    path = os.path.join(os.path.dirname(os.path.abspath(out)) or ".", "log_floor.txt")
+    open(path, "w").write(str(n))
+
+
+def fail(msg):
+    """Stop the run. No output file is written, so nothing downstream can publish."""
+    print("EXTRACT FAILED: %s" % msg)
+    print("STOP HERE. Do not publish: the page is the only copy of the track record,")
+    print("and publishing a page built without it would erase the history for good.")
+    print("Diagnose the read (artifact URL, permissions, network) and re-run.")
+    print("Only if this is a deliberately fresh page, re-run with --allow-empty.")
+    sys.exit(2)
+
+
 def main():
-    src = sys.argv[1]
-    out = sys.argv[2] if len(sys.argv) > 2 else "log.json"
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    allow_empty = "--allow-empty" in sys.argv
+    src = args[0]
+    out = args[1] if len(args) > 1 else "log.json"
+
+    def bootstrap(reason):
+        if not allow_empty:
+            fail(reason)
+        print("EXTRACT: %s -- starting from an empty log (--allow-empty given)" % reason)
+        json.dump([], open(out, "w"))
+        write_floor(out, 0)
+        sys.exit(0)
+
     try:
         html = open(src, encoding="utf-8", errors="replace").read()
     except OSError as e:
-        print("EXTRACT: could not read %s (%s) -- starting from an empty log" % (src, e))
-        json.dump([], open(out, "w"))
-        return
+        bootstrap("could not read %s (%s)" % (src, e))
 
     m = re.search(
         r'<script[^>]*id=["\']fixture-edge-log["\'][^>]*>(.*?)</script>',
         html, re.DOTALL)
     if not m:
-        print("EXTRACT: no fixture-edge-log block found -- starting from an empty log")
-        json.dump([], open(out, "w"))
-        return
+        bootstrap("no fixture-edge-log block found in %s" % src)
 
     try:
         log = json.loads(m.group(1).strip())
         if not isinstance(log, list):
             raise ValueError("not a list")
     except Exception as e:
-        print("EXTRACT: log block present but unparseable (%s) -- starting empty" % e)
-        json.dump([], open(out, "w"))
-        return
+        # A truncated or corrupted page is NOT a reason to start over -- it is the
+        # exact shape of the failure that cost the record once already.
+        fail("the log block is present but unparseable (%s). The page was probably "
+             "truncated or partially read; the history is likely still intact in the "
+             "artifact, so retry the read rather than rebuilding from nothing." % e)
+
+    # The page declares how many entries it carries. If we parsed fewer, the read
+    # was short even though the JSON happened to close cleanly.
+    declared = re.search(r'data-count=["\'](\d+)["\']', m.group(0))
+    if declared:
+        n = int(declared.group(1))
+        if len(log) < n:
+            fail("the page declares %d log entries but only %d parsed -- the read was "
+                 "truncated. The history is intact in the artifact; retry the read."
+                 % (n, len(log)))
 
     log, removed = dedupe(log)
     migrated = migrate_methodology(log)
 
     json.dump(log, open(out, "w"), indent=1)
+    write_floor(out, len(log))
     pending = sum(1 for x in log if x.get("status") == "pending")
     final = sum(1 for x in log if x.get("status") == "final")
     extra = ("" if not migrated else " (%d rescored to the model)" % migrated) + " (%d duplicate%s dropped)" % (removed, "" if removed == 1 else "s") if removed else ("" if not migrated else " (%d rescored to the model)" % migrated)

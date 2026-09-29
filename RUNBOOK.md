@@ -35,9 +35,27 @@ Recover it like this:
    the returned HTML to `prev.html`.
 2. `python3 extract_log.py prev.html log.json`
 
-You should see a line beginning `EXTRACT OK`. If the read fails or no block is
-found, extract_log.py writes an empty log and the run continues -- but say so
-clearly in your summary, because it means that day's history is starting over.
+You should see a line beginning `EXTRACT OK`.
+
+**If it prints `EXTRACT FAILED` and exits 2, the run stops there. Do not publish.**
+This is not a speed bump to route around, and there is no fallback that preserves
+the record -- publishing overwrites the page, and the page is the only copy of the
+log, so a page built without the history erases it permanently. That is not a
+hypothetical: between 26 and 28 Sep 2026 a run could not read the previous page,
+started from an empty log, published it, and destroyed 133 graded fixtures. Losing
+one day of forecasts costs a day. Publishing over the log costs everything.
+
+So when extract fails: retry the artifact read (a truncated or partial read is the
+usual cause), check the URL in README.md is right, and check the network. If it
+still fails, end the run, publish nothing, and report exactly what the read did.
+`--allow-empty` exists only for deliberately starting a brand-new page from
+nothing, and must never be used to get an ordinary run unstuck.
+
+extract_log.py also writes `log_floor.txt` — the number of entries it recovered.
+generate.py refuses to build a page with fewer than that, so even if something
+clobbers `log.json` later in the run, the short log cannot reach the artifact.
+If generate.py prints `ABORT: the log has N entries but the previously published
+page had M`, the same rule applies: stop, diagnose, publish nothing.
 
 `log.json` in the repo is a stale artefact of an earlier design. Ignore it.
 

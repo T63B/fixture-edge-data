@@ -49,6 +49,7 @@ today.json schema:
 import html as _html
 import json
 import math
+import os
 import re
 import sys
 from datetime import datetime, timezone
@@ -565,7 +566,7 @@ def render(date_str, rows, mt, log, notes="", ratings=None):
   scoreboard for who tends to be right when the two part company.</p>
   <p>Nothing here is a tip, and no claim is made that this beats the bookmakers. Generated {stamp}.</p>
 </footer>
-<script type="application/json" id="fixture-edge-log">{json.dumps(log, separators=(',', ':'))}</script>
+<script type="application/json" id="fixture-edge-log" data-count="{len(log)}">{json.dumps(log, separators=(',', ':'))}</script>
 <script>
 (function(){{var cb=document.getElementById('edge-filter'),cards=document.querySelectorAll('.card');
 cb.addEventListener('change',function(){{cards.forEach(function(c){{
@@ -590,6 +591,29 @@ def main():
             log = []
     except Exception:
         log = []
+
+    # HISTORY GUARD. Publishing overwrites the page, and the page is the only
+    # copy of the log, so a run that publishes fewer entries than the last one
+    # destroys history irreversibly. That is not hypothetical: between 26 and
+    # 28 Sep 2026 a run failed to read the previous page, fell back to an empty
+    # log and published it, erasing 133 graded fixtures. extract_log.py records
+    # the number of entries it recovered in log_floor.txt; refuse to build a
+    # page that would shrink the record. Better to lose a day of forecasts than
+    # a month of track record.
+    floor_p = os.path.join(os.path.dirname(os.path.abspath(log_p)) or ".", "log_floor.txt")
+    floor = None
+    if os.path.exists(floor_p):
+        try:
+            floor = int(open(floor_p).read().strip())
+        except Exception:
+            floor = None
+    if floor is not None and len(log) < floor and "--allow-log-shrink" not in sys.argv:
+        sys.exit(
+            "ABORT: the log has %d entries but the previously published page had %d.\n"
+            "Publishing now would erase %d fixtures of track record permanently.\n"
+            "Do NOT publish. Work out why the log shrank (usually a failed artifact\n"
+            "read) and re-run. If the shrink is genuinely intended, pass --allow-log-shrink."
+            % (len(log), floor, floor - len(log)))
 
     rows = build_predictions(today, ratings)
     date_str = today["date"]
