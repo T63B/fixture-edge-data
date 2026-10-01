@@ -18,6 +18,36 @@ on `$GITHUB_PAT` -- it may not be set, and it grants nothing the sandbox can use
 If git is blocked, fall back to the contents API per file (`GET /repos/T63B/fixture-edge-data/contents/<file>`,
 base64-decode the `content` field, and keep the `sha` for writing back).
 
+## 1a. Leave breadcrumbs, so a silent failure can be diagnosed
+
+Do this immediately after the clone, and update it as you go. The scheduler
+reports a run as SUCCEEDED whenever the session ends without throwing, which is
+NOT the same as the job being done: on 1 Oct 2026 two runs reported success,
+took 45 and 81 seconds, and published nothing at all. Nothing in the run was
+recoverable afterwards, because a finished session leaves no trace this project
+can read. So the run records its own progress in the database, which outlives it.
+
+At the start, `ArtifactData` `set` on collection `status`, doc_id `last_run`:
+
+    {"started": "<ISO timestamp>", "stage": "started", "trigger": "scheduled",
+     "notes": []}
+
+Then after each step below, `update` the same document with the stage reached,
+pinning `if_version` to the version the last write returned:
+
+    cloned -> log_recovered -> graded -> refitted -> enriched -> researched
+    -> generated -> db_written -> published
+
+Add a short line to `notes` whenever something is surprising — a blocked source,
+an empty fixture list, a refit that failed. On the final update include
+`"finished"`, the artifact version the publish returned, `"fixtures"`,
+`"log_entries"`, and `"ok": true`.
+
+If a later inspection finds `stage` short of `published`, that names the step
+that failed. This costs a handful of tool calls and is the only way anyone finds
+out where a dead run died. Do not skip it, and do not batch all the updates to
+the end — a breadcrumb written after the fact is worthless.
+
 ## 1b. Recover the log (database first, page as backup)
 
 **The repo is READ-ONLY from the scheduled sandbox.** Clone works; every write is

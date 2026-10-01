@@ -67,6 +67,26 @@ cheap and recoverable; overwriting the record is neither. Any failure in the
 history path must stop the run, never degrade it. Do not reintroduce a silent
 fallback to an empty log, however reasonable it looks in isolation.
 
+### Runs can fail silently, and the scheduler will call it success (1 Oct 2026)
+
+The 06:11 run on 1 Oct finished in 81 seconds and published nothing. A manual
+re-run at 17:59 finished in 45 seconds and also published nothing. Both were
+recorded as SUCCEEDED. The dashboard stayed on 30 Sep.
+
+The pipeline itself was not at fault: cloning the repo, merging the database
+documents into log.json, running generate.py and splitting the log back out all
+completed cleanly when reproduced by hand, in seconds, with no guard firing.
+So the failure is in the scheduled session -- its environment or its own
+decisions -- and a finished session leaves nothing this project can read.
+
+**Treat `ROUTINE_RUN_STATUS_SUCCEEDED` as "the session ended", never as "the job
+was done."** The only trustworthy evidence a run worked is the artifact's own
+updated-at date and the stage recorded in `status/last_run`.
+
+Hence RUNBOOK.md section 1a: every run now writes its progress to the database
+as it goes. The next silent failure will at least say which step it reached.
+Root cause still unknown as of 1 Oct 2026 -- do not claim it is fixed.
+
 ### The second copy, added 29 Sep 2026
 
 The guards narrow the failure; they do not add redundancy. So the log now also
