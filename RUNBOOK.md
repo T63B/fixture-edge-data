@@ -184,6 +184,31 @@ Run it every day. It is idempotent, skips fixtures already enriched, and costs f
 small file downloads. If the source is unreachable it says so and leaves the log
 untouched -- never let it block the rest of the run.
 
+## 2d. The reconstructed period (read once, then leave alone)
+
+`reconstruction.json` holds 29 Aug to 25 Sep 2026 rebuilt from archived results
+and odds, after the original 133 graded fixtures were destroyed on 26-28 Sep.
+`reconstruct.py` built it, week by week, refitting before each block.
+
+**You do not need to touch any of this on a normal run.** generate.py picks the
+file up automatically from the repo and renders it in its own "Rebuilt History"
+section. There is nothing to rebuild, re-read or write back.
+
+Two rules, and they are not negotiable:
+
+* **Never merge it into the log.** It is a backtest, not a record of what this
+  tool published. generate.py aborts if an entry carrying `reconstructed: true`
+  turns up in the live log, and that abort is correct -- find how it got there.
+* **Never quote its numbers as the tool's track record.** The live tool ran on
+  ratings up to 118 days stale through that period; the reconstruction refits
+  weekly, so it scores better than the tool really did. Its own section says so.
+
+Re-run `reconstruct.py` only if the method itself changes, and if you do, keep
+the walk-forward discipline: refit on matches strictly before each block, with
+the time-decay reference set to the preceding day. The script asserts this and
+will refuse to write output if it is ever broken. A reconstruction that has seen
+its own answers is worse than no reconstruction, because it looks fine.
+
 ## 3. Research today's fixtures
 
 Only England's Premier League, Championship, League One, League Two. Exclude

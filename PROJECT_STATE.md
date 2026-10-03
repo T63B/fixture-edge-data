@@ -67,6 +67,34 @@ cheap and recoverable; overwriting the record is neither. Any failure in the
 history path must stop the run, never degrade it. Do not reintroduce a silent
 fallback to an empty log, however reasonable it looks in isolation.
 
+### The lost period was reconstructed, and labelled as such (3 Oct 2026)
+
+The 133 fixtures destroyed on 26-28 Sep could not be recovered: artifact version
+history showed only two versions, today's and 30 Aug, so nothing from the 25 Sep
+end survived. The user asked for a rebuild anyway, clearly labelled, on the
+grounds it may be useful later. Agreed on that basis and built as
+`reconstruct.py` -> `reconstruction.json`, rendered in its own "Rebuilt History"
+section.
+
+What makes it honest rather than flattering:
+
+* Week-by-week walk-forward. Each Monday-anchored block is forecast by a model
+  refitted on matches strictly before that block, time-decay reference set to
+  the preceding day. The script asserts no leakage and refuses to write output
+  if the assertion fails.
+* Stored and rendered separately from the log. generate.py loads it from its own
+  file and ABORTS if a `reconstructed: true` entry appears in the live log.
+* Its own section states, before any number, that these forecasts were never
+  published and that every difference from the real thing flatters this version.
+
+Why it is not the track record, recorded here so nobody is tempted later: the
+live tool ran on ratings up to 118 days stale through that window and this
+refits weekly (the big one); the hand adjustments for team news are gone; the
+odds are the archive's opening best price rather than what was findable at
+07:00; and it contains every fixture played, which erases the tool's own missed
+fixtures. It is a backtest in the log's clothing. Useful for calibration work,
+worthless as a claim about what this tool achieved.
+
 ### The silent-run mystery: breadcrumbs worked, and found a different bug (3 Oct 2026)
 
 The 3 Oct run published cleanly (artifact v39) and left a full breadcrumb trail

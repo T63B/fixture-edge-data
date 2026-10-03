@@ -391,6 +391,95 @@ def track_section(mt):
     </section>"""
 
 
+def recon_section(bundle):
+    """The reconstructed period, walled off from the live record.
+
+    This exists because 133 graded fixtures were destroyed on 26-28 Sep 2026 and
+    rebuilding them from archived results and odds was the only way to get them
+    back at all. It is a backtest in the log's shape, NOT a record of what this
+    tool published, and it differs in ways that all flatter it -- most of all
+    because the live tool was running on ratings up to 118 days stale while this
+    refits every week.
+
+    So it gets its own section, its own numbers, and its own caveats, and
+    compute_metrics is never handed these fixtures together with the live log.
+    If you are tempted to merge the two for a bigger sample: don't. The Track
+    Record answers "what did this tool predict before kickoff, and how did it
+    do", and these fixtures cannot answer that.
+    """
+    if not bundle:
+        return ""
+    fixtures = [m for m in bundle.get("fixtures", []) if m.get("reconstructed")]
+    if not fixtures:
+        return ""
+    mt = compute_metrics(fixtures)
+    w = bundle.get("window", {})
+    caveats = "".join(f"<li>{esc(c)}</li>" for c in bundle.get("caveats", []))
+
+    verdict = ""
+    if mt["brier_market"] is not None and mt["brier_model"] is not None:
+        gap = mt["brier_model"] - mt["brier_market"]
+        verdict = (f'<span class="vs-market">model {abs(gap):.3f} '
+                   f'{"behind" if gap > 0 else "ahead of"} the market here</span>')
+
+    if mt["diverge_n"]:
+        who = ("the model" if mt["diverge_model_brier"] < mt["diverge_market_brier"]
+               else "the market")
+        div_block = (
+            f'<p class="note">On the {mt["diverge_n"]} reconstructed fixtures where the two '
+            f'disagreed by {DIVERGENCE_PP:.0f}pp or more, model Brier {mt["diverge_model_brier"]} '
+            f'against {mt["diverge_market_brier"]} &mdash; <strong>{who}</strong> read those better.</p>')
+    else:
+        div_block = ""
+
+    rows = "".join(f'<tr><td>{esc(d)}</td><td class="mono">{s["n"]}</td>'
+                   f'<td class="mono">{s["brier_model"]}</td>'
+                   f'<td class="mono">{s["hit_rate_model"]}%</td></tr>'
+                   for d, s in sorted(mt["by_division"].items(), key=lambda kv: -kv[1]["n"]))
+
+    blocks = bundle.get("blocks", [])
+    block_note = ""
+    if blocks:
+        block_note = (
+            f'<p class="note">Built in {len(blocks)} weekly blocks. For each one the model was '
+            f'refitted on matches strictly before that week, with the time-decay reference set to '
+            f'the preceding day, so no fixture was ever in its own training data '
+            f'(earliest block fitted to {esc(blocks[0]["fitted_to"])}, latest to '
+            f'{esc(blocks[-1]["fitted_to"])}). Built {esc(bundle.get("built_at", "&mdash;"))}.</p>')
+
+    return f"""
+    <section class="division recon" id="reconstructed">
+      <div class="division-head recon-head"><div class="division-title">
+        <span class="division-eyebrow recon-eyebrow">Reconstructed &mdash; not a live record</span>
+        <h2>Rebuilt History</h2></div>
+        <div class="division-meta">{esc(w.get('from', ''))} to {esc(w.get('to', ''))} &middot;
+        {mt['final_count']} fixtures &middot; {mt.get('compare_n', 0)} priced</div></div>
+
+      <div class="recon-warn">
+        <strong>Read this before reading the numbers.</strong> These forecasts were never published.
+        The 133 fixtures originally logged for this period were destroyed on 26&ndash;28 September 2026,
+        and this section rebuilds the period from archived results and odds. It is a backtest in the
+        log's shape, and it is <strong>not</strong> part of the Track Record above and is never averaged
+        into it. Every difference from the real thing makes this version look better:
+        <ul class="recon-caveats">{caveats}</ul>
+      </div>
+
+      <div class="track-grid">
+        <div class="track-stats">
+          <div class="tstat"><div class="tnum mono">{mt['brier_model']}</div><div class="tlabel">Reconstructed model Brier<br><span class="vs-market">market {mt['brier_market'] if mt['brier_market'] is not None else '&mdash;'} &middot; same {mt.get('compare_n', 0)} fixtures</span></div></div>
+          <div class="tstat"><div class="tnum mono">{mt['hit_rate_model']}%</div><div class="tlabel">Reconstructed top-pick hit rate<br><span class="vs-market">market {str(mt['hit_rate_market']) + '%' if mt['hit_rate_market'] is not None else '&mdash;'}</span></div></div>
+          <div class="tstat"><div class="tnum mono">{mt['diverge_n']}</div><div class="tlabel">Fixtures {DIVERGENCE_PP:.0f}pp+ apart<br>{verdict}</div></div>
+        </div>
+        <div class="calib-wrap">{calibration_svg(mt["calibration"]) or ""}
+          {block_note}{div_block}
+        </div>
+      </div>
+      <table class="odds-table division-table">
+        <thead><tr><th>Division</th><th>Fixtures</th><th>Model Brier</th><th>Hit rate</th></tr></thead>
+        <tbody>{rows}</tbody></table>
+    </section>"""
+
+
 CSS = """
 :root{color-scheme:light;--bg:#EEF1EC;--surface:#fff;--surface-2:#F5F7F3;--text-primary:#171B18;
 --text-secondary:#53594F;--text-muted:#7C8276;--border:#DCE1D6;--claret:#7A2036;--claret-ink:#5E1829;
@@ -473,10 +562,19 @@ main{padding:8px clamp(16px,4vw,40px) 60px;max-width:1240px;margin:0 auto}
 footer{max-width:1240px;margin:0 auto;padding:20px clamp(16px,4vw,40px) 60px;color:var(--text-muted);font-size:12px;border-top:1px solid var(--border)}
 footer h3{font-size:15px;color:var(--text-secondary);margin-bottom:6px}footer p{max-width:65ch}
 .card[data-edge="0"].filtered-hide{display:none}
+.recon{opacity:.92}
+.recon-head{border-bottom:2px dashed var(--text-muted)}
+.recon-eyebrow{color:var(--text-muted)!important}
+.recon-warn{background:var(--surface-2);border:1px dashed var(--text-muted);border-left:4px solid var(--text-muted);
+padding:14px 16px;border-radius:4px;font-size:13px;color:var(--text-secondary);margin:18px 0}
+.recon-caveats{margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:3px}
+.recon-caveats li{font-size:12.5px}
+.recon-caveats li::marker{color:var(--text-muted)}
+.pill-recon{border-style:dashed;color:var(--text-muted)}
 """
 
 
-def render(date_str, rows, mt, log, notes="", ratings=None):
+def render(date_str, rows, mt, log, notes="", ratings=None, recon=None):
     by_div = {d: [] for d in DIVISION_ORDER}
     for r in rows:
         if not r.get("postponed"):
@@ -496,6 +594,7 @@ def render(date_str, rows, mt, log, notes="", ratings=None):
       <div class="card-grid">{''.join(match_card(m) for m in ms)}</div>
     </section>"""
     sections += track_section(mt)
+    sections += recon_section(recon)
 
     played = [r for r in rows if not r.get("postponed")]
     total_flags = sum(1 for r in played if r["value_flag"])
@@ -524,6 +623,9 @@ def render(date_str, rows, mt, log, notes="", ratings=None):
                   f'<span class="pill-count">{len(by_div.get(d) or [])}</span></a>'
                   for d in DIVISION_ORDER if by_div.get(d))
     nav += '<a href="#track-record" class="pill pill-track">Track Record</a>'
+    if recon and recon.get("fixtures"):
+        nav += ('<a href="#reconstructed" class="pill pill-recon">Rebuilt History'
+                '<span class="pill-count">%d</span></a>' % len(recon["fixtures"]))
 
     stamp = datetime.now(timezone.utc).strftime("%d %b %Y %H:%M UTC")
     fit_line = ""
@@ -592,6 +694,35 @@ def main():
     except Exception:
         log = []
 
+    # The reconstructed period (29 Aug - 25 Sep 2026), rebuilt by reconstruct.py
+    # after the original log was destroyed. Loaded SEPARATELY and never merged
+    # into `log`: it is a backtest, not a record of what was published, and
+    # mixing the two would quietly corrupt the Track Record. Optional -- an
+    # absent or unreadable file simply means the section is not rendered.
+    recon = None
+    recon_p = (sys.argv[6] if len(sys.argv) > 6 and not sys.argv[6].startswith("--")
+               else os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                 "reconstruction.json"))
+    if os.path.exists(recon_p):
+        try:
+            cand = json.load(open(recon_p))
+            if isinstance(cand, dict) and cand.get("reconstructed") is True:
+                recon = cand
+                print("reconstruction: %d fixtures from %s (held separate from the log)"
+                      % (len(cand.get("fixtures", [])), recon_p))
+            else:
+                print("reconstruction: %s is not a reconstruction bundle -- ignored" % recon_p)
+        except Exception as e:
+            print("reconstruction: could not read %s (%s) -- ignored" % (recon_p, e))
+
+    # Belt and braces: a reconstructed entry must never reach the live log.
+    leaked = [m for m in log if isinstance(m, dict) and m.get("reconstructed")]
+    if leaked:
+        sys.exit("ABORT: %d reconstructed fixture(s) have got into the live log "
+                 "(first: %s). The Track Record must contain only forecasts this "
+                 "tool actually published. Remove them before publishing."
+                 % (len(leaked), leaked[0].get("id")))
+
     # HISTORY GUARD. Publishing overwrites the page, and the page is the only
     # copy of the log, so a run that publishes fewer entries than the last one
     # destroys history irreversibly. That is not hypothetical: between 26 and
@@ -658,7 +789,7 @@ def main():
     except Exception:
         pretty = date_str
 
-    html_out = render(pretty, rows, mt, log, today.get("notes", ""), ratings)
+    html_out = render(pretty, rows, mt, log, today.get("notes", ""), ratings, recon)
     open(out_p, "w").write(html_out)
     json.dump(log, open(newlog_p, "w"), indent=1)
     print(f"wrote {out_p} ({len(html_out)} bytes) | fixtures {len(rows)} | log {len(log)} "
