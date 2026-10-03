@@ -67,6 +67,41 @@ cheap and recoverable; overwriting the record is neither. Any failure in the
 history path must stop the run, never degrade it. Do not reintroduce a silent
 fallback to an empty log, however reasonable it looks in isolation.
 
+### The silent-run mystery: breadcrumbs worked, and found a different bug (3 Oct 2026)
+
+The 3 Oct run published cleanly (artifact v39) and left a full breadcrumb trail
+in `status/last_run`, so RUNBOOK section 1a did its job on first use. Of note in
+its own log: the first publish was REFUSED because the live version had not been
+read in that session; the run re-read, merged and republished as v39, carrying
+the db capability forward. That is the publish path working as designed.
+
+Why the 1 Oct runs died in 45-81 seconds is still unknown and no longer
+reproducible. Do not assume it is fixed.
+
+**The breadcrumbs exposed a worse bug.** The run reported "0 fixtures 3 Oct:
+international break" and published an empty page. League One and League Two both
+played a full Saturday programme. The run had checked the Premier League
+schedule, found the break, and generalised to all four divisions.
+
+Root cause: the 2026-27 season merged the September and October international
+windows into one 16-day break, 21 Sep to 6 Oct 2026. The Premier League and
+Championship paused. The lower two EFL divisions did not. An inference that
+would usually hold did not hold here, and nothing in the process forced the
+check that would have caught it.
+
+Fixed in RUNBOOK section 3: each of the four divisions must be confirmed
+separately and reported as four counts in `notes`, never one. soccerbase's
+per-date page was added to the ladder because it lists every English division
+for one date, postponements included.
+
+**The general lesson, which is worth more than the fix:** this run reported
+success, wrote honest breadcrumbs, named its sources, and was still wrong,
+because it answered a narrower question than the one it was asked and did not
+notice. Guards catch crashes. They do not catch a confident wrong answer. The
+only thing that caught this was checking the output against an independent
+source -- which is worth doing to this tool's quiet days specifically, since a
+quiet day is where a silent miss hides.
+
 ### Runs can fail silently, and the scheduler will call it success (1 Oct 2026)
 
 The 06:11 run on 1 Oct finished in 81 seconds and published nothing. A manual

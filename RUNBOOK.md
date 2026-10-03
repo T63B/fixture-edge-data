@@ -188,10 +188,37 @@ untouched -- never let it block the rest of the run.
 
 Only England's Premier League, Championship, League One, League Two. Exclude
 Scottish football, the National League, and cup competitions. Watch for
-postponements, and for fixture lists that misdate matches by a day — cross-check
+postponements, and for fixture lists that misdate matches by a day -- cross-check
 the date against a second source before trusting it.
 
+### CHECK EACH DIVISION SEPARATELY. NEVER INFER ONE FROM ANOTHER.
+
+The four divisions do not share a calendar. The Premier League being idle tells
+you NOTHING about League One and League Two, and the reverse. Confirm each of the
+four separately, and record in `notes` what you found for each -- four counts,
+not one.
+
+This is not a hypothetical. On 3 Oct 2026 a run checked the Premier League
+schedule, found an international break, concluded "0 fixtures" for the whole
+country and published an empty page. League One and League Two both played a full
+Saturday programme that afternoon. A day of forecasts was lost on a reasonable-
+sounding inference from the wrong division.
+
+The 2026-27 season makes this trap worse: the September and October international
+windows were merged into one 16-day break, 21 Sep to 6 Oct 2026. The Premier
+League and Championship paused for it. The EFL's lower two divisions did not.
+So "international break" is never on its own a reason to report zero fixtures --
+say which divisions are actually paused, and check the other two anyway.
+
+An empty day is a real outcome and must not be invented either way. The test is
+whether you checked all four, not whether the answer was zero.
+
 ## Sources: priority, and the rule that nothing is load-bearing
+
+`soccerbase.com/matches/results.sd?date=YYYY-MM-DD` lists every English
+division for one date on a single page, postponements included, and is the
+quickest way to satisfy the all-four-divisions rule above. It is a fixture and
+result source, not an odds source.
 
 No single source may stop the run. Every one of these can be unreachable on any
 given day -- blocked by the network allowlist, bot-protected, geo-gated, or simply
