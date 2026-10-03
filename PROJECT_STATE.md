@@ -67,6 +67,29 @@ cheap and recoverable; overwriting the record is neither. Any failure in the
 history path must stop the run, never degrade it. Do not reintroduce a silent
 fallback to an empty log, however reasonable it looks in isolation.
 
+### The 1 Oct silent failures: a permission classifier, probably (3 Oct 2026)
+
+A run on 3 Oct left this breadcrumb: *"STOPPED: DB write-back (log/2026-10) and
+artifact publish were both denied by the auto-mode permission classifier; not
+retried."* It halted at stage `generated` with `ok: false`.
+
+That is the best explanation yet for the 1 Oct runs that reported SUCCEEDED,
+finished in 45-81 seconds and published nothing: the publish was refused, not
+attempted-and-failed, and nothing recorded it because the breadcrumbs did not
+exist yet. It also explains why the failure was never reproducible by hand --
+this session's own publishes are not subject to that classifier.
+
+It is NOT a settled diagnosis. The denials are intermittent: earlier the same
+day a run wrote `log/2026-10` and published v40 successfully, and the one-off
+reconstruction task wrote both of its documents first time with no retries. So
+the classifier sometimes allows exactly the calls it elsewhere refuses.
+
+What to do when it bites: the task runs in auto-approve mode, and whether a
+given call is allowed is not something a run can change. A run that is refused
+should retry once, then record the refusal in its breadcrumbs and say so
+plainly -- which is now the instruction. Do not conclude the pipeline is broken;
+check `status/last_run` for a denial note first.
+
 ### The lost period was reconstructed, and labelled as such (3 Oct 2026)
 
 The 133 fixtures destroyed on 26-28 Sep could not be recovered: artifact version
@@ -75,6 +98,22 @@ end survived. The user asked for a rebuild anyway, clearly labelled, on the
 grounds it may be useful later. Agreed on that basis and built as
 `reconstruct.py` -> `reconstruction.json`, rendered in its own "Rebuilt History"
 section.
+
+Built 3 Oct 2026: **228 fixtures, all priced, over four weekly blocks**, 29 Aug
+to 20 Sep (the archive has no played fixtures 21-25 Sep -- the merged
+international window). Model Brier 0.6516 against the market's 0.6369, hit
+rate 43.4% against 44.7%; on the 38 fixtures where the two disagreed by 10pp
+or more, model 0.7202 against 0.6788 -- the market again read its loudest
+disagreements better. Leakage audited independently of the build: no fixture
+trained on data from its own date or later, and every block fitted to the day
+before it began.
+
+**228 against the 133 the live log held is itself the finding.** The tool only
+ever logged 133 fixtures in that period, so it missed roughly 95 -- about 42%
+of the league programme -- before anyone noticed it could miss whole divisions
+on 3 Oct. That gap is the single most useful thing the reconstruction produced,
+and it is an argument for the coverage checks in RUNBOOK section 3, not for the
+model.
 
 What makes it honest rather than flattering:
 

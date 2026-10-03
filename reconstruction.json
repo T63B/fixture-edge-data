@@ -1,0 +1,6894 @@
+{
+ "blend_weight": 0.4,
+ "blocks": [
+  {
+   "block_start": "2026-08-24",
+   "converged": true,
+   "fitted_to": "2026-08-23",
+   "fixtures": 42,
+   "train_matches": 8225
+  },
+  {
+   "block_start": "2026-08-31",
+   "converged": true,
+   "fitted_to": "2026-08-30",
+   "fixtures": 82,
+   "train_matches": 8270
+  },
+  {
+   "block_start": "2026-09-07",
+   "converged": true,
+   "fitted_to": "2026-09-06",
+   "fixtures": 55,
+   "train_matches": 8352
+  },
+  {
+   "block_start": "2026-09-14",
+   "converged": true,
+   "fitted_to": "2026-09-13",
+   "fixtures": 49,
+   "train_matches": 8407
+  }
+ ],
+ "built_at": "2026-10-03 09:15 UTC",
+ "caveats": [
+  "NOT the lost record and NOT a live one -- a backtest in the log's shape.",
+  "The live tool ran on ratings up to 118 days stale; this refits weekly, so the reconstructed model scores better than the tool really did.",
+  "Hand adjustments for injuries, suspensions and rotation are unrecoverable.",
+  "Odds are the archive's opening best price, not the best price findable at 07:00 from the books the live run used.",
+  "Every fixture played is included, so the tool's own missed fixtures are silently erased.",
+  "Must never be averaged into the live Brier score or hit rate."
+ ],
+ "count": 228,
+ "half_life": 365,
+ "method": "week-by-week walk-forward: for each Monday-anchored block the model is refitted on matches strictly before that block, with the time-decay reference set to the preceding day",
+ "priced": 228,
+ "reconstructed": true,
+ "skipped": [],
+ "window": {
+  "from": "2026-08-29",
+  "to": "2026-09-25"
+ },
+ "fixtures": [
+  {
+   "away": "QPR",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Blackburn",
+   "id": "2026-08-29|Championship|Blackburn|QPR",
+   "league": "Championship",
+   "market_pct": {
+    "A": 34,
+    "D": 28.8,
+    "H": 37.2
+   },
+   "model_pct": {
+    "A": 29.2,
+    "D": 28.8,
+    "H": 42
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.88,
+    "D": 3.4,
+    "H": 2.63
+   },
+   "overround": 102.2,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-2",
+   "status": "final"
+  },
+  {
+   "away": "Lincoln",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Bolton",
+   "id": "2026-08-29|Championship|Bolton|Lincoln",
+   "league": "Championship",
+   "market_pct": {
+    "A": 32.3,
+    "D": 28.5,
+    "H": 39.1
+   },
+   "model_pct": {
+    "A": 30.3,
+    "D": 27.2,
+    "H": 42.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3,
+    "D": 3.4,
+    "H": 2.48
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Portsmouth",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Bristol City",
+   "id": "2026-08-29|Championship|Bristol City|Portsmouth",
+   "league": "Championship",
+   "market_pct": {
+    "A": 28.4,
+    "D": 28.4,
+    "H": 43.1
+   },
+   "model_pct": {
+    "A": 25.3,
+    "D": 26.5,
+    "H": 48.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.4,
+    "D": 3.4,
+    "H": 2.24
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Sheffield United",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Cardiff",
+   "id": "2026-08-29|Championship|Cardiff|Sheffield United",
+   "league": "Championship",
+   "market_pct": {
+    "A": 36.8,
+    "D": 26.8,
+    "H": 36.4
+   },
+   "model_pct": {
+    "A": 33.9,
+    "D": 25.8,
+    "H": 40.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.62,
+    "D": 3.6,
+    "H": 2.65
+   },
+   "overround": 103.7,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Preston",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Charlton",
+   "id": "2026-08-29|Championship|Charlton|Preston",
+   "league": "Championship",
+   "market_pct": {
+    "A": 26.3,
+    "D": 29.1,
+    "H": 44.6
+   },
+   "model_pct": {
+    "A": 28.8,
+    "D": 28.5,
+    "H": 42.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.65,
+    "D": 3.3,
+    "H": 2.15
+   },
+   "overround": 104.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Swansea",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Derby",
+   "id": "2026-08-29|Championship|Derby|Swansea",
+   "league": "Championship",
+   "market_pct": {
+    "A": 30.3,
+    "D": 28.5,
+    "H": 41.2
+   },
+   "model_pct": {
+    "A": 28.4,
+    "D": 28.1,
+    "H": 43.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.2,
+    "D": 3.4,
+    "H": 2.35
+   },
+   "overround": 103.2,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-3",
+   "status": "final"
+  },
+  {
+   "away": "West Brom",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Middlesbrough",
+   "id": "2026-08-29|Championship|Middlesbrough|West Brom",
+   "league": "Championship",
+   "market_pct": {
+    "A": 20.7,
+    "D": 25,
+    "H": 54.3
+   },
+   "model_pct": {
+    "A": 24.2,
+    "D": 27,
+    "H": 48.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.65,
+    "D": 3.85,
+    "H": 1.77
+   },
+   "overround": 104,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-1",
+   "status": "final"
+  },
+  {
+   "away": "Burnley",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Norwich",
+   "id": "2026-08-29|Championship|Norwich|Burnley",
+   "league": "Championship",
+   "market_pct": {
+    "A": 31.8,
+    "D": 26.9,
+    "H": 41.3
+   },
+   "model_pct": {
+    "A": 36.1,
+    "D": 27.1,
+    "H": 36.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.05,
+    "D": 3.6,
+    "H": 2.35
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "H",
+   "score": "4-1",
+   "status": "final"
+  },
+  {
+   "away": "Millwall",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Southampton",
+   "id": "2026-08-29|Championship|Southampton|Millwall",
+   "league": "Championship",
+   "market_pct": {
+    "A": 25.9,
+    "D": 25.9,
+    "H": 48.1
+   },
+   "model_pct": {
+    "A": 25.2,
+    "D": 25.9,
+    "H": 48.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.75,
+    "D": 3.75,
+    "H": 2.02
+   },
+   "overround": 102.8,
+   "reconstructed": true,
+   "result": "H",
+   "score": "5-1",
+   "status": "final"
+  },
+  {
+   "away": "West Ham",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Watford",
+   "id": "2026-08-29|Championship|Watford|West Ham",
+   "league": "Championship",
+   "market_pct": {
+    "A": 50.5,
+    "D": 25.2,
+    "H": 24.3
+   },
+   "model_pct": {
+    "A": 48.3,
+    "D": 25.3,
+    "H": 26.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 1.9,
+    "D": 3.8,
+    "H": 3.95
+   },
+   "overround": 104.3,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Stoke",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Wolves",
+   "id": "2026-08-29|Championship|Wolves|Stoke",
+   "league": "Championship",
+   "market_pct": {
+    "A": 14.9,
+    "D": 21.6,
+    "H": 63.5
+   },
+   "model_pct": {
+    "A": 14.5,
+    "D": 22.9,
+    "H": 62.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 6.5,
+    "D": 4.5,
+    "H": 1.53
+   },
+   "overround": 103,
+   "reconstructed": true,
+   "result": "H",
+   "score": "4-1",
+   "status": "final"
+  },
+  {
+   "away": "Peterboro",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Blackpool",
+   "id": "2026-08-29|League One|Blackpool|Peterboro",
+   "league": "League One",
+   "market_pct": {
+    "A": 23,
+    "D": 24.2,
+    "H": 52.8
+   },
+   "model_pct": {
+    "A": 27.4,
+    "D": 24.2,
+    "H": 48.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.2,
+    "D": 4,
+    "H": 1.83
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "4-0",
+   "status": "final"
+  },
+  {
+   "away": "Huddersfield",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Cambridge",
+   "id": "2026-08-29|League One|Cambridge|Huddersfield",
+   "league": "League One",
+   "market_pct": {
+    "A": 40.5,
+    "D": 27,
+    "H": 32.4
+   },
+   "model_pct": {
+    "A": 35.7,
+    "D": 29.6,
+    "H": 34.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.4,
+    "D": 3.6,
+    "H": 3
+   },
+   "overround": 102.8,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-2",
+   "status": "final"
+  },
+  {
+   "away": "Barnsley",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Leyton Orient",
+   "id": "2026-08-29|League One|Leyton Orient|Barnsley",
+   "league": "League One",
+   "market_pct": {
+    "A": 32.2,
+    "D": 25.8,
+    "H": 42
+   },
+   "model_pct": {
+    "A": 30.1,
+    "D": 25.3,
+    "H": 44.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3,
+    "D": 3.75,
+    "H": 2.3
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-3",
+   "status": "final"
+  },
+  {
+   "away": "Leicester",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Milton Keynes Dons",
+   "id": "2026-08-29|League One|Milton Keynes Dons|Leicester",
+   "league": "League One",
+   "market_pct": {
+    "A": 38.7,
+    "D": 26.8,
+    "H": 34.5
+   },
+   "model_pct": {
+    "A": 50.3,
+    "D": 25.2,
+    "H": 24.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.5,
+    "D": 3.6,
+    "H": 2.8
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Burton",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Notts County",
+   "id": "2026-08-29|League One|Notts County|Burton",
+   "league": "League One",
+   "market_pct": {
+    "A": 30.8,
+    "D": 28.1,
+    "H": 41
+   },
+   "model_pct": {
+    "A": 25.8,
+    "D": 26.7,
+    "H": 47.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.1,
+    "D": 3.4,
+    "H": 2.33
+   },
+   "overround": 104.6,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Bradford",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Plymouth",
+   "id": "2026-08-29|League One|Plymouth|Bradford",
+   "league": "League One",
+   "market_pct": {
+    "A": 30.2,
+    "D": 26.8,
+    "H": 43
+   },
+   "model_pct": {
+    "A": 25.1,
+    "D": 26.2,
+    "H": 48.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.2,
+    "D": 3.6,
+    "H": 2.25
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Bromley",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Sheffield Weds",
+   "id": "2026-08-29|League One|Sheffield Weds|Bromley",
+   "league": "League One",
+   "market_pct": {
+    "A": 23.1,
+    "D": 25.9,
+    "H": 51
+   },
+   "model_pct": {
+    "A": 23.9,
+    "D": 26.4,
+    "H": 49.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.2,
+    "D": 3.75,
+    "H": 1.9
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "H",
+   "score": "7-2",
+   "status": "final"
+  },
+  {
+   "away": "Doncaster",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Stevenage",
+   "id": "2026-08-29|League One|Stevenage|Doncaster",
+   "league": "League One",
+   "market_pct": {
+    "A": 29.1,
+    "D": 28.6,
+    "H": 42.3
+   },
+   "model_pct": {
+    "A": 23.6,
+    "D": 29.9,
+    "H": 46.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.35,
+    "D": 3.4,
+    "H": 2.3
+   },
+   "overround": 102.7,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Wycombe",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Stockport",
+   "id": "2026-08-29|League One|Stockport|Wycombe",
+   "league": "League One",
+   "market_pct": {
+    "A": 24,
+    "D": 25.6,
+    "H": 50.3
+   },
+   "model_pct": {
+    "A": 26.1,
+    "D": 26,
+    "H": 47.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4,
+    "D": 3.75,
+    "H": 1.91
+   },
+   "overround": 104,
+   "reconstructed": true,
+   "result": "H",
+   "score": "5-1",
+   "status": "final"
+  },
+  {
+   "away": "Cheltenham",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Barnet",
+   "id": "2026-08-29|League Two|Barnet|Cheltenham",
+   "league": "League Two",
+   "market_pct": {
+    "A": 16.1,
+    "D": 24.2,
+    "H": 59.7
+   },
+   "model_pct": {
+    "A": 14.1,
+    "D": 21.2,
+    "H": 64.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 6,
+    "D": 4,
+    "H": 1.62
+   },
+   "overround": 103.4,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Rochdale",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Colchester",
+   "id": "2026-08-29|League Two|Colchester|Rochdale",
+   "league": "League Two",
+   "market_pct": {
+    "A": 30.9,
+    "D": 27.4,
+    "H": 41.7
+   },
+   "model_pct": {
+    "A": 7.6,
+    "D": 31.2,
+    "H": 61.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.1,
+    "D": 3.5,
+    "H": 2.3
+   },
+   "overround": 104.3,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Bristol Rvs",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Crawley Town",
+   "id": "2026-08-29|League Two|Crawley Town|Bristol Rvs",
+   "league": "League Two",
+   "market_pct": {
+    "A": 43.9,
+    "D": 27.6,
+    "H": 28.4
+   },
+   "model_pct": {
+    "A": 29.4,
+    "D": 25.9,
+    "H": 44.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.2,
+    "D": 3.5,
+    "H": 3.4
+   },
+   "overround": 103.4,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-2",
+   "status": "final"
+  },
+  {
+   "away": "Northampton",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Gillingham",
+   "id": "2026-08-29|League Two|Gillingham|Northampton",
+   "league": "League Two",
+   "market_pct": {
+    "A": 35.8,
+    "D": 28,
+    "H": 36.2
+   },
+   "model_pct": {
+    "A": 30.6,
+    "D": 29.5,
+    "H": 39.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.66,
+    "D": 3.4,
+    "H": 2.63
+   },
+   "overround": 105,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Fleetwood Town",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Grimsby",
+   "id": "2026-08-29|League Two|Grimsby|Fleetwood Town",
+   "league": "League Two",
+   "market_pct": {
+    "A": 22.7,
+    "D": 27.3,
+    "H": 50
+   },
+   "model_pct": {
+    "A": 24.6,
+    "D": 27,
+    "H": 48.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.2,
+    "D": 3.5,
+    "H": 1.91
+   },
+   "overround": 104.7,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Tranmere",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Newport County",
+   "id": "2026-08-29|League Two|Newport County|Tranmere",
+   "league": "League Two",
+   "market_pct": {
+    "A": 34.4,
+    "D": 29.2,
+    "H": 36.5
+   },
+   "model_pct": {
+    "A": 32.6,
+    "D": 26.2,
+    "H": 41.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.8,
+    "D": 3.3,
+    "H": 2.64
+   },
+   "overround": 103.9,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Swindon",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Oldham",
+   "id": "2026-08-29|League Two|Oldham|Swindon",
+   "league": "League Two",
+   "market_pct": {
+    "A": 24.7,
+    "D": 26,
+    "H": 49.3
+   },
+   "model_pct": {
+    "A": 23.8,
+    "D": 25.7,
+    "H": 50.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.9,
+    "D": 3.7,
+    "H": 1.95
+   },
+   "overround": 104,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-0",
+   "status": "final"
+  },
+  {
+   "away": "Crewe",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Port Vale",
+   "id": "2026-08-29|League Two|Port Vale|Crewe",
+   "league": "League Two",
+   "market_pct": {
+    "A": 29.7,
+    "D": 27.1,
+    "H": 43.2
+   },
+   "model_pct": {
+    "A": 24.2,
+    "D": 29.3,
+    "H": 46.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.2,
+    "D": 3.5,
+    "H": 2.2
+   },
+   "overround": 105.3,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Chesterfield",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Rotherham",
+   "id": "2026-08-29|League Two|Rotherham|Chesterfield",
+   "league": "League Two",
+   "market_pct": {
+    "A": 40.4,
+    "D": 27.5,
+    "H": 32.1
+   },
+   "model_pct": {
+    "A": 32.1,
+    "D": 28.4,
+    "H": 39.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.38,
+    "D": 3.5,
+    "H": 3
+   },
+   "overround": 103.9,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Salford",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Shrewsbury",
+   "id": "2026-08-29|League Two|Shrewsbury|Salford",
+   "league": "League Two",
+   "market_pct": {
+    "A": 48.3,
+    "D": 26.9,
+    "H": 24.8
+   },
+   "model_pct": {
+    "A": 39.7,
+    "D": 28.8,
+    "H": 31.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2,
+    "D": 3.6,
+    "H": 3.9
+   },
+   "overround": 103.4,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Accrington",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Walsall",
+   "id": "2026-08-29|League Two|Walsall|Accrington",
+   "league": "League Two",
+   "market_pct": {
+    "A": 22.8,
+    "D": 26.7,
+    "H": 50.5
+   },
+   "model_pct": {
+    "A": 23.7,
+    "D": 27,
+    "H": 49.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.2,
+    "D": 3.6,
+    "H": 1.9
+   },
+   "overround": 104.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-2",
+   "status": "final"
+  },
+  {
+   "away": "Exeter",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "York",
+   "id": "2026-08-29|League Two|York|Exeter",
+   "league": "League Two",
+   "market_pct": {
+    "A": 19.9,
+    "D": 23.9,
+    "H": 56.2
+   },
+   "model_pct": {
+    "A": 7.6,
+    "D": 77,
+    "H": 15.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.8,
+    "D": 4,
+    "H": 1.7
+   },
+   "overround": 104.7,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Everton",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Bournemouth",
+   "id": "2026-08-29|Premier League|Bournemouth|Everton",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 26.4,
+    "D": 27.2,
+    "H": 46.4
+   },
+   "model_pct": {
+    "A": 24.4,
+    "D": 25.6,
+    "H": 50
+   },
+   "odds_basis": "b365_opening",
+   "odds_dec": {
+    "A": 3.6,
+    "D": 3.5,
+    "H": 2.05
+   },
+   "overround": 105.1,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Hull",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Coventry",
+   "id": "2026-08-29|Premier League|Coventry|Hull",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 22.4,
+    "D": 27,
+    "H": 50.6
+   },
+   "model_pct": {
+    "A": 19,
+    "D": 22.5,
+    "H": 58.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.33,
+    "D": 3.6,
+    "H": 1.92
+   },
+   "overround": 103,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Nott'm Forest",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Liverpool",
+   "id": "2026-08-29|Premier League|Liverpool|Nott'm Forest",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 16.4,
+    "D": 20.9,
+    "H": 62.7
+   },
+   "model_pct": {
+    "A": 18.3,
+    "D": 21.8,
+    "H": 59.8
+   },
+   "odds_basis": "b365_opening",
+   "odds_dec": {
+    "A": 5.75,
+    "D": 4.5,
+    "H": 1.5
+   },
+   "overround": 106.3,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Newcastle",
+   "block_start": "2026-08-24",
+   "date": "2026-08-29",
+   "fitted_to": "2026-08-23",
+   "home": "Tottenham",
+   "id": "2026-08-29|Premier League|Tottenham|Newcastle",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 32.4,
+    "D": 25.7,
+    "H": 41.9
+   },
+   "model_pct": {
+    "A": 33.8,
+    "D": 24.5,
+    "H": 41.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.98,
+    "D": 3.75,
+    "H": 2.3
+   },
+   "overround": 103.7,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-2",
+   "status": "final"
+  },
+  {
+   "away": "Wigan",
+   "block_start": "2026-08-24",
+   "date": "2026-08-30",
+   "fitted_to": "2026-08-23",
+   "home": "AFC Wimbledon",
+   "id": "2026-08-30|League One|AFC Wimbledon|Wigan",
+   "league": "League One",
+   "market_pct": {
+    "A": 41.4,
+    "D": 28.4,
+    "H": 30.2
+   },
+   "model_pct": {
+    "A": 29.5,
+    "D": 31.7,
+    "H": 38.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.33,
+    "D": 3.4,
+    "H": 3.2
+   },
+   "overround": 103.6,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Luton",
+   "block_start": "2026-08-24",
+   "date": "2026-08-30",
+   "fitted_to": "2026-08-23",
+   "home": "Mansfield",
+   "id": "2026-08-30|League One|Mansfield|Luton",
+   "league": "League One",
+   "market_pct": {
+    "A": 41.2,
+    "D": 25.5,
+    "H": 33.4
+   },
+   "model_pct": {
+    "A": 35.2,
+    "D": 27.8,
+    "H": 37.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.35,
+    "D": 3.8,
+    "H": 2.9
+   },
+   "overround": 103.4,
+   "reconstructed": true,
+   "result": "H",
+   "score": "5-2",
+   "status": "final"
+  },
+  {
+   "away": "Brighton",
+   "block_start": "2026-08-24",
+   "date": "2026-08-30",
+   "fitted_to": "2026-08-23",
+   "home": "Chelsea",
+   "id": "2026-08-30|Premier League|Chelsea|Brighton",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 24.2,
+    "D": 24.2,
+    "H": 51.5
+   },
+   "model_pct": {
+    "A": 31.1,
+    "D": 25.5,
+    "H": 43.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4,
+    "D": 4,
+    "H": 1.88
+   },
+   "overround": 103.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "4-3",
+   "status": "final"
+  },
+  {
+   "away": "Brentford",
+   "block_start": "2026-08-24",
+   "date": "2026-08-30",
+   "fitted_to": "2026-08-23",
+   "home": "Leeds",
+   "id": "2026-08-30|Premier League|Leeds|Brentford",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 36.5,
+    "D": 28.7,
+    "H": 34.8
+   },
+   "model_pct": {
+    "A": 29.5,
+    "D": 26.5,
+    "H": 44.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.75,
+    "D": 3.5,
+    "H": 2.88
+   },
+   "overround": 99.7,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Ipswich",
+   "block_start": "2026-08-24",
+   "date": "2026-08-30",
+   "fitted_to": "2026-08-23",
+   "home": "Man United",
+   "id": "2026-08-30|Premier League|Man United|Ipswich",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 12.5,
+    "D": 19.5,
+    "H": 68.1
+   },
+   "model_pct": {
+    "A": 12.3,
+    "D": 17.7,
+    "H": 70
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 7.8,
+    "D": 5,
+    "H": 1.43
+   },
+   "overround": 102.8,
+   "reconstructed": true,
+   "result": "H",
+   "score": "5-2",
+   "status": "final"
+  },
+  {
+   "away": "Fulham",
+   "block_start": "2026-08-24",
+   "date": "2026-08-30",
+   "fitted_to": "2026-08-23",
+   "home": "Sunderland",
+   "id": "2026-08-30|Premier League|Sunderland|Fulham",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 31.5,
+    "D": 28.7,
+    "H": 39.8
+   },
+   "model_pct": {
+    "A": 37.8,
+    "D": 29.9,
+    "H": 32.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.1,
+    "D": 3.4,
+    "H": 2.45
+   },
+   "overround": 102.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Arsenal",
+   "block_start": "2026-08-31",
+   "date": "2026-08-31",
+   "fitted_to": "2026-08-30",
+   "home": "Aston Villa",
+   "id": "2026-08-31|Premier League|Aston Villa|Arsenal",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 62.2,
+    "D": 23,
+    "H": 14.8
+   },
+   "model_pct": {
+    "A": 48.5,
+    "D": 27.5,
+    "H": 24
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 1.55,
+    "D": 4.2,
+    "H": 6.5
+   },
+   "overround": 103.7,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Southampton",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Birmingham",
+   "id": "2026-09-01|Championship|Birmingham|Southampton",
+   "league": "Championship",
+   "market_pct": {
+    "A": 34.7,
+    "D": 27.5,
+    "H": 37.8
+   },
+   "model_pct": {
+    "A": 35.9,
+    "D": 26.8,
+    "H": 37.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.78,
+    "D": 3.5,
+    "H": 2.55
+   },
+   "overround": 103.8,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Blackburn",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Lincoln",
+   "id": "2026-09-01|Championship|Lincoln|Blackburn",
+   "league": "Championship",
+   "market_pct": {
+    "A": 30.3,
+    "D": 27.3,
+    "H": 42.4
+   },
+   "model_pct": {
+    "A": 28.7,
+    "D": 29.7,
+    "H": 41.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.15,
+    "D": 3.5,
+    "H": 2.25
+   },
+   "overround": 104.8,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Derby",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Portsmouth",
+   "id": "2026-09-01|Championship|Portsmouth|Derby",
+   "league": "Championship",
+   "market_pct": {
+    "A": 24.4,
+    "D": 27.9,
+    "H": 47.7
+   },
+   "model_pct": {
+    "A": 29.1,
+    "D": 27.9,
+    "H": 43.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4,
+    "D": 3.5,
+    "H": 2.05
+   },
+   "overround": 102.4,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-2",
+   "status": "final"
+  },
+  {
+   "away": "Bristol City",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Preston",
+   "id": "2026-09-01|Championship|Preston|Bristol City",
+   "league": "Championship",
+   "market_pct": {
+    "A": 38.6,
+    "D": 27.6,
+    "H": 33.8
+   },
+   "model_pct": {
+    "A": 33.4,
+    "D": 28.6,
+    "H": 37.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.5,
+    "D": 3.5,
+    "H": 2.85
+   },
+   "overround": 103.7,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-3",
+   "status": "final"
+  },
+  {
+   "away": "Bolton",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Sheffield United",
+   "id": "2026-09-01|Championship|Sheffield United|Bolton",
+   "league": "Championship",
+   "market_pct": {
+    "A": 18.2,
+    "D": 23.7,
+    "H": 58.1
+   },
+   "model_pct": {
+    "A": 20.5,
+    "D": 23.9,
+    "H": 55.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 5.33,
+    "D": 4.1,
+    "H": 1.67
+   },
+   "overround": 103,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-2",
+   "status": "final"
+  },
+  {
+   "away": "Norwich",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Stoke",
+   "id": "2026-09-01|Championship|Stoke|Norwich",
+   "league": "Championship",
+   "market_pct": {
+    "A": 44.3,
+    "D": 27.1,
+    "H": 28.7
+   },
+   "model_pct": {
+    "A": 36.5,
+    "D": 27.5,
+    "H": 36
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.2,
+    "D": 3.6,
+    "H": 3.4
+   },
+   "overround": 102.6,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Watford",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Swansea",
+   "id": "2026-09-01|Championship|Swansea|Watford",
+   "league": "Championship",
+   "market_pct": {
+    "A": 22.8,
+    "D": 25.5,
+    "H": 51.7
+   },
+   "model_pct": {
+    "A": 27,
+    "D": 26.8,
+    "H": 46.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.2,
+    "D": 3.75,
+    "H": 1.85
+   },
+   "overround": 104.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Wolves",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "West Ham",
+   "id": "2026-09-01|Championship|West Ham|Wolves",
+   "league": "Championship",
+   "market_pct": {
+    "A": 28.2,
+    "D": 25.6,
+    "H": 46.2
+   },
+   "model_pct": {
+    "A": 27.5,
+    "D": 25.9,
+    "H": 46.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.4,
+    "D": 3.75,
+    "H": 2.08
+   },
+   "overround": 104.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "4-2",
+   "status": "final"
+  },
+  {
+   "away": "Cambridge",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Bradford",
+   "id": "2026-09-01|League One|Bradford|Cambridge",
+   "league": "League One",
+   "market_pct": {
+    "A": 20.4,
+    "D": 25.8,
+    "H": 53.8
+   },
+   "model_pct": {
+    "A": 23.5,
+    "D": 30.5,
+    "H": 46
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.75,
+    "D": 3.75,
+    "H": 1.8
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-2",
+   "status": "final"
+  },
+  {
+   "away": "Leyton Orient",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Bromley",
+   "id": "2026-09-01|League One|Bromley|Leyton Orient",
+   "league": "League One",
+   "market_pct": {
+    "A": 35.4,
+    "D": 27.1,
+    "H": 37.5
+   },
+   "model_pct": {
+    "A": 35.3,
+    "D": 26.5,
+    "H": 38.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.75,
+    "D": 3.6,
+    "H": 2.6
+   },
+   "overround": 102.6,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-5",
+   "status": "final"
+  },
+  {
+   "away": "Notts County",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Doncaster",
+   "id": "2026-09-01|League One|Doncaster|Notts County",
+   "league": "League One",
+   "market_pct": {
+    "A": 30.2,
+    "D": 26.8,
+    "H": 43
+   },
+   "model_pct": {
+    "A": 29.1,
+    "D": 26.4,
+    "H": 44.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.2,
+    "D": 3.6,
+    "H": 2.25
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Oxford",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Huddersfield",
+   "id": "2026-09-01|League One|Huddersfield|Oxford",
+   "league": "League One",
+   "market_pct": {
+    "A": 21.3,
+    "D": 24,
+    "H": 54.8
+   },
+   "model_pct": {
+    "A": 30,
+    "D": 27.6,
+    "H": 42.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.5,
+    "D": 4,
+    "H": 1.75
+   },
+   "overround": 104.4,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-1",
+   "status": "final"
+  },
+  {
+   "away": "Plymouth",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Leicester",
+   "id": "2026-09-01|League One|Leicester|Plymouth",
+   "league": "League One",
+   "market_pct": {
+    "A": 26.2,
+    "D": 24.2,
+    "H": 49.6
+   },
+   "model_pct": {
+    "A": 18.9,
+    "D": 22.6,
+    "H": 58.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.7,
+    "D": 4,
+    "H": 1.95
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Stevenage",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Peterboro",
+   "id": "2026-09-01|League One|Peterboro|Stevenage",
+   "league": "League One",
+   "market_pct": {
+    "A": 34.1,
+    "D": 27,
+    "H": 38.9
+   },
+   "model_pct": {
+    "A": 32.7,
+    "D": 28,
+    "H": 39.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.85,
+    "D": 3.6,
+    "H": 2.5
+   },
+   "overround": 102.9,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Sheffield Weds",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Wycombe",
+   "id": "2026-09-01|League One|Wycombe|Sheffield Weds",
+   "league": "League One",
+   "market_pct": {
+    "A": 38,
+    "D": 25.5,
+    "H": 36.5
+   },
+   "model_pct": {
+    "A": 23.9,
+    "D": 25.8,
+    "H": 50.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.55,
+    "D": 3.8,
+    "H": 2.65
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-2",
+   "status": "final"
+  },
+  {
+   "away": "Grimsby",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Accrington",
+   "id": "2026-09-01|League Two|Accrington|Grimsby",
+   "league": "League Two",
+   "market_pct": {
+    "A": 47.6,
+    "D": 26,
+    "H": 26.4
+   },
+   "model_pct": {
+    "A": 36.7,
+    "D": 28.2,
+    "H": 35
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.05,
+    "D": 3.75,
+    "H": 3.7
+   },
+   "overround": 102.5,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Colchester",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Bristol Rvs",
+   "id": "2026-09-01|League Two|Bristol Rvs|Colchester",
+   "league": "League Two",
+   "market_pct": {
+    "A": 22.9,
+    "D": 25.3,
+    "H": 51.9
+   },
+   "model_pct": {
+    "A": 31.9,
+    "D": 27.8,
+    "H": 40.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.2,
+    "D": 3.8,
+    "H": 1.85
+   },
+   "overround": 104.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "York",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Cheltenham",
+   "id": "2026-09-01|League Two|Cheltenham|York",
+   "league": "League Two",
+   "market_pct": {
+    "A": 50.2,
+    "D": 25.2,
+    "H": 24.6
+   },
+   "model_pct": {
+    "A": 59.8,
+    "D": 36.2,
+    "H": 4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 1.91,
+    "D": 3.8,
+    "H": 3.9
+   },
+   "overround": 104.3,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-2",
+   "status": "final"
+  },
+  {
+   "away": "Gillingham",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Chesterfield",
+   "id": "2026-09-01|League Two|Chesterfield|Gillingham",
+   "league": "League Two",
+   "market_pct": {
+    "A": 16,
+    "D": 24,
+    "H": 60
+   },
+   "model_pct": {
+    "A": 20.4,
+    "D": 26.4,
+    "H": 53.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 6,
+    "D": 4,
+    "H": 1.6
+   },
+   "overround": 104.2,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Walsall",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Crewe",
+   "id": "2026-09-01|League Two|Crewe|Walsall",
+   "league": "League Two",
+   "market_pct": {
+    "A": 31.1,
+    "D": 26.1,
+    "H": 42.8
+   },
+   "model_pct": {
+    "A": 32.1,
+    "D": 28.6,
+    "H": 39.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.1,
+    "D": 3.7,
+    "H": 2.25
+   },
+   "overround": 103.7,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Barnet",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Exeter",
+   "id": "2026-09-01|League Two|Exeter|Barnet",
+   "league": "League Two",
+   "market_pct": {
+    "A": 48.7,
+    "D": 25.6,
+    "H": 25.6
+   },
+   "model_pct": {
+    "A": 34.6,
+    "D": 28.3,
+    "H": 37.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2,
+    "D": 3.8,
+    "H": 3.8
+   },
+   "overround": 102.6,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Oldham",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Fleetwood Town",
+   "id": "2026-09-01|League Two|Fleetwood Town|Oldham",
+   "league": "League Two",
+   "market_pct": {
+    "A": 35.4,
+    "D": 27.1,
+    "H": 37.5
+   },
+   "model_pct": {
+    "A": 34.1,
+    "D": 28.9,
+    "H": 37.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.75,
+    "D": 3.6,
+    "H": 2.6
+   },
+   "overround": 102.6,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Crawley Town",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Northampton",
+   "id": "2026-09-01|League Two|Northampton|Crawley Town",
+   "league": "League Two",
+   "market_pct": {
+    "A": 21.4,
+    "D": 24.1,
+    "H": 54.5
+   },
+   "model_pct": {
+    "A": 26.3,
+    "D": 26.8,
+    "H": 46.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.5,
+    "D": 4,
+    "H": 1.77
+   },
+   "overround": 103.7,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Shrewsbury",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Rochdale",
+   "id": "2026-09-01|League Two|Rochdale|Shrewsbury",
+   "league": "League Two",
+   "market_pct": {
+    "A": 30.2,
+    "D": 26.8,
+    "H": 43
+   },
+   "model_pct": {
+    "A": 36.9,
+    "D": 41.6,
+    "H": 21.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.2,
+    "D": 3.6,
+    "H": 2.25
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-0",
+   "status": "final"
+  },
+  {
+   "away": "Newport County",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Salford",
+   "id": "2026-09-01|League Two|Salford|Newport County",
+   "league": "League Two",
+   "market_pct": {
+    "A": 16.1,
+    "D": 21.5,
+    "H": 62.4
+   },
+   "model_pct": {
+    "A": 17.4,
+    "D": 22.2,
+    "H": 60.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 6,
+    "D": 4.5,
+    "H": 1.55
+   },
+   "overround": 103.4,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Port Vale",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Swindon",
+   "id": "2026-09-01|League Two|Swindon|Port Vale",
+   "league": "League Two",
+   "market_pct": {
+    "A": 43.2,
+    "D": 27,
+    "H": 29.9
+   },
+   "model_pct": {
+    "A": 29.4,
+    "D": 28.3,
+    "H": 42.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.25,
+    "D": 3.6,
+    "H": 3.25
+   },
+   "overround": 103,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-1",
+   "status": "final"
+  },
+  {
+   "away": "Rotherham",
+   "block_start": "2026-08-31",
+   "date": "2026-09-01",
+   "fitted_to": "2026-08-30",
+   "home": "Tranmere",
+   "id": "2026-09-01|League Two|Tranmere|Rotherham",
+   "league": "League Two",
+   "market_pct": {
+    "A": 30.3,
+    "D": 27.7,
+    "H": 42.1
+   },
+   "model_pct": {
+    "A": 35.5,
+    "D": 27.5,
+    "H": 37
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.2,
+    "D": 3.5,
+    "H": 2.3
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Middlesbrough",
+   "block_start": "2026-08-31",
+   "date": "2026-09-02",
+   "fitted_to": "2026-08-30",
+   "home": "Burnley",
+   "id": "2026-09-02|Championship|Burnley|Middlesbrough",
+   "league": "Championship",
+   "market_pct": {
+    "A": 38.9,
+    "D": 27,
+    "H": 34.1
+   },
+   "model_pct": {
+    "A": 28.1,
+    "D": 26.4,
+    "H": 45.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.5,
+    "D": 3.6,
+    "H": 2.85
+   },
+   "overround": 102.9,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Wrexham",
+   "block_start": "2026-08-31",
+   "date": "2026-09-02",
+   "fitted_to": "2026-08-30",
+   "home": "Millwall",
+   "id": "2026-09-02|Championship|Millwall|Wrexham",
+   "league": "Championship",
+   "market_pct": {
+    "A": 29.1,
+    "D": 28.3,
+    "H": 42.6
+   },
+   "model_pct": {
+    "A": 21.4,
+    "D": 26.5,
+    "H": 52.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.4,
+    "D": 3.5,
+    "H": 2.32
+   },
+   "overround": 101.1,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-3",
+   "status": "final"
+  },
+  {
+   "away": "Cardiff",
+   "block_start": "2026-08-31",
+   "date": "2026-09-02",
+   "fitted_to": "2026-08-30",
+   "home": "QPR",
+   "id": "2026-09-02|Championship|QPR|Cardiff",
+   "league": "Championship",
+   "market_pct": {
+    "A": 25.9,
+    "D": 24.3,
+    "H": 49.8
+   },
+   "model_pct": {
+    "A": 28.3,
+    "D": 24.9,
+    "H": 46.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.75,
+    "D": 4,
+    "H": 1.95
+   },
+   "overround": 102.9,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Charlton",
+   "block_start": "2026-08-31",
+   "date": "2026-09-02",
+   "fitted_to": "2026-08-30",
+   "home": "West Brom",
+   "id": "2026-09-02|Championship|West Brom|Charlton",
+   "league": "Championship",
+   "market_pct": {
+    "A": 20.5,
+    "D": 25.6,
+    "H": 54
+   },
+   "model_pct": {
+    "A": 19.6,
+    "D": 27,
+    "H": 53.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.75,
+    "D": 3.8,
+    "H": 1.8
+   },
+   "overround": 102.9,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Blackpool",
+   "block_start": "2026-08-31",
+   "date": "2026-09-02",
+   "fitted_to": "2026-08-30",
+   "home": "Barnsley",
+   "id": "2026-09-02|League One|Barnsley|Blackpool",
+   "league": "League One",
+   "market_pct": {
+    "A": 30.9,
+    "D": 26.6,
+    "H": 42.5
+   },
+   "model_pct": {
+    "A": 29,
+    "D": 25,
+    "H": 46
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.1,
+    "D": 3.6,
+    "H": 2.25
+   },
+   "overround": 104.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "AFC Wimbledon",
+   "block_start": "2026-08-31",
+   "date": "2026-09-02",
+   "fitted_to": "2026-08-30",
+   "home": "Burton",
+   "id": "2026-09-02|League One|Burton|AFC Wimbledon",
+   "league": "League One",
+   "market_pct": {
+    "A": 24.1,
+    "D": 27.6,
+    "H": 48.3
+   },
+   "model_pct": {
+    "A": 26.1,
+    "D": 29.8,
+    "H": 44.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4,
+    "D": 3.5,
+    "H": 2
+   },
+   "overround": 103.6,
+   "reconstructed": true,
+   "result": "H",
+   "score": "4-1",
+   "status": "final"
+  },
+  {
+   "away": "Stockport",
+   "block_start": "2026-08-31",
+   "date": "2026-09-02",
+   "fitted_to": "2026-08-30",
+   "home": "Luton",
+   "id": "2026-09-02|League One|Luton|Stockport",
+   "league": "League One",
+   "market_pct": {
+    "A": 31,
+    "D": 25.3,
+    "H": 43.7
+   },
+   "model_pct": {
+    "A": 30.1,
+    "D": 26.4,
+    "H": 43.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.1,
+    "D": 3.8,
+    "H": 2.2
+   },
+   "overround": 104,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Mansfield",
+   "block_start": "2026-08-31",
+   "date": "2026-09-02",
+   "fitted_to": "2026-08-30",
+   "home": "Reading",
+   "id": "2026-09-02|League One|Reading|Mansfield",
+   "league": "League One",
+   "market_pct": {
+    "A": 27.1,
+    "D": 26,
+    "H": 46.9
+   },
+   "model_pct": {
+    "A": 31.3,
+    "D": 26.6,
+    "H": 42
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.55,
+    "D": 3.7,
+    "H": 2.05
+   },
+   "overround": 104,
+   "reconstructed": true,
+   "result": "H",
+   "score": "5-0",
+   "status": "final"
+  },
+  {
+   "away": "Milton Keynes Dons",
+   "block_start": "2026-08-31",
+   "date": "2026-09-02",
+   "fitted_to": "2026-08-30",
+   "home": "Wigan",
+   "id": "2026-09-02|League One|Wigan|Milton Keynes Dons",
+   "league": "League One",
+   "market_pct": {
+    "A": 33.4,
+    "D": 28.5,
+    "H": 38
+   },
+   "model_pct": {
+    "A": 28.3,
+    "D": 28.8,
+    "H": 43
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.9,
+    "D": 3.4,
+    "H": 2.55
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-1",
+   "status": "final"
+  },
+  {
+   "away": "Liverpool",
+   "block_start": "2026-08-31",
+   "date": "2026-09-04",
+   "fitted_to": "2026-08-30",
+   "home": "Ipswich",
+   "id": "2026-09-04|Premier League|Ipswich|Liverpool",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 63.6,
+    "D": 19.6,
+    "H": 16.9
+   },
+   "model_pct": {
+    "A": 57.4,
+    "D": 21.6,
+    "H": 21.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 1.54,
+    "D": 5,
+    "H": 5.8
+   },
+   "overround": 102.2,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-2",
+   "status": "final"
+  },
+  {
+   "away": "Bristol City",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Burnley",
+   "id": "2026-09-05|Championship|Burnley|Bristol City",
+   "league": "Championship",
+   "market_pct": {
+    "A": 23.7,
+    "D": 25.5,
+    "H": 50.8
+   },
+   "model_pct": {
+    "A": 20,
+    "D": 25,
+    "H": 55
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.1,
+    "D": 3.8,
+    "H": 1.91
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-2",
+   "status": "final"
+  },
+  {
+   "away": "Southampton",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Lincoln",
+   "id": "2026-09-05|Championship|Lincoln|Southampton",
+   "league": "Championship",
+   "market_pct": {
+    "A": 52.7,
+    "D": 24.2,
+    "H": 23.1
+   },
+   "model_pct": {
+    "A": 43.3,
+    "D": 25.8,
+    "H": 30.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 1.84,
+    "D": 4,
+    "H": 4.2
+   },
+   "overround": 103.2,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Bolton",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Millwall",
+   "id": "2026-09-05|Championship|Millwall|Bolton",
+   "league": "Championship",
+   "market_pct": {
+    "A": 21.8,
+    "D": 28,
+    "H": 50.2
+   },
+   "model_pct": {
+    "A": 19.3,
+    "D": 25,
+    "H": 55.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.5,
+    "D": 3.5,
+    "H": 1.95
+   },
+   "overround": 102.1,
+   "reconstructed": true,
+   "result": "H",
+   "score": "4-0",
+   "status": "final"
+  },
+  {
+   "away": "Cardiff",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Portsmouth",
+   "id": "2026-09-05|Championship|Portsmouth|Cardiff",
+   "league": "Championship",
+   "market_pct": {
+    "A": 32.4,
+    "D": 27,
+    "H": 40.5
+   },
+   "model_pct": {
+    "A": 31.1,
+    "D": 25.8,
+    "H": 43
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3,
+    "D": 3.6,
+    "H": 2.4
+   },
+   "overround": 102.8,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Blackburn",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Preston",
+   "id": "2026-09-05|Championship|Preston|Blackburn",
+   "league": "Championship",
+   "market_pct": {
+    "A": 32.2,
+    "D": 28.4,
+    "H": 39.3
+   },
+   "model_pct": {
+    "A": 29.7,
+    "D": 30.2,
+    "H": 40.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3,
+    "D": 3.4,
+    "H": 2.46
+   },
+   "overround": 103.4,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Middlesbrough",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "QPR",
+   "id": "2026-09-05|Championship|QPR|Middlesbrough",
+   "league": "Championship",
+   "market_pct": {
+    "A": 43.5,
+    "D": 27.2,
+    "H": 29.2
+   },
+   "model_pct": {
+    "A": 39.4,
+    "D": 26.4,
+    "H": 34.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.25,
+    "D": 3.6,
+    "H": 3.35
+   },
+   "overround": 102.1,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Norwich",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Sheffield United",
+   "id": "2026-09-05|Championship|Sheffield United|Norwich",
+   "league": "Championship",
+   "market_pct": {
+    "A": 35.9,
+    "D": 26.9,
+    "H": 37.2
+   },
+   "model_pct": {
+    "A": 29.5,
+    "D": 25.7,
+    "H": 44.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.7,
+    "D": 3.6,
+    "H": 2.6
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-3",
+   "status": "final"
+  },
+  {
+   "away": "Charlton",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Stoke",
+   "id": "2026-09-05|Championship|Stoke|Charlton",
+   "league": "Championship",
+   "market_pct": {
+    "A": 27,
+    "D": 28.5,
+    "H": 44.5
+   },
+   "model_pct": {
+    "A": 26.4,
+    "D": 28.5,
+    "H": 45.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.6,
+    "D": 3.4,
+    "H": 2.18
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "H",
+   "score": "4-0",
+   "status": "final"
+  },
+  {
+   "away": "Wrexham",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Swansea",
+   "id": "2026-09-05|Championship|Swansea|Wrexham",
+   "league": "Championship",
+   "market_pct": {
+    "A": 28.7,
+    "D": 27.9,
+    "H": 43.4
+   },
+   "model_pct": {
+    "A": 25.1,
+    "D": 26.5,
+    "H": 48.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.4,
+    "D": 3.5,
+    "H": 2.25
+   },
+   "overround": 102.4,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Watford",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "West Brom",
+   "id": "2026-09-05|Championship|West Brom|Watford",
+   "league": "Championship",
+   "market_pct": {
+    "A": 22.9,
+    "D": 26.7,
+    "H": 50.4
+   },
+   "model_pct": {
+    "A": 23.4,
+    "D": 27.4,
+    "H": 49.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.2,
+    "D": 3.6,
+    "H": 1.91
+   },
+   "overround": 103.9,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Derby",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "West Ham",
+   "id": "2026-09-05|Championship|West Ham|Derby",
+   "league": "Championship",
+   "market_pct": {
+    "A": 10.7,
+    "D": 19.4,
+    "H": 69.9
+   },
+   "model_pct": {
+    "A": 13.9,
+    "D": 20.8,
+    "H": 65.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 9.1,
+    "D": 5,
+    "H": 1.39
+   },
+   "overround": 102.9,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-0",
+   "status": "final"
+  },
+  {
+   "away": "Stevenage",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Barnsley",
+   "id": "2026-09-05|League One|Barnsley|Stevenage",
+   "league": "League One",
+   "market_pct": {
+    "A": 27.3,
+    "D": 28.9,
+    "H": 43.7
+   },
+   "model_pct": {
+    "A": 29.7,
+    "D": 28.6,
+    "H": 41.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.6,
+    "D": 3.4,
+    "H": 2.25
+   },
+   "overround": 101.6,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-5",
+   "status": "final"
+  },
+  {
+   "away": "Mansfield",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Bradford",
+   "id": "2026-09-05|League One|Bradford|Mansfield",
+   "league": "League One",
+   "market_pct": {
+    "A": 22.8,
+    "D": 26.7,
+    "H": 50.5
+   },
+   "model_pct": {
+    "A": 28.7,
+    "D": 28.7,
+    "H": 42.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.2,
+    "D": 3.6,
+    "H": 1.9
+   },
+   "overround": 104.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Cambridge",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Burton",
+   "id": "2026-09-05|League One|Burton|Cambridge",
+   "league": "League One",
+   "market_pct": {
+    "A": 36,
+    "D": 28.6,
+    "H": 35.4
+   },
+   "model_pct": {
+    "A": 29.5,
+    "D": 30.9,
+    "H": 39.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.7,
+    "D": 3.4,
+    "H": 2.75
+   },
+   "overround": 102.8,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Plymouth",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Doncaster",
+   "id": "2026-09-05|League One|Doncaster|Plymouth",
+   "league": "League One",
+   "market_pct": {
+    "A": 34.5,
+    "D": 26.8,
+    "H": 38.7
+   },
+   "model_pct": {
+    "A": 38,
+    "D": 26.3,
+    "H": 35.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.8,
+    "D": 3.6,
+    "H": 2.5
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "A",
+   "score": "2-3",
+   "status": "final"
+  },
+  {
+   "away": "Notts County",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Huddersfield",
+   "id": "2026-09-05|League One|Huddersfield|Notts County",
+   "league": "League One",
+   "market_pct": {
+    "A": 19.5,
+    "D": 24.3,
+    "H": 56.2
+   },
+   "model_pct": {
+    "A": 21.5,
+    "D": 23.8,
+    "H": 54.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 5,
+    "D": 4,
+    "H": 1.73
+   },
+   "overround": 102.8,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Oxford",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Leicester",
+   "id": "2026-09-05|League One|Leicester|Oxford",
+   "league": "League One",
+   "market_pct": {
+    "A": 19.5,
+    "D": 24.3,
+    "H": 56.2
+   },
+   "model_pct": {
+    "A": 20,
+    "D": 25.4,
+    "H": 54.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 5,
+    "D": 4,
+    "H": 1.73
+   },
+   "overround": 102.8,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-4",
+   "status": "final"
+  },
+  {
+   "away": "Leyton Orient",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Luton",
+   "id": "2026-09-05|League One|Luton|Leyton Orient",
+   "league": "League One",
+   "market_pct": {
+    "A": 20.1,
+    "D": 23,
+    "H": 56.9
+   },
+   "model_pct": {
+    "A": 19.4,
+    "D": 23.9,
+    "H": 56.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.8,
+    "D": 4.2,
+    "H": 1.7
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Sheffield Weds",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Peterboro",
+   "id": "2026-09-05|League One|Peterboro|Sheffield Weds",
+   "league": "League One",
+   "market_pct": {
+    "A": 44.7,
+    "D": 24.6,
+    "H": 30.7
+   },
+   "model_pct": {
+    "A": 32.8,
+    "D": 25,
+    "H": 42.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.2,
+    "D": 4,
+    "H": 3.2
+   },
+   "overround": 101.7,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-2",
+   "status": "final"
+  },
+  {
+   "away": "Blackpool",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Reading",
+   "id": "2026-09-05|League One|Reading|Blackpool",
+   "league": "League One",
+   "market_pct": {
+    "A": 26.2,
+    "D": 25.9,
+    "H": 47.9
+   },
+   "model_pct": {
+    "A": 29.6,
+    "D": 26.2,
+    "H": 44.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.75,
+    "D": 3.8,
+    "H": 2.05
+   },
+   "overround": 101.8,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-1",
+   "status": "final"
+  },
+  {
+   "away": "Stockport",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Wigan",
+   "id": "2026-09-05|League One|Wigan|Stockport",
+   "league": "League One",
+   "market_pct": {
+    "A": 43,
+    "D": 26.8,
+    "H": 30.2
+   },
+   "model_pct": {
+    "A": 41.8,
+    "D": 28.8,
+    "H": 29.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.25,
+    "D": 3.6,
+    "H": 3.2
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-4",
+   "status": "final"
+  },
+  {
+   "away": "Milton Keynes Dons",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Wycombe",
+   "id": "2026-09-05|League One|Wycombe|Milton Keynes Dons",
+   "league": "League One",
+   "market_pct": {
+    "A": 32.2,
+    "D": 26.8,
+    "H": 41
+   },
+   "model_pct": {
+    "A": 19.6,
+    "D": 23.6,
+    "H": 56.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3,
+    "D": 3.6,
+    "H": 2.35
+   },
+   "overround": 103.7,
+   "reconstructed": true,
+   "result": "D",
+   "score": "3-3",
+   "status": "final"
+  },
+  {
+   "away": "Crawley Town",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Accrington",
+   "id": "2026-09-05|League Two|Accrington|Crawley Town",
+   "league": "League Two",
+   "market_pct": {
+    "A": 26.6,
+    "D": 26.6,
+    "H": 46.8
+   },
+   "model_pct": {
+    "A": 27.4,
+    "D": 26.3,
+    "H": 46.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.6,
+    "D": 3.6,
+    "H": 2.05
+   },
+   "overround": 104.3,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-2",
+   "status": "final"
+  },
+  {
+   "away": "Rotherham",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Bristol Rvs",
+   "id": "2026-09-05|League Two|Bristol Rvs|Rotherham",
+   "league": "League Two",
+   "market_pct": {
+    "A": 21.5,
+    "D": 23.7,
+    "H": 54.8
+   },
+   "model_pct": {
+    "A": 31.5,
+    "D": 27.8,
+    "H": 40.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.4,
+    "D": 4,
+    "H": 1.73
+   },
+   "overround": 105.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Grimsby",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Cheltenham",
+   "id": "2026-09-05|League Two|Cheltenham|Grimsby",
+   "league": "League Two",
+   "market_pct": {
+    "A": 47,
+    "D": 26.3,
+    "H": 26.7
+   },
+   "model_pct": {
+    "A": 41.7,
+    "D": 27.3,
+    "H": 31
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.1,
+    "D": 3.75,
+    "H": 3.7
+   },
+   "overround": 101.3,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Barnet",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Chesterfield",
+   "id": "2026-09-05|League Two|Chesterfield|Barnet",
+   "league": "League Two",
+   "market_pct": {
+    "A": 29.8,
+    "D": 25.8,
+    "H": 44.4
+   },
+   "model_pct": {
+    "A": 33,
+    "D": 27.9,
+    "H": 39.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.25,
+    "D": 3.75,
+    "H": 2.18
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "D",
+   "score": "3-3",
+   "status": "final"
+  },
+  {
+   "away": "York",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Crewe",
+   "id": "2026-09-05|League Two|Crewe|York",
+   "league": "League Two",
+   "market_pct": {
+    "A": 38.4,
+    "D": 28.2,
+    "H": 33.3
+   },
+   "model_pct": {
+    "A": 54.1,
+    "D": 41.2,
+    "H": 4.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.5,
+    "D": 3.4,
+    "H": 2.88
+   },
+   "overround": 104.1,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Walsall",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Exeter",
+   "id": "2026-09-05|League Two|Exeter|Walsall",
+   "league": "League Two",
+   "market_pct": {
+    "A": 34.7,
+    "D": 27.2,
+    "H": 38.1
+   },
+   "model_pct": {
+    "A": 27.8,
+    "D": 28,
+    "H": 44.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.75,
+    "D": 3.5,
+    "H": 2.5
+   },
+   "overround": 104.9,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Shrewsbury",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Fleetwood Town",
+   "id": "2026-09-05|League Two|Fleetwood Town|Shrewsbury",
+   "league": "League Two",
+   "market_pct": {
+    "A": 24,
+    "D": 26.7,
+    "H": 49.3
+   },
+   "model_pct": {
+    "A": 19.9,
+    "D": 27.1,
+    "H": 53
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4,
+    "D": 3.6,
+    "H": 1.95
+   },
+   "overround": 104.1,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Newport County",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Northampton",
+   "id": "2026-09-05|League Two|Northampton|Newport County",
+   "league": "League Two",
+   "market_pct": {
+    "A": 20.1,
+    "D": 25.7,
+    "H": 54.2
+   },
+   "model_pct": {
+    "A": 21.5,
+    "D": 25.5,
+    "H": 53
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.85,
+    "D": 3.8,
+    "H": 1.8
+   },
+   "overround": 102.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Gillingham",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Rochdale",
+   "id": "2026-09-05|League Two|Rochdale|Gillingham",
+   "league": "League Two",
+   "market_pct": {
+    "A": 27.3,
+    "D": 28.1,
+    "H": 44.5
+   },
+   "model_pct": {
+    "A": 40.1,
+    "D": 39.7,
+    "H": 20.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.5,
+    "D": 3.4,
+    "H": 2.15
+   },
+   "overround": 104.5,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-4",
+   "status": "final"
+  },
+  {
+   "away": "Port Vale",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Salford",
+   "id": "2026-09-05|League Two|Salford|Port Vale",
+   "league": "League Two",
+   "market_pct": {
+    "A": 21.5,
+    "D": 25.8,
+    "H": 52.6
+   },
+   "model_pct": {
+    "A": 27,
+    "D": 28.9,
+    "H": 44.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.5,
+    "D": 3.75,
+    "H": 1.84
+   },
+   "overround": 103.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Colchester",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Swindon",
+   "id": "2026-09-05|League Two|Swindon|Colchester",
+   "league": "League Two",
+   "market_pct": {
+    "A": 34.9,
+    "D": 27.4,
+    "H": 37.7
+   },
+   "model_pct": {
+    "A": 29.6,
+    "D": 26.4,
+    "H": 44
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.75,
+    "D": 3.5,
+    "H": 2.55
+   },
+   "overround": 104.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-1",
+   "status": "final"
+  },
+  {
+   "away": "Oldham",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Tranmere",
+   "id": "2026-09-05|League Two|Tranmere|Oldham",
+   "league": "League Two",
+   "market_pct": {
+    "A": 40.3,
+    "D": 28.5,
+    "H": 31.2
+   },
+   "model_pct": {
+    "A": 42.4,
+    "D": 27.5,
+    "H": 30
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.4,
+    "D": 3.4,
+    "H": 3.1
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Sunderland",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Brentford",
+   "id": "2026-09-05|Premier League|Brentford|Sunderland",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 17.6,
+    "D": 24.3,
+    "H": 58.1
+   },
+   "model_pct": {
+    "A": 18.9,
+    "D": 25.1,
+    "H": 56
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 5.5,
+    "D": 4,
+    "H": 1.67
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Leeds",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Brighton",
+   "id": "2026-09-05|Premier League|Brighton|Leeds",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 24.3,
+    "D": 27.1,
+    "H": 48.6
+   },
+   "model_pct": {
+    "A": 21.9,
+    "D": 24.8,
+    "H": 53.3
+   },
+   "odds_basis": "b365_opening",
+   "odds_dec": {
+    "A": 3.9,
+    "D": 3.5,
+    "H": 1.95
+   },
+   "overround": 105.5,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Crystal Palace",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Fulham",
+   "id": "2026-09-05|Premier League|Fulham|Crystal Palace",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 29.3,
+    "D": 29.3,
+    "H": 41.4
+   },
+   "model_pct": {
+    "A": 27.7,
+    "D": 27.5,
+    "H": 44.8
+   },
+   "odds_basis": "b365_opening",
+   "odds_dec": {
+    "A": 3.25,
+    "D": 3.25,
+    "H": 2.3
+   },
+   "overround": 105,
+   "reconstructed": true,
+   "result": "A",
+   "score": "2-3",
+   "status": "final"
+  },
+  {
+   "away": "Aston Villa",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Hull",
+   "id": "2026-09-05|Premier League|Hull|Aston Villa",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 51,
+    "D": 25.9,
+    "H": 23.1
+   },
+   "model_pct": {
+    "A": 57.4,
+    "D": 23.1,
+    "H": 19.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 1.9,
+    "D": 3.75,
+    "H": 4.2
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Coventry",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Man City",
+   "id": "2026-09-05|Premier League|Man City|Coventry",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 6.4,
+    "D": 11.6,
+    "H": 82.1
+   },
+   "model_pct": {
+    "A": 6,
+    "D": 12.4,
+    "H": 81.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 15.5,
+    "D": 8.5,
+    "H": 1.2
+   },
+   "overround": 101.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Bournemouth",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Newcastle",
+   "id": "2026-09-05|Premier League|Newcastle|Bournemouth",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 29.4,
+    "D": 25.5,
+    "H": 45.1
+   },
+   "model_pct": {
+    "A": 27.5,
+    "D": 23.8,
+    "H": 48.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.3,
+    "D": 3.8,
+    "H": 2.15
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Tottenham",
+   "block_start": "2026-08-31",
+   "date": "2026-09-05",
+   "fitted_to": "2026-08-30",
+   "home": "Nott'm Forest",
+   "id": "2026-09-05|Premier League|Nott'm Forest|Tottenham",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 33.2,
+    "D": 28.3,
+    "H": 38.5
+   },
+   "model_pct": {
+    "A": 28.8,
+    "D": 25.9,
+    "H": 45.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.9,
+    "D": 3.4,
+    "H": 2.5
+   },
+   "overround": 103.9,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Wolves",
+   "block_start": "2026-08-31",
+   "date": "2026-09-06",
+   "fitted_to": "2026-08-30",
+   "home": "Birmingham",
+   "id": "2026-09-06|Championship|Birmingham|Wolves",
+   "league": "Championship",
+   "market_pct": {
+    "A": 39.3,
+    "D": 28.4,
+    "H": 32.2
+   },
+   "model_pct": {
+    "A": 39.9,
+    "D": 28.7,
+    "H": 31.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.46,
+    "D": 3.4,
+    "H": 3
+   },
+   "overround": 103.4,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Chelsea",
+   "block_start": "2026-08-31",
+   "date": "2026-09-06",
+   "fitted_to": "2026-08-30",
+   "home": "Arsenal",
+   "id": "2026-09-06|Premier League|Arsenal|Chelsea",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 18.7,
+    "D": 24.5,
+    "H": 56.8
+   },
+   "model_pct": {
+    "A": 14.5,
+    "D": 22.3,
+    "H": 63.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 5.25,
+    "D": 4,
+    "H": 1.73
+   },
+   "overround": 101.9,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Man United",
+   "block_start": "2026-08-31",
+   "date": "2026-09-06",
+   "fitted_to": "2026-08-30",
+   "home": "Everton",
+   "id": "2026-09-06|Premier League|Everton|Man United",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 43.9,
+    "D": 26.8,
+    "H": 29.3
+   },
+   "model_pct": {
+    "A": 37.3,
+    "D": 26.8,
+    "H": 35.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.2,
+    "D": 3.6,
+    "H": 3.3
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "AFC Wimbledon",
+   "block_start": "2026-09-07",
+   "date": "2026-09-07",
+   "fitted_to": "2026-09-06",
+   "home": "Bromley",
+   "id": "2026-09-07|League One|Bromley|AFC Wimbledon",
+   "league": "League One",
+   "market_pct": {
+    "A": 31.7,
+    "D": 28.1,
+    "H": 40.2
+   },
+   "model_pct": {
+    "A": 30.5,
+    "D": 28.3,
+    "H": 41.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.1,
+    "D": 3.5,
+    "H": 2.45
+   },
+   "overround": 101.6,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-2",
+   "status": "final"
+  },
+  {
+   "away": "Sheffield United",
+   "block_start": "2026-09-07",
+   "date": "2026-09-08",
+   "fitted_to": "2026-09-06",
+   "home": "Blackburn",
+   "id": "2026-09-08|Championship|Blackburn|Sheffield United",
+   "league": "Championship",
+   "market_pct": {
+    "A": 41.1,
+    "D": 27.9,
+    "H": 31
+   },
+   "model_pct": {
+    "A": 32.6,
+    "D": 29.1,
+    "H": 38.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.38,
+    "D": 3.5,
+    "H": 3.15
+   },
+   "overround": 102.3,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-2",
+   "status": "final"
+  },
+  {
+   "away": "West Ham",
+   "block_start": "2026-09-07",
+   "date": "2026-09-08",
+   "fitted_to": "2026-09-06",
+   "home": "Bolton",
+   "id": "2026-09-08|Championship|Bolton|West Ham",
+   "league": "Championship",
+   "market_pct": {
+    "A": 60.2,
+    "D": 22.1,
+    "H": 17.7
+   },
+   "model_pct": {
+    "A": 53,
+    "D": 24.1,
+    "H": 22.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 1.65,
+    "D": 4.5,
+    "H": 5.6
+   },
+   "overround": 100.7,
+   "reconstructed": true,
+   "result": "A",
+   "score": "2-3",
+   "status": "final"
+  },
+  {
+   "away": "Stoke",
+   "block_start": "2026-09-07",
+   "date": "2026-09-08",
+   "fitted_to": "2026-09-06",
+   "home": "Cardiff",
+   "id": "2026-09-08|Championship|Cardiff|Stoke",
+   "league": "Championship",
+   "market_pct": {
+    "A": 27.9,
+    "D": 26,
+    "H": 46.1
+   },
+   "model_pct": {
+    "A": 26.7,
+    "D": 26.1,
+    "H": 47.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.5,
+    "D": 3.75,
+    "H": 2.12
+   },
+   "overround": 102.4,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Swansea",
+   "block_start": "2026-09-07",
+   "date": "2026-09-08",
+   "fitted_to": "2026-09-06",
+   "home": "Southampton",
+   "id": "2026-09-08|Championship|Southampton|Swansea",
+   "league": "Championship",
+   "market_pct": {
+    "A": 23,
+    "D": 25.5,
+    "H": 51.5
+   },
+   "model_pct": {
+    "A": 21.2,
+    "D": 23.5,
+    "H": 55.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.2,
+    "D": 3.8,
+    "H": 1.88
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-1",
+   "status": "final"
+  },
+  {
+   "away": "Preston",
+   "block_start": "2026-09-07",
+   "date": "2026-09-08",
+   "fitted_to": "2026-09-06",
+   "home": "Watford",
+   "id": "2026-09-08|Championship|Watford|Preston",
+   "league": "Championship",
+   "market_pct": {
+    "A": 28.1,
+    "D": 28.1,
+    "H": 43.9
+   },
+   "model_pct": {
+    "A": 24.3,
+    "D": 27,
+    "H": 48.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.5,
+    "D": 3.5,
+    "H": 2.24
+   },
+   "overround": 101.8,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Burnley",
+   "block_start": "2026-09-07",
+   "date": "2026-09-08",
+   "fitted_to": "2026-09-06",
+   "home": "Wrexham",
+   "id": "2026-09-08|Championship|Wrexham|Burnley",
+   "league": "Championship",
+   "market_pct": {
+    "A": 25.8,
+    "D": 27.2,
+    "H": 47.1
+   },
+   "model_pct": {
+    "A": 38.8,
+    "D": 28.5,
+    "H": 32.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.8,
+    "D": 3.6,
+    "H": 2.08
+   },
+   "overround": 102.2,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "QPR",
+   "block_start": "2026-09-07",
+   "date": "2026-09-09",
+   "fitted_to": "2026-09-06",
+   "home": "Charlton",
+   "id": "2026-09-09|Championship|Charlton|QPR",
+   "league": "Championship",
+   "market_pct": {
+    "A": 41.2,
+    "D": 28.5,
+    "H": 30.3
+   },
+   "model_pct": {
+    "A": 33.8,
+    "D": 28.3,
+    "H": 37.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.35,
+    "D": 3.4,
+    "H": 3.2
+   },
+   "overround": 103.2,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "West Brom",
+   "block_start": "2026-09-07",
+   "date": "2026-09-09",
+   "fitted_to": "2026-09-06",
+   "home": "Derby",
+   "id": "2026-09-09|Championship|Derby|West Brom",
+   "league": "Championship",
+   "market_pct": {
+    "A": 40.2,
+    "D": 27.8,
+    "H": 31.9
+   },
+   "model_pct": {
+    "A": 34.1,
+    "D": 30.3,
+    "H": 35.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.42,
+    "D": 3.5,
+    "H": 3.05
+   },
+   "overround": 102.7,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Birmingham",
+   "block_start": "2026-09-07",
+   "date": "2026-09-09",
+   "fitted_to": "2026-09-06",
+   "home": "Norwich",
+   "id": "2026-09-09|Championship|Norwich|Birmingham",
+   "league": "Championship",
+   "market_pct": {
+    "A": 24.5,
+    "D": 25.8,
+    "H": 49.7
+   },
+   "model_pct": {
+    "A": 26.1,
+    "D": 26.8,
+    "H": 47.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.95,
+    "D": 3.75,
+    "H": 1.95
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Luton",
+   "block_start": "2026-09-07",
+   "date": "2026-09-10",
+   "fitted_to": "2026-09-06",
+   "home": "Stevenage",
+   "id": "2026-09-10|League One|Stevenage|Luton",
+   "league": "League One",
+   "market_pct": {
+    "A": 41.7,
+    "D": 27.4,
+    "H": 30.9
+   },
+   "model_pct": {
+    "A": 32,
+    "D": 31.2,
+    "H": 36.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.3,
+    "D": 3.5,
+    "H": 3.1
+   },
+   "overround": 104.3,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Wrexham",
+   "block_start": "2026-09-07",
+   "date": "2026-09-11",
+   "fitted_to": "2026-09-06",
+   "home": "West Ham",
+   "id": "2026-09-11|Championship|West Ham|Wrexham",
+   "league": "Championship",
+   "market_pct": {
+    "A": 16.1,
+    "D": 22.2,
+    "H": 61.7
+   },
+   "model_pct": {
+    "A": 14.1,
+    "D": 20.8,
+    "H": 65.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 6.2,
+    "D": 4.5,
+    "H": 1.62
+   },
+   "overround": 100.1,
+   "reconstructed": true,
+   "result": "H",
+   "score": "6-0",
+   "status": "final"
+  },
+  {
+   "away": "Millwall",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Blackburn",
+   "id": "2026-09-12|Championship|Blackburn|Millwall",
+   "league": "Championship",
+   "market_pct": {
+    "A": 37.6,
+    "D": 27.7,
+    "H": 34.7
+   },
+   "model_pct": {
+    "A": 33.7,
+    "D": 31.2,
+    "H": 35.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.58,
+    "D": 3.5,
+    "H": 2.8
+   },
+   "overround": 103,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-1",
+   "status": "final"
+  },
+  {
+   "away": "Cardiff",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Bolton",
+   "id": "2026-09-12|Championship|Bolton|Cardiff",
+   "league": "Championship",
+   "market_pct": {
+    "A": 37.3,
+    "D": 25.5,
+    "H": 37.3
+   },
+   "model_pct": {
+    "A": 33.6,
+    "D": 25.6,
+    "H": 40.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.6,
+    "D": 3.8,
+    "H": 2.6
+   },
+   "overround": 103.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Portsmouth",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Charlton",
+   "id": "2026-09-12|Championship|Charlton|Portsmouth",
+   "league": "Championship",
+   "market_pct": {
+    "A": 35.9,
+    "D": 29.4,
+    "H": 34.7
+   },
+   "model_pct": {
+    "A": 30.5,
+    "D": 28.6,
+    "H": 40.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.7,
+    "D": 3.3,
+    "H": 2.8
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Birmingham",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Derby",
+   "id": "2026-09-12|Championship|Derby|Birmingham",
+   "league": "Championship",
+   "market_pct": {
+    "A": 42.9,
+    "D": 28.5,
+    "H": 28.5
+   },
+   "model_pct": {
+    "A": 32.5,
+    "D": 29.7,
+    "H": 37.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.26,
+    "D": 3.4,
+    "H": 3.4
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-2",
+   "status": "final"
+  },
+  {
+   "away": "Norwich",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Middlesbrough",
+   "id": "2026-09-12|Championship|Middlesbrough|Norwich",
+   "league": "Championship",
+   "market_pct": {
+    "A": 24.8,
+    "D": 24.2,
+    "H": 51
+   },
+   "model_pct": {
+    "A": 23.7,
+    "D": 24.4,
+    "H": 51.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.9,
+    "D": 4,
+    "H": 1.9
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "H",
+   "score": "4-3",
+   "status": "final"
+  },
+  {
+   "away": "Lincoln",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Preston",
+   "id": "2026-09-12|Championship|Preston|Lincoln",
+   "league": "Championship",
+   "market_pct": {
+    "A": 32.3,
+    "D": 26.9,
+    "H": 40.7
+   },
+   "model_pct": {
+    "A": 29.5,
+    "D": 29,
+    "H": 41.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3,
+    "D": 3.6,
+    "H": 2.38
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Bristol City",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Southampton",
+   "id": "2026-09-12|Championship|Southampton|Bristol City",
+   "league": "Championship",
+   "market_pct": {
+    "A": 19.8,
+    "D": 23.1,
+    "H": 57.1
+   },
+   "model_pct": {
+    "A": 21.4,
+    "D": 23.4,
+    "H": 55.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.9,
+    "D": 4.2,
+    "H": 1.7
+   },
+   "overround": 103,
+   "reconstructed": true,
+   "result": "H",
+   "score": "4-1",
+   "status": "final"
+  },
+  {
+   "away": "Burnley",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Swansea",
+   "id": "2026-09-12|Championship|Swansea|Burnley",
+   "league": "Championship",
+   "market_pct": {
+    "A": 29.3,
+    "D": 27.6,
+    "H": 43.1
+   },
+   "model_pct": {
+    "A": 35.6,
+    "D": 28.5,
+    "H": 35.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.3,
+    "D": 3.5,
+    "H": 2.24
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-1",
+   "status": "final"
+  },
+  {
+   "away": "Stoke",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Watford",
+   "id": "2026-09-12|Championship|Watford|Stoke",
+   "league": "Championship",
+   "market_pct": {
+    "A": 31.2,
+    "D": 28.5,
+    "H": 40.3
+   },
+   "model_pct": {
+    "A": 26.5,
+    "D": 27.7,
+    "H": 45.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.1,
+    "D": 3.4,
+    "H": 2.4
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-2",
+   "status": "final"
+  },
+  {
+   "away": "QPR",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "West Brom",
+   "id": "2026-09-12|Championship|West Brom|QPR",
+   "league": "Championship",
+   "market_pct": {
+    "A": 27.2,
+    "D": 27.2,
+    "H": 45.6
+   },
+   "model_pct": {
+    "A": 23.4,
+    "D": 27.5,
+    "H": 49.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.6,
+    "D": 3.6,
+    "H": 2.15
+   },
+   "overround": 102.1,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Doncaster",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "AFC Wimbledon",
+   "id": "2026-09-12|League One|AFC Wimbledon|Doncaster",
+   "league": "League One",
+   "market_pct": {
+    "A": 36.3,
+    "D": 27.5,
+    "H": 36.3
+   },
+   "model_pct": {
+    "A": 31.7,
+    "D": 29.6,
+    "H": 38.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.65,
+    "D": 3.5,
+    "H": 2.65
+   },
+   "overround": 104,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Bromley",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Blackpool",
+   "id": "2026-09-12|League One|Blackpool|Bromley",
+   "league": "League One",
+   "market_pct": {
+    "A": 20.4,
+    "D": 25.4,
+    "H": 54.3
+   },
+   "model_pct": {
+    "A": 19.3,
+    "D": 23.1,
+    "H": 57.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.8,
+    "D": 3.85,
+    "H": 1.8
+   },
+   "overround": 102.4,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Reading",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Cambridge",
+   "id": "2026-09-12|League One|Cambridge|Reading",
+   "league": "League One",
+   "market_pct": {
+    "A": 35.1,
+    "D": 28.4,
+    "H": 36.5
+   },
+   "model_pct": {
+    "A": 31.5,
+    "D": 29.2,
+    "H": 39.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.75,
+    "D": 3.4,
+    "H": 2.65
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Wycombe",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Leyton Orient",
+   "id": "2026-09-12|League One|Leyton Orient|Wycombe",
+   "league": "League One",
+   "market_pct": {
+    "A": 35.2,
+    "D": 26.9,
+    "H": 37.9
+   },
+   "model_pct": {
+    "A": 34.9,
+    "D": 26.9,
+    "H": 38.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.75,
+    "D": 3.6,
+    "H": 2.55
+   },
+   "overround": 103.4,
+   "reconstructed": true,
+   "result": "A",
+   "score": "2-3",
+   "status": "final"
+  },
+  {
+   "away": "Huddersfield",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Mansfield",
+   "id": "2026-09-12|League One|Mansfield|Huddersfield",
+   "league": "League One",
+   "market_pct": {
+    "A": 46.8,
+    "D": 26.6,
+    "H": 26.6
+   },
+   "model_pct": {
+    "A": 33.9,
+    "D": 26.9,
+    "H": 39.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.05,
+    "D": 3.6,
+    "H": 3.6
+   },
+   "overround": 104.3,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Peterboro",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Milton Keynes Dons",
+   "id": "2026-09-12|League One|Milton Keynes Dons|Peterboro",
+   "league": "League One",
+   "market_pct": {
+    "A": 27.4,
+    "D": 24.6,
+    "H": 48
+   },
+   "model_pct": {
+    "A": 30.2,
+    "D": 24.2,
+    "H": 45.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.6,
+    "D": 4,
+    "H": 2.05
+   },
+   "overround": 101.6,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Bradford",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Notts County",
+   "id": "2026-09-12|League One|Notts County|Bradford",
+   "league": "League One",
+   "market_pct": {
+    "A": 40.3,
+    "D": 28.5,
+    "H": 31.2
+   },
+   "model_pct": {
+    "A": 31.6,
+    "D": 28.8,
+    "H": 39.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.4,
+    "D": 3.4,
+    "H": 3.1
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Burton",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Oxford",
+   "id": "2026-09-12|League One|Oxford|Burton",
+   "league": "League One",
+   "market_pct": {
+    "A": 23.1,
+    "D": 25.9,
+    "H": 51
+   },
+   "model_pct": {
+    "A": 17.5,
+    "D": 24.9,
+    "H": 57.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.2,
+    "D": 3.75,
+    "H": 1.9
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-0",
+   "status": "final"
+  },
+  {
+   "away": "Barnsley",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Plymouth",
+   "id": "2026-09-12|League One|Plymouth|Barnsley",
+   "league": "League One",
+   "market_pct": {
+    "A": 19.6,
+    "D": 22.7,
+    "H": 57.7
+   },
+   "model_pct": {
+    "A": 22,
+    "D": 22.1,
+    "H": 55.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 5,
+    "D": 4.33,
+    "H": 1.7
+   },
+   "overround": 101.9,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-0",
+   "status": "final"
+  },
+  {
+   "away": "Wigan",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Sheffield Weds",
+   "id": "2026-09-12|League One|Sheffield Weds|Wigan",
+   "league": "League One",
+   "market_pct": {
+    "A": 18.5,
+    "D": 24.3,
+    "H": 57.2
+   },
+   "model_pct": {
+    "A": 21.8,
+    "D": 27.7,
+    "H": 50.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 5.25,
+    "D": 4,
+    "H": 1.7
+   },
+   "overround": 102.9,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Leicester",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Stockport",
+   "id": "2026-09-12|League One|Stockport|Leicester",
+   "league": "League One",
+   "market_pct": {
+    "A": 24.3,
+    "D": 25.2,
+    "H": 50.5
+   },
+   "model_pct": {
+    "A": 34.3,
+    "D": 27.1,
+    "H": 38.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.95,
+    "D": 3.8,
+    "H": 1.9
+   },
+   "overround": 104.3,
+   "reconstructed": true,
+   "result": "A",
+   "score": "3-4",
+   "status": "final"
+  },
+  {
+   "away": "Accrington",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Barnet",
+   "id": "2026-09-12|League Two|Barnet|Accrington",
+   "league": "League Two",
+   "market_pct": {
+    "A": 17.8,
+    "D": 22.2,
+    "H": 60
+   },
+   "model_pct": {
+    "A": 18.3,
+    "D": 23.6,
+    "H": 58
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 5.4,
+    "D": 4.33,
+    "H": 1.6
+   },
+   "overround": 104.1,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Crewe",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Colchester",
+   "id": "2026-09-12|League Two|Colchester|Crewe",
+   "league": "League Two",
+   "market_pct": {
+    "A": 29,
+    "D": 26.6,
+    "H": 44.5
+   },
+   "model_pct": {
+    "A": 25.5,
+    "D": 27.7,
+    "H": 46.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.3,
+    "D": 3.6,
+    "H": 2.15
+   },
+   "overround": 104.6,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Cheltenham",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Crawley Town",
+   "id": "2026-09-12|League Two|Crawley Town|Cheltenham",
+   "league": "League Two",
+   "market_pct": {
+    "A": 33.5,
+    "D": 26.6,
+    "H": 39.9
+   },
+   "model_pct": {
+    "A": 25.6,
+    "D": 25.2,
+    "H": 49.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.86,
+    "D": 3.6,
+    "H": 2.4
+   },
+   "overround": 104.4,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-3",
+   "status": "final"
+  },
+  {
+   "away": "Tranmere",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Gillingham",
+   "id": "2026-09-12|League Two|Gillingham|Tranmere",
+   "league": "League Two",
+   "market_pct": {
+    "A": 36,
+    "D": 28,
+    "H": 36
+   },
+   "model_pct": {
+    "A": 27.8,
+    "D": 27.3,
+    "H": 44.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.65,
+    "D": 3.4,
+    "H": 2.65
+   },
+   "overround": 104.9,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Bristol Rvs",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Grimsby",
+   "id": "2026-09-12|League Two|Grimsby|Bristol Rvs",
+   "league": "League Two",
+   "market_pct": {
+    "A": 33.6,
+    "D": 26.6,
+    "H": 39.9
+   },
+   "model_pct": {
+    "A": 22.4,
+    "D": 25.8,
+    "H": 51.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.85,
+    "D": 3.6,
+    "H": 2.4
+   },
+   "overround": 104.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Fleetwood Town",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Newport County",
+   "id": "2026-09-12|League Two|Newport County|Fleetwood Town",
+   "league": "League Two",
+   "market_pct": {
+    "A": 44.9,
+    "D": 26.8,
+    "H": 28.4
+   },
+   "model_pct": {
+    "A": 40.6,
+    "D": 27.7,
+    "H": 31.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.15,
+    "D": 3.6,
+    "H": 3.4
+   },
+   "overround": 103.7,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Chesterfield",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Oldham",
+   "id": "2026-09-12|League Two|Oldham|Chesterfield",
+   "league": "League Two",
+   "market_pct": {
+    "A": 29.6,
+    "D": 27.5,
+    "H": 42.8
+   },
+   "model_pct": {
+    "A": 25.2,
+    "D": 27.7,
+    "H": 47.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.25,
+    "D": 3.5,
+    "H": 2.25
+   },
+   "overround": 103.8,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-2",
+   "status": "final"
+  },
+  {
+   "away": "Exeter",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Port Vale",
+   "id": "2026-09-12|League Two|Port Vale|Exeter",
+   "league": "League Two",
+   "market_pct": {
+    "A": 25.6,
+    "D": 27.5,
+    "H": 46.9
+   },
+   "model_pct": {
+    "A": 27.9,
+    "D": 31.1,
+    "H": 41
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.75,
+    "D": 3.5,
+    "H": 2.05
+   },
+   "overround": 104,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Salford",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Rotherham",
+   "id": "2026-09-12|League Two|Rotherham|Salford",
+   "league": "League Two",
+   "market_pct": {
+    "A": 40.2,
+    "D": 26.6,
+    "H": 33.2
+   },
+   "model_pct": {
+    "A": 30.2,
+    "D": 28.1,
+    "H": 41.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.38,
+    "D": 3.6,
+    "H": 2.88
+   },
+   "overround": 104.5,
+   "reconstructed": true,
+   "result": "D",
+   "score": "3-3",
+   "status": "final"
+  },
+  {
+   "away": "Northampton",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Shrewsbury",
+   "id": "2026-09-12|League Two|Shrewsbury|Northampton",
+   "league": "League Two",
+   "market_pct": {
+    "A": 34.6,
+    "D": 29.3,
+    "H": 36.2
+   },
+   "model_pct": {
+    "A": 32.9,
+    "D": 31.5,
+    "H": 35.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.75,
+    "D": 3.25,
+    "H": 2.63
+   },
+   "overround": 105.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Rochdale",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Walsall",
+   "id": "2026-09-12|League Two|Walsall|Rochdale",
+   "league": "League Two",
+   "market_pct": {
+    "A": 21.6,
+    "D": 24.3,
+    "H": 54.1
+   },
+   "model_pct": {
+    "A": 11.1,
+    "D": 25.1,
+    "H": 63.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.5,
+    "D": 4,
+    "H": 1.8
+   },
+   "overround": 102.8,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Swindon",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "York",
+   "id": "2026-09-12|League Two|York|Swindon",
+   "league": "League Two",
+   "market_pct": {
+    "A": 18.8,
+    "D": 22.9,
+    "H": 58.3
+   },
+   "model_pct": {
+    "A": 14.9,
+    "D": 25.2,
+    "H": 59.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 5.1,
+    "D": 4.2,
+    "H": 1.65
+   },
+   "overround": 104,
+   "reconstructed": true,
+   "result": "H",
+   "score": "4-0",
+   "status": "final"
+  },
+  {
+   "away": "Nott'm Forest",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Aston Villa",
+   "id": "2026-09-12|Premier League|Aston Villa|Nott'm Forest",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 29.9,
+    "D": 27.8,
+    "H": 42.3
+   },
+   "model_pct": {
+    "A": 26.3,
+    "D": 26.7,
+    "H": 47.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.25,
+    "D": 3.5,
+    "H": 2.3
+   },
+   "overround": 102.8,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-2",
+   "status": "final"
+  },
+  {
+   "away": "Brentford",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Bournemouth",
+   "id": "2026-09-12|Premier League|Bournemouth|Brentford",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 34.9,
+    "D": 26,
+    "H": 39.1
+   },
+   "model_pct": {
+    "A": 26.2,
+    "D": 24.4,
+    "H": 49.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.8,
+    "D": 3.75,
+    "H": 2.5
+   },
+   "overround": 102.4,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Hull",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Chelsea",
+   "id": "2026-09-12|Premier League|Chelsea|Hull",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 7.4,
+    "D": 13.8,
+    "H": 78.7
+   },
+   "model_pct": {
+    "A": 8.6,
+    "D": 15.3,
+    "H": 76.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 13,
+    "D": 7,
+    "H": 1.23
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Ipswich",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Crystal Palace",
+   "id": "2026-09-12|Premier League|Crystal Palace|Ipswich",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 23.7,
+    "D": 24.9,
+    "H": 51.4
+   },
+   "model_pct": {
+    "A": 18.8,
+    "D": 22.9,
+    "H": 58.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.1,
+    "D": 3.9,
+    "H": 1.89
+   },
+   "overround": 102.9,
+   "reconstructed": true,
+   "result": "A",
+   "score": "2-3",
+   "status": "final"
+  },
+  {
+   "away": "Fulham",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Liverpool",
+   "id": "2026-09-12|Premier League|Liverpool|Fulham",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 13.6,
+    "D": 19.5,
+    "H": 66.9
+   },
+   "model_pct": {
+    "A": 17.8,
+    "D": 21.8,
+    "H": 60.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 7.2,
+    "D": 5,
+    "H": 1.46
+   },
+   "overround": 102.4,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Arsenal",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Sunderland",
+   "id": "2026-09-12|Premier League|Sunderland|Arsenal",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 65.2,
+    "D": 22.6,
+    "H": 12.2
+   },
+   "model_pct": {
+    "A": 56.9,
+    "D": 27.6,
+    "H": 15.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 1.49,
+    "D": 4.3,
+    "H": 8
+   },
+   "overround": 102.9,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-2",
+   "status": "final"
+  },
+  {
+   "away": "Everton",
+   "block_start": "2026-09-07",
+   "date": "2026-09-12",
+   "fitted_to": "2026-09-06",
+   "home": "Tottenham",
+   "id": "2026-09-12|Premier League|Tottenham|Everton",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 25.8,
+    "D": 26.9,
+    "H": 47.3
+   },
+   "model_pct": {
+    "A": 27.9,
+    "D": 26.9,
+    "H": 45.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.75,
+    "D": 3.6,
+    "H": 2.05
+   },
+   "overround": 103.2,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Wolves",
+   "block_start": "2026-09-07",
+   "date": "2026-09-13",
+   "fitted_to": "2026-09-06",
+   "home": "Sheffield United",
+   "id": "2026-09-13|Championship|Sheffield United|Wolves",
+   "league": "Championship",
+   "market_pct": {
+    "A": 44.3,
+    "D": 26.2,
+    "H": 29.5
+   },
+   "model_pct": {
+    "A": 39.9,
+    "D": 26.9,
+    "H": 33.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.22,
+    "D": 3.75,
+    "H": 3.33
+   },
+   "overround": 101.7,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Brighton",
+   "block_start": "2026-09-07",
+   "date": "2026-09-13",
+   "fitted_to": "2026-09-06",
+   "home": "Coventry",
+   "id": "2026-09-13|Premier League|Coventry|Brighton",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 51.3,
+    "D": 25,
+    "H": 23.8
+   },
+   "model_pct": {
+    "A": 48.9,
+    "D": 24.9,
+    "H": 26.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 1.9,
+    "D": 3.9,
+    "H": 4.1
+   },
+   "overround": 102.7,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-5",
+   "status": "final"
+  },
+  {
+   "away": "Man City",
+   "block_start": "2026-09-07",
+   "date": "2026-09-13",
+   "fitted_to": "2026-09-06",
+   "home": "Man United",
+   "id": "2026-09-13|Premier League|Man United|Man City",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 45.5,
+    "D": 24.4,
+    "H": 30.1
+   },
+   "model_pct": {
+    "A": 42.6,
+    "D": 25.5,
+    "H": 31.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.15,
+    "D": 4,
+    "H": 3.25
+   },
+   "overround": 102.3,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Newcastle",
+   "block_start": "2026-09-14",
+   "date": "2026-09-14",
+   "fitted_to": "2026-09-13",
+   "home": "Leeds",
+   "id": "2026-09-14|Premier League|Leeds|Newcastle",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 33.9,
+    "D": 27.1,
+    "H": 39
+   },
+   "model_pct": {
+    "A": 31.9,
+    "D": 26.7,
+    "H": 41.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.88,
+    "D": 3.6,
+    "H": 2.5
+   },
+   "overround": 102.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "4-1",
+   "status": "final"
+  },
+  {
+   "away": "Lincoln",
+   "block_start": "2026-09-14",
+   "date": "2026-09-15",
+   "fitted_to": "2026-09-13",
+   "home": "Bristol City",
+   "id": "2026-09-15|Championship|Bristol City|Lincoln",
+   "league": "Championship",
+   "market_pct": {
+    "A": 22.3,
+    "D": 26.8,
+    "H": 50.8
+   },
+   "model_pct": {
+    "A": 23.5,
+    "D": 27.2,
+    "H": 49.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.33,
+    "D": 3.6,
+    "H": 1.9
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Millwall",
+   "block_start": "2026-09-14",
+   "date": "2026-09-15",
+   "fitted_to": "2026-09-13",
+   "home": "Middlesbrough",
+   "id": "2026-09-15|Championship|Middlesbrough|Millwall",
+   "league": "Championship",
+   "market_pct": {
+    "A": 15,
+    "D": 20.6,
+    "H": 64.4
+   },
+   "model_pct": {
+    "A": 22.9,
+    "D": 26.3,
+    "H": 50.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 6.5,
+    "D": 4.75,
+    "H": 1.52
+   },
+   "overround": 102.2,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Milton Keynes Dons",
+   "block_start": "2026-09-14",
+   "date": "2026-09-17",
+   "fitted_to": "2026-09-13",
+   "home": "AFC Wimbledon",
+   "id": "2026-09-17|League One|AFC Wimbledon|Milton Keynes Dons",
+   "league": "League One",
+   "market_pct": {
+    "A": 40.2,
+    "D": 27.6,
+    "H": 32.2
+   },
+   "model_pct": {
+    "A": 30.9,
+    "D": 28.7,
+    "H": 40.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.4,
+    "D": 3.5,
+    "H": 3
+   },
+   "overround": 103.6,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Watford",
+   "block_start": "2026-09-14",
+   "date": "2026-09-18",
+   "fitted_to": "2026-09-13",
+   "home": "Bristol City",
+   "id": "2026-09-18|Championship|Bristol City|Watford",
+   "league": "Championship",
+   "market_pct": {
+    "A": 21.2,
+    "D": 24.2,
+    "H": 54.6
+   },
+   "model_pct": {
+    "A": 25.1,
+    "D": 26.5,
+    "H": 48.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.55,
+    "D": 4,
+    "H": 1.77
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Chelsea",
+   "block_start": "2026-09-14",
+   "date": "2026-09-18",
+   "fitted_to": "2026-09-13",
+   "home": "Brentford",
+   "id": "2026-09-18|Premier League|Brentford|Chelsea",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 38.8,
+    "D": 25.5,
+    "H": 35.8
+   },
+   "model_pct": {
+    "A": 33.6,
+    "D": 25,
+    "H": 41.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.5,
+    "D": 3.8,
+    "H": 2.71
+   },
+   "overround": 103.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-0",
+   "status": "final"
+  },
+  {
+   "away": "Middlesbrough",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Birmingham",
+   "id": "2026-09-19|Championship|Birmingham|Middlesbrough",
+   "league": "Championship",
+   "market_pct": {
+    "A": 41,
+    "D": 26.2,
+    "H": 32.8
+   },
+   "model_pct": {
+    "A": 35.2,
+    "D": 28.1,
+    "H": 36.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.3,
+    "D": 3.6,
+    "H": 2.88
+   },
+   "overround": 106,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Derby",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Burnley",
+   "id": "2026-09-19|Championship|Burnley|Derby",
+   "league": "Championship",
+   "market_pct": {
+    "A": 22.1,
+    "D": 25.5,
+    "H": 52.3
+   },
+   "model_pct": {
+    "A": 18.4,
+    "D": 25.1,
+    "H": 56.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.33,
+    "D": 3.75,
+    "H": 1.83
+   },
+   "overround": 104.4,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Charlton",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Cardiff",
+   "id": "2026-09-19|Championship|Cardiff|Charlton",
+   "league": "Championship",
+   "market_pct": {
+    "A": 23.4,
+    "D": 24,
+    "H": 52.7
+   },
+   "model_pct": {
+    "A": 23.2,
+    "D": 25.7,
+    "H": 51.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.1,
+    "D": 4,
+    "H": 1.82
+   },
+   "overround": 104.3,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-1",
+   "status": "final"
+  },
+  {
+   "away": "Swansea",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Lincoln",
+   "id": "2026-09-19|Championship|Lincoln|Swansea",
+   "league": "Championship",
+   "market_pct": {
+    "A": 38.9,
+    "D": 28,
+    "H": 33.1
+   },
+   "model_pct": {
+    "A": 32.7,
+    "D": 29.1,
+    "H": 38.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.45,
+    "D": 3.4,
+    "H": 2.88
+   },
+   "overround": 105,
+   "reconstructed": true,
+   "result": "A",
+   "score": "1-2",
+   "status": "final"
+  },
+  {
+   "away": "West Ham",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Millwall",
+   "id": "2026-09-19|Championship|Millwall|West Ham",
+   "league": "Championship",
+   "market_pct": {
+    "A": 52.8,
+    "D": 24.2,
+    "H": 23
+   },
+   "model_pct": {
+    "A": 41.6,
+    "D": 27.3,
+    "H": 31.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 1.83,
+    "D": 4,
+    "H": 4.2
+   },
+   "overround": 103.5,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Blackburn",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Portsmouth",
+   "id": "2026-09-19|Championship|Portsmouth|Blackburn",
+   "league": "Championship",
+   "market_pct": {
+    "A": 27.6,
+    "D": 27.6,
+    "H": 44.9
+   },
+   "model_pct": {
+    "A": 29.1,
+    "D": 29.8,
+    "H": 41.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.5,
+    "D": 3.5,
+    "H": 2.15
+   },
+   "overround": 103.7,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Preston",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "QPR",
+   "id": "2026-09-19|Championship|QPR|Preston",
+   "league": "Championship",
+   "market_pct": {
+    "A": 20.6,
+    "D": 24.5,
+    "H": 55
+   },
+   "model_pct": {
+    "A": 23.4,
+    "D": 26.8,
+    "H": 49.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.75,
+    "D": 4,
+    "H": 1.78
+   },
+   "overround": 102.2,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Sheffield United",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Stoke",
+   "id": "2026-09-19|Championship|Stoke|Sheffield United",
+   "league": "Championship",
+   "market_pct": {
+    "A": 32.8,
+    "D": 28.1,
+    "H": 39.1
+   },
+   "model_pct": {
+    "A": 33,
+    "D": 28,
+    "H": 39
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3,
+    "D": 3.5,
+    "H": 2.52
+   },
+   "overround": 101.6,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Southampton",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Wrexham",
+   "id": "2026-09-19|Championship|Wrexham|Southampton",
+   "league": "Championship",
+   "market_pct": {
+    "A": 41,
+    "D": 26.8,
+    "H": 32.2
+   },
+   "model_pct": {
+    "A": 42.2,
+    "D": 25.9,
+    "H": 31.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.35,
+    "D": 3.6,
+    "H": 3
+   },
+   "overround": 103.7,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Leicester",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Barnsley",
+   "id": "2026-09-19|League One|Barnsley|Leicester",
+   "league": "League One",
+   "market_pct": {
+    "A": 46.3,
+    "D": 24.3,
+    "H": 29.4
+   },
+   "model_pct": {
+    "A": 48,
+    "D": 25,
+    "H": 27
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.1,
+    "D": 4,
+    "H": 3.3
+   },
+   "overround": 102.9,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Plymouth",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Blackpool",
+   "id": "2026-09-19|League One|Blackpool|Plymouth",
+   "league": "League One",
+   "market_pct": {
+    "A": 38.7,
+    "D": 25.5,
+    "H": 35.8
+   },
+   "model_pct": {
+    "A": 37.1,
+    "D": 26.2,
+    "H": 36.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.5,
+    "D": 3.8,
+    "H": 2.7
+   },
+   "overround": 103.4,
+   "reconstructed": true,
+   "result": "A",
+   "score": "2-4",
+   "status": "final"
+  },
+  {
+   "away": "Huddersfield",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Bromley",
+   "id": "2026-09-19|League One|Bromley|Huddersfield",
+   "league": "League One",
+   "market_pct": {
+    "A": 60,
+    "D": 23.1,
+    "H": 16.9
+   },
+   "model_pct": {
+    "A": 47.3,
+    "D": 25.6,
+    "H": 27.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 1.62,
+    "D": 4.2,
+    "H": 5.75
+   },
+   "overround": 102.9,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Mansfield",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Burton",
+   "id": "2026-09-19|League One|Burton|Mansfield",
+   "league": "League One",
+   "market_pct": {
+    "A": 35.4,
+    "D": 26.3,
+    "H": 38.2
+   },
+   "model_pct": {
+    "A": 34.3,
+    "D": 28.7,
+    "H": 37
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.75,
+    "D": 3.7,
+    "H": 2.55
+   },
+   "overround": 102.6,
+   "reconstructed": true,
+   "result": "D",
+   "score": "2-2",
+   "status": "final"
+  },
+  {
+   "away": "Stevenage",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Leyton Orient",
+   "id": "2026-09-19|League One|Leyton Orient|Stevenage",
+   "league": "League One",
+   "market_pct": {
+    "A": 30.2,
+    "D": 29.3,
+    "H": 40.6
+   },
+   "model_pct": {
+    "A": 31.9,
+    "D": 30.6,
+    "H": 37.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.2,
+    "D": 3.3,
+    "H": 2.38
+   },
+   "overround": 103.6,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Bradford",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Luton",
+   "id": "2026-09-19|League One|Luton|Bradford",
+   "league": "League One",
+   "market_pct": {
+    "A": 27.5,
+    "D": 26.7,
+    "H": 45.8
+   },
+   "model_pct": {
+    "A": 22.5,
+    "D": 28,
+    "H": 49.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.5,
+    "D": 3.6,
+    "H": 2.1
+   },
+   "overround": 104,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Cambridge",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Oxford",
+   "id": "2026-09-19|League One|Oxford|Cambridge",
+   "league": "League One",
+   "market_pct": {
+    "A": 28.1,
+    "D": 27.3,
+    "H": 44.5
+   },
+   "model_pct": {
+    "A": 18.6,
+    "D": 27.2,
+    "H": 54.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.4,
+    "D": 3.5,
+    "H": 2.15
+   },
+   "overround": 104.5,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Doncaster",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Peterboro",
+   "id": "2026-09-19|League One|Peterboro|Doncaster",
+   "league": "League One",
+   "market_pct": {
+    "A": 35,
+    "D": 25.7,
+    "H": 39.3
+   },
+   "model_pct": {
+    "A": 28.5,
+    "D": 25,
+    "H": 46.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.75,
+    "D": 3.75,
+    "H": 2.45
+   },
+   "overround": 103.8,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-2",
+   "status": "final"
+  },
+  {
+   "away": "Notts County",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Reading",
+   "id": "2026-09-19|League One|Reading|Notts County",
+   "league": "League One",
+   "market_pct": {
+    "A": 22,
+    "D": 25.8,
+    "H": 52.3
+   },
+   "model_pct": {
+    "A": 25.7,
+    "D": 25.4,
+    "H": 48.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.4,
+    "D": 3.75,
+    "H": 1.85
+   },
+   "overround": 103.4,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Stockport",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Sheffield Weds",
+   "id": "2026-09-19|League One|Sheffield Weds|Stockport",
+   "league": "League One",
+   "market_pct": {
+    "A": 42.2,
+    "D": 25.5,
+    "H": 32.3
+   },
+   "model_pct": {
+    "A": 36.4,
+    "D": 27.2,
+    "H": 36.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.3,
+    "D": 3.8,
+    "H": 3
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Wycombe",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Wigan",
+   "id": "2026-09-19|League One|Wigan|Wycombe",
+   "league": "League One",
+   "market_pct": {
+    "A": 35.6,
+    "D": 26.7,
+    "H": 37.7
+   },
+   "model_pct": {
+    "A": 38.1,
+    "D": 29.5,
+    "H": 32.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.7,
+    "D": 3.6,
+    "H": 2.55
+   },
+   "overround": 104,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Newport County",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Accrington",
+   "id": "2026-09-19|League Two|Accrington|Newport County",
+   "league": "League Two",
+   "market_pct": {
+    "A": 27.2,
+    "D": 26.4,
+    "H": 46.4
+   },
+   "model_pct": {
+    "A": 22,
+    "D": 25.3,
+    "H": 52.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.5,
+    "D": 3.6,
+    "H": 2.05
+   },
+   "overround": 105.1,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Fleetwood Town",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Barnet",
+   "id": "2026-09-19|League Two|Barnet|Fleetwood Town",
+   "league": "League Two",
+   "market_pct": {
+    "A": 19.3,
+    "D": 24.1,
+    "H": 56.7
+   },
+   "model_pct": {
+    "A": 22.4,
+    "D": 26.1,
+    "H": 51.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 5,
+    "D": 4,
+    "H": 1.7
+   },
+   "overround": 103.8,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-1",
+   "status": "final"
+  },
+  {
+   "away": "York",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Chesterfield",
+   "id": "2026-09-19|League Two|Chesterfield|York",
+   "league": "League Two",
+   "market_pct": {
+    "A": 34.1,
+    "D": 26.5,
+    "H": 39.4
+   },
+   "model_pct": {
+    "A": 43.7,
+    "D": 29.2,
+    "H": 27.1
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.8,
+    "D": 3.6,
+    "H": 2.42
+   },
+   "overround": 104.8,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Cheltenham",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Colchester",
+   "id": "2026-09-19|League Two|Colchester|Cheltenham",
+   "league": "League Two",
+   "market_pct": {
+    "A": 25.2,
+    "D": 25.6,
+    "H": 49.2
+   },
+   "model_pct": {
+    "A": 21.8,
+    "D": 25.5,
+    "H": 52.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.8,
+    "D": 3.75,
+    "H": 1.95
+   },
+   "overround": 104.3,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Shrewsbury",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Crewe",
+   "id": "2026-09-19|League Two|Crewe|Shrewsbury",
+   "league": "League Two",
+   "market_pct": {
+    "A": 24.2,
+    "D": 26.9,
+    "H": 48.9
+   },
+   "model_pct": {
+    "A": 22.5,
+    "D": 28.9,
+    "H": 48.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4,
+    "D": 3.6,
+    "H": 1.98
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Tranmere",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Exeter",
+   "id": "2026-09-19|League Two|Exeter|Tranmere",
+   "league": "League Two",
+   "market_pct": {
+    "A": 30.5,
+    "D": 27.3,
+    "H": 42.2
+   },
+   "model_pct": {
+    "A": 21.3,
+    "D": 26.1,
+    "H": 52.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.13,
+    "D": 3.5,
+    "H": 2.26
+   },
+   "overround": 104.8,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Bristol Rvs",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Gillingham",
+   "id": "2026-09-19|League Two|Gillingham|Bristol Rvs",
+   "league": "League Two",
+   "market_pct": {
+    "A": 48.7,
+    "D": 25.6,
+    "H": 25.6
+   },
+   "model_pct": {
+    "A": 31.4,
+    "D": 28.9,
+    "H": 39.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2,
+    "D": 3.8,
+    "H": 3.8
+   },
+   "overround": 102.6,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-0",
+   "status": "final"
+  },
+  {
+   "away": "Crawley Town",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Grimsby",
+   "id": "2026-09-19|League Two|Grimsby|Crawley Town",
+   "league": "League Two",
+   "market_pct": {
+    "A": 14.8,
+    "D": 20.2,
+    "H": 65
+   },
+   "model_pct": {
+    "A": 19.6,
+    "D": 23.9,
+    "H": 56.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 6.5,
+    "D": 4.75,
+    "H": 1.48
+   },
+   "overround": 104,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Rotherham",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Northampton",
+   "id": "2026-09-19|League Two|Northampton|Rotherham",
+   "league": "League Two",
+   "market_pct": {
+    "A": 32.2,
+    "D": 27.6,
+    "H": 40.2
+   },
+   "model_pct": {
+    "A": 31.4,
+    "D": 29.6,
+    "H": 39
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3,
+    "D": 3.5,
+    "H": 2.4
+   },
+   "overround": 103.6,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Oldham",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Rochdale",
+   "id": "2026-09-19|League Two|Rochdale|Oldham",
+   "league": "League Two",
+   "market_pct": {
+    "A": 48.6,
+    "D": 25.9,
+    "H": 25.6
+   },
+   "model_pct": {
+    "A": 53.9,
+    "D": 30.3,
+    "H": 15.8
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2,
+    "D": 3.75,
+    "H": 3.8
+   },
+   "overround": 103,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Swindon",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Salford",
+   "id": "2026-09-19|League Two|Salford|Swindon",
+   "league": "League Two",
+   "market_pct": {
+    "A": 16.3,
+    "D": 21.7,
+    "H": 61.9
+   },
+   "model_pct": {
+    "A": 26.5,
+    "D": 25,
+    "H": 48.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 6,
+    "D": 4.5,
+    "H": 1.58
+   },
+   "overround": 102.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Port Vale",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Walsall",
+   "id": "2026-09-19|League Two|Walsall|Port Vale",
+   "league": "League Two",
+   "market_pct": {
+    "A": 33.6,
+    "D": 27.7,
+    "H": 38.7
+   },
+   "model_pct": {
+    "A": 27.5,
+    "D": 30.4,
+    "H": 42
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.88,
+    "D": 3.5,
+    "H": 2.5
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-0",
+   "status": "final"
+  },
+  {
+   "away": "Arsenal",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Brighton",
+   "id": "2026-09-19|Premier League|Brighton|Arsenal",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 56.4,
+    "D": 24.2,
+    "H": 19.4
+   },
+   "model_pct": {
+    "A": 43.8,
+    "D": 28.5,
+    "H": 27.7
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 1.72,
+    "D": 4,
+    "H": 5
+   },
+   "overround": 103.1,
+   "reconstructed": true,
+   "result": "H",
+   "score": "3-0",
+   "status": "final"
+  },
+  {
+   "away": "Ipswich",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Everton",
+   "id": "2026-09-19|Premier League|Everton|Ipswich",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 20.6,
+    "D": 25.1,
+    "H": 54.3
+   },
+   "model_pct": {
+    "A": 18.5,
+    "D": 23.6,
+    "H": 57.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.75,
+    "D": 3.9,
+    "H": 1.8
+   },
+   "overround": 102.2,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Hull",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Newcastle",
+   "id": "2026-09-19|Premier League|Newcastle|Hull",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 17.7,
+    "D": 22.3,
+    "H": 60
+   },
+   "model_pct": {
+    "A": 9.4,
+    "D": 16.2,
+    "H": 74.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 5.5,
+    "D": 4.35,
+    "H": 1.62
+   },
+   "overround": 102.9,
+   "reconstructed": true,
+   "result": "H",
+   "score": "2-1",
+   "status": "final"
+  },
+  {
+   "away": "Coventry",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Nott'm Forest",
+   "id": "2026-09-19|Premier League|Nott'm Forest|Coventry",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 16.2,
+    "D": 23.1,
+    "H": 60.7
+   },
+   "model_pct": {
+    "A": 17.7,
+    "D": 23.1,
+    "H": 59.2
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 6,
+    "D": 4.2,
+    "H": 1.6
+   },
+   "overround": 103,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Aston Villa",
+   "block_start": "2026-09-14",
+   "date": "2026-09-19",
+   "fitted_to": "2026-09-13",
+   "home": "Tottenham",
+   "id": "2026-09-19|Premier League|Tottenham|Aston Villa",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 25.5,
+    "D": 26.2,
+    "H": 48.4
+   },
+   "model_pct": {
+    "A": 30.5,
+    "D": 26.2,
+    "H": 43.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 3.8,
+    "D": 3.7,
+    "H": 2
+   },
+   "overround": 103.3,
+   "reconstructed": true,
+   "result": "A",
+   "score": "2-3",
+   "status": "final"
+  },
+  {
+   "away": "Bolton",
+   "block_start": "2026-09-14",
+   "date": "2026-09-20",
+   "fitted_to": "2026-09-13",
+   "home": "Norwich",
+   "id": "2026-09-20|Championship|Norwich|Bolton",
+   "league": "Championship",
+   "market_pct": {
+    "A": 16.7,
+    "D": 21.3,
+    "H": 62
+   },
+   "model_pct": {
+    "A": 18.2,
+    "D": 21.9,
+    "H": 59.9
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 5.75,
+    "D": 4.5,
+    "H": 1.55
+   },
+   "overround": 104.1,
+   "reconstructed": true,
+   "result": "A",
+   "score": "3-4",
+   "status": "final"
+  },
+  {
+   "away": "West Brom",
+   "block_start": "2026-09-14",
+   "date": "2026-09-20",
+   "fitted_to": "2026-09-13",
+   "home": "Wolves",
+   "id": "2026-09-20|Championship|Wolves|West Brom",
+   "league": "Championship",
+   "market_pct": {
+    "A": 21.6,
+    "D": 25.9,
+    "H": 52.5
+   },
+   "model_pct": {
+    "A": 20.4,
+    "D": 27.1,
+    "H": 52.5
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.5,
+    "D": 3.75,
+    "H": 1.85
+   },
+   "overround": 102.9,
+   "reconstructed": true,
+   "result": "H",
+   "score": "1-0",
+   "status": "final"
+  },
+  {
+   "away": "Liverpool",
+   "block_start": "2026-09-14",
+   "date": "2026-09-20",
+   "fitted_to": "2026-09-13",
+   "home": "Bournemouth",
+   "id": "2026-09-20|Premier League|Bournemouth|Liverpool",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 42.5,
+    "D": 25.9,
+    "H": 31.6
+   },
+   "model_pct": {
+    "A": 36.7,
+    "D": 24.8,
+    "H": 38.4
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.38,
+    "D": 3.9,
+    "H": 3.2
+   },
+   "overround": 98.9,
+   "reconstructed": true,
+   "result": "A",
+   "score": "0-1",
+   "status": "final"
+  },
+  {
+   "away": "Man United",
+   "block_start": "2026-09-14",
+   "date": "2026-09-20",
+   "fitted_to": "2026-09-13",
+   "home": "Fulham",
+   "id": "2026-09-20|Premier League|Fulham|Man United",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 47.1,
+    "D": 25.4,
+    "H": 27.6
+   },
+   "model_pct": {
+    "A": 37,
+    "D": 26.7,
+    "H": 36.3
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 2.05,
+    "D": 3.8,
+    "H": 3.5
+   },
+   "overround": 103.7,
+   "reconstructed": true,
+   "result": "D",
+   "score": "1-1",
+   "status": "final"
+  },
+  {
+   "away": "Crystal Palace",
+   "block_start": "2026-09-14",
+   "date": "2026-09-20",
+   "fitted_to": "2026-09-13",
+   "home": "Leeds",
+   "id": "2026-09-20|Premier League|Leeds|Crystal Palace",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 20.2,
+    "D": 24.8,
+    "H": 55
+   },
+   "model_pct": {
+    "A": 25.9,
+    "D": 27.5,
+    "H": 46.6
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 4.9,
+    "D": 4,
+    "H": 1.8
+   },
+   "overround": 101,
+   "reconstructed": true,
+   "result": "D",
+   "score": "0-0",
+   "status": "final"
+  },
+  {
+   "away": "Sunderland",
+   "block_start": "2026-09-14",
+   "date": "2026-09-20",
+   "fitted_to": "2026-09-13",
+   "home": "Man City",
+   "id": "2026-09-20|Premier League|Man City|Sunderland",
+   "league": "Premier League",
+   "market_pct": {
+    "A": 8.9,
+    "D": 16.2,
+    "H": 74.9
+   },
+   "model_pct": {
+    "A": 8.5,
+    "D": 18.5,
+    "H": 73
+   },
+   "odds_basis": "max_opening",
+   "odds_dec": {
+    "A": 11,
+    "D": 6,
+    "H": 1.3
+   },
+   "overround": 102.7,
+   "reconstructed": true,
+   "result": "H",
+   "score": "5-3",
+   "status": "final"
+  }
+ ]
+}
