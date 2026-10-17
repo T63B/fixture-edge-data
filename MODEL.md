@@ -63,3 +63,40 @@ Weather (as a variance effect, not an advantage to either side); feeding the dai
 run's injury and suspension research into the ratings rather than discarding it;
 priors for clubs promoted from the National League with no league history. Each must
 beat the current benchmark on a fresh walk-forward run before it ships.
+
+## Probability shrinkage -- tested 17 Oct 2026, REJECTED
+
+The live record showed a suggestive split: on 71 graded fixtures the model picked
+the right outcome MORE often than the market (50.7% against 46.5%) while scoring
+WORSE on Brier (0.6399 against 0.6194). That is the signature of a model that is
+directionally decent and overconfident, and the textbook fix is to shrink each
+forecast toward the base rate: p' = w*p + (1-w)*base.
+
+Swept on each dataset, it looks like a clear win:
+
+    reconstructed (228)   raw 0.6516 -> 0.6430 at w=0.5   (gain 0.0086)
+    live (71)             raw 0.6399 -> 0.6379 at w=0.7   (gain 0.0020)
+
+Both of those are in-sample: w and the base rates were chosen on the same
+fixtures they were then scored on. The only honest test is to fit on one period
+and apply to the other. Fitting w=0.5 and the base rates on the reconstruction
+and applying them to the 71 live fixtures:
+
+    raw 0.6399 -> shrunk 0.6525      WORSE by 0.0126
+    gap to market widens from +0.0205 to +0.0332
+
+So it is rejected. The reason is visible in the base rates themselves, which are
+nothing like stable between the two windows:
+
+    reconstructed   H 43 / D 33 / A 24
+    live            H 39 / D 24 / A 37
+
+Shrinking toward a base rate measured elsewhere drags forecasts toward the wrong
+centre. At 71 and 228 fixtures these rates are mostly sampling noise, and any
+method that depends on them inherits that noise.
+
+The underlying observation still stands and is worth returning to with more data:
+the model is better at ranking outcomes than at pricing them. A calibration fix
+is still the most promising direction -- but it has to be validated out-of-sample
+on the big walk-forward (5,103 matches), not on a few dozen live fixtures where
+an in-sample sweep will always find something that looks like a gain.
