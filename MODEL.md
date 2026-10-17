@@ -100,3 +100,50 @@ the model is better at ranking outcomes than at pricing them. A calibration fix
 is still the most promising direction -- but it has to be validated out-of-sample
 on the big walk-forward (5,103 matches), not on a few dozen live fixtures where
 an in-sample sweep will always find something that looks like a gain.
+
+## Market drift, 07:00 to kick-off -- first read, 17 Oct 2026 (69 fixtures)
+
+The question: when the model disagrees with the morning price, does the market
+move toward it by kick-off? If so the model holds information the morning market
+has not absorbed, which would be the first real evidence an independent view is
+worth having.
+
+Measured both ways, because our 07:00 price and the archive's closing price come
+from different book sets and that alone could manufacture apparent movement:
+
+                              mean absolute move   model anticipates it
+    our 07:00 -> close              1.54pp         r = +0.066  (52% of rows)
+    archive open -> close           1.58pp         r = -0.073  (51% of rows)
+
+Two things follow.
+
+**The book-set worry was unfounded** -- 1.54 against 1.58, a difference of
+0.05pp. The cruder measure is fine to keep using.
+
+**There is very little movement to predict.** The market shifts about 1.6
+points per outcome between morning and kick-off, against model-market
+disagreements that routinely run to 10-20 points on flagged fixtures. Even a
+model that called the direction perfectly would be extracting a small amount of
+information.
+
+And it does not call the direction: 51-52% of outcome-rows, a coin flip, with
+the correlation flipping SIGN between the two measures. That sign flip is the
+tell -- it is what noise looks like, and it is why the +0.199 estimate from 49
+fixtures in September should not have been quoted hopefully.
+
+Also worth recording: the closing price was NOT sharper than the opening price
+here (0.6175 against 0.6155 on the same books, gap not significant), which runs
+against the usual assumption that closing lines are sharper. At n=69 that is
+noise too, but do not assume the closing line is the better benchmark without
+checking it on this data.
+
+POWER, so nobody re-runs this too early:
+
+    if the true r is 0.20  ->  ~190 fixtures   (~5 weeks at 40/week)
+    if the true r is 0.15  ->  ~350 fixtures   (~9 weeks)
+    if the true r is 0.10  ->  ~780 fixtures   (~20 weeks)
+    if the true r is 0.07  -> ~1800 fixtures   (~45 weeks)
+
+Do not re-test below about 190 graded fixtures carrying closing odds. The
+dashboard's Timing note now reports the running figure and says plainly when the
+sample is still too small, so this needs no manual analysis in the meantime.

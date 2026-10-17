@@ -228,6 +228,34 @@ def compute_metrics(log):
         out["mean_drift"] = (round(sum(sum(abs(v) for v in d.values()) / 3 for d in drifts) / len(drifts), 2)
                              if drifts else None)
 
+        # DOES THE MODEL ANTICIPATE THE MARKET'S MOVE?
+        # The question behind the whole open-vs-close capture: when the model
+        # disagrees with the 07:00 price, does the market drift TOWARD it by
+        # kick-off? If it does, the model holds information the morning market
+        # has not yet absorbed -- which would be the first real evidence that an
+        # independent view is worth having. Correlation between (model - 07:00)
+        # and (close - 07:00), pooled across the three outcomes.
+        #
+        # Beware the sample size. Measured on 69 fixtures (17 Oct 2026) this sat
+        # at r = -0.07, a coin flip, and it had flipped sign from the previous
+        # estimate -- which is what noise looks like. Detecting r = 0.2 needs
+        # ~190 fixtures; r = 0.1 needs ~780. Do not read a trend into it early.
+        drift_rows = [(m["model_pct"][k] - m["market_pct"][k],
+                       m["close_pct"][k] - m["market_pct"][k])
+                      for m in withclose for k in OUTCOMES if m.get("market_pct")]
+        out["drift_n"] = len(withclose)
+        out["drift_follow_pct"] = None
+        out["drift_r"] = None
+        if len(drift_rows) > 6:
+            xs = [a for a, _ in drift_rows]; ys = [b for _, b in drift_rows]
+            mx = sum(xs) / len(xs); my = sum(ys) / len(ys)
+            sxx = sum((a - mx) ** 2 for a in xs); syy = sum((b - my) ** 2 for b in ys)
+            if sxx > 0 and syy > 0:
+                out["drift_r"] = round(sum((a - mx) * (b - my) for a, b in zip(xs, ys))
+                                       / math.sqrt(sxx * syy), 3)
+            moved = [1 for a, b in drift_rows if a * b > 0]
+            out["drift_follow_pct"] = round(100 * len(moved) / len(drift_rows), 1)
+
     eb = [m for m in finals if m.get("edge_outcome") and m.get("edge_odds_dec")]
     if eb:
         staked = len(eb)
@@ -366,9 +394,19 @@ def track_section(mt):
         ct = ("&mdash;" if cost is None else
               (f"the closing price scored {cost:+.3f} better" if cost > 0
                else f"the 07:00 forecast scored {abs(cost):.3f} better"))
+        follow = ""
+        if mt.get("drift_r") is not None:
+            n_d = mt.get("drift_n", 0)
+            verdict = ("too few fixtures to mean anything yet" if n_d < 190 else
+                       "worth taking seriously" if abs(mt["drift_r"]) >= 0.15 else
+                       "no relationship worth acting on")
+            follow = (f' When the model disagreed with the 07:00 price, the market moved its way '
+                      f'{mt["drift_follow_pct"]}% of the time (correlation {mt["drift_r"]:+.3f} over '
+                      f'{n_d} fixtures &mdash; {verdict}; about 190 are needed to detect a real '
+                      f'relationship of this size, and 50% is a coin flip).')
         closing = (f'<p class="note"><strong>Timing:</strong> across {mt["closing_n"]} fixtures with '
                    f'archived closing odds, {ct}. Average market movement between morning and kick-off: '
-                   f'{mt.get("mean_drift")} points per outcome.</p>')
+                   f'{mt.get("mean_drift")} points per outcome.{follow}</p>')
 
     return f"""
     <section class="division" id="track-record">
