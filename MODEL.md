@@ -147,3 +147,63 @@ POWER, so nobody re-runs this too early:
 Do not re-test below about 190 graded fixtures carrying closing odds. The
 dashboard's Timing note now reports the running figure and says plainly when the
 sample is still too small, so this needs no manual analysis in the meantime.
+
+## Calibration is NOT the problem -- tested 25 Oct 2026, hypothesis killed
+
+For three weeks the live record said the same thing: the model picks the right
+outcome more often than the market (54.5% against 48.7% over 154 priced
+fixtures) while scoring worse on Brier. The obvious reading is overconfidence --
+honest ranking, dishonest prices -- and calibration would then be the fix.
+
+It is not. Tested on 6,078 walk-forward out-of-sample forecasts built by
+`walkforward.py` (monthly blocks, each refitted on matches strictly before it;
+baseline reproduces BACKTEST.md at 0.6231/47.6% against the recorded
+0.6249/47.3%, which validates the harness).
+
+**The model is already well calibrated.** Predicted against actual, by bin:
+
+    0.10-0.15   n= 399   pred 0.129   actual 0.143
+    0.20-0.25   n=2997   pred 0.230   actual 0.242
+    0.25-0.30   n=5294   pred 0.273   actual 0.271
+    0.40-0.50   n=2740   pred 0.448   actual 0.449
+    0.50-0.60   n=1514   pred 0.542   actual 0.523   <- mild overconfidence
+    0.60-0.75   n= 604   pred 0.655   actual 0.647
+
+Three recalibration methods, each tuned on 2023-08..2025-01 and scored on
+2025-02..2026-05 (2,830 forecasts never seen by the tuning):
+
+    baseline                      0.6276
+    temperature T=1.05            0.6276   -0.0000  t=-0.08  ns
+    shrink to base rate w=0.95    0.6278   +0.0001  t=+0.91  ns
+    per-division temperature      0.6277   +0.0001  t=+0.14  ns
+
+Nothing. The chosen temperature was 1.05, i.e. no transform. Murphy
+decomposition on the test period says why:
+
+    reliability (miscalibration)   0.00158   <- 0.8% of total error
+    resolution  (discrimination)   0.01455
+    uncertainty (irreducible)      0.22222
+
+**So the model's weakness is RESOLUTION, not reliability.** Its probabilities
+are honest; they simply do not separate outcomes as sharply as the market's.
+No reshaping of the output distribution can fix that, because there is almost
+nothing miscalibrated to fix.
+
+WHAT THIS RULES OUT, permanently unless the model changes shape: temperature
+scaling, Platt/isotonic recalibration, base-rate shrinkage, and any other
+post-hoc transform of the probabilities. Do not revisit these.
+
+WHAT IT POINTS AT: the gap to the market is an INFORMATION gap, not a
+processing one. The market knows things the ratings do not -- team news,
+injuries, rotation, money flow. The only remaining ideas worth testing are
+ones that add information (feeding researched team news into the ratings,
+weather, priors for promoted clubs), not ones that reshape what the model
+already produces.
+
+It also means the live "ranks better than it prices" reading was small-sample
+noise. The sign test on it was already p=0.55; this confirms it from the other
+direction.
+
+`backtest_oos.json` holds all 6,078 forecasts so future ideas can be scored in
+seconds instead of rebuilding for ten minutes. Use it. Fit on the early period,
+score on the late one, and do not quote an in-sample number.
